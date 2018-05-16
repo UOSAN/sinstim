@@ -1,10 +1,11 @@
-using AspNetCoreTodo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SinStim.Models;
+using SinStim.Services;
 
 namespace SinStim {
     public class Startup {
@@ -23,8 +24,10 @@ namespace SinStim {
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<SinStimContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

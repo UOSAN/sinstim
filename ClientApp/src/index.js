@@ -1,13 +1,27 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
+import sinStimReducers from './reducers/reducers';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-const rootElement = document.getElementById('root');
+const logger = createLogger();
+const store = createStore(
+  sinStimReducers,
+  applyMiddleware(logger),
+  applyMiddleware(thunk)
+);
 
-ReactDOM.render(<App />, rootElement);
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
 
 registerServiceWorker();

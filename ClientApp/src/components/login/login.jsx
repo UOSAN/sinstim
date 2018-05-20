@@ -8,18 +8,20 @@ class Login extends React.Component {
     constructor(props) {
       super(props);
 
-      this.state = {
-        value: ''
-      };
+      this.handleOnSubmitClick = this.handleOnSubmitClick.bind(this);
+    }
+
+    handleOnSubmitClick() {
+        this.props.onSaveUser(this.textInput.value);
     }
 
     render() {
         return (
-            <div>
-                <FormGroup bsSize="large">
-                    <FormControl type="text" placeholder="mTurk Id" />
+            <div className="id-login">
+                <FormGroup bsSize="large" className="id-login-input-wrapper">
+                    <FormControl type="text" placeholder="mTurk Id" inputRef={input => this.textInput = input} />
                 </FormGroup>
-                <Button onClick={this.props.onSaveUser}>submit</Button>
+                <Button className="id-login-button" onClick={this.handleOnSubmitClick}>submit</Button>
             </div>
         );
     }

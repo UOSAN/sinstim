@@ -13,7 +13,7 @@ namespace SinStim.Controllers {
             this.userService = userService;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> SaveUser(string id) {
             var successful = await userService.SaveAsync(id);
             if (!successful)

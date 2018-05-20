@@ -14,6 +14,7 @@ namespace SinStim.Services {
         public async Task<bool> SaveAsync(string id) {
             User newUser = new User();
             newUser.Id = id;
+            newUser.IsRejected = false;
             context.Users.Add(newUser);
             var saveResult = await context.SaveChangesAsync();
             return saveResult == 1;

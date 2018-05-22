@@ -14,13 +14,17 @@ namespace SinStim.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveUser(string id) {
-            var successful = await userService.SaveAsync(id);
+        public async Task<IActionResult> SaveUser([FromBody] NewUser newUser) {
+            var successful = await userService.SaveAsync(newUser.id);
             if (!successful)
             {
                 return BadRequest("Failed to save user.");
             }
             return Ok();
+        }
+
+        public class NewUser {
+            public string id { get; set; }
         }
     }
 }

@@ -2,18 +2,37 @@ import actions from './actions';
 
 import superAgent from 'superagent';
 
-// function myThunkActionCreator(someValue) {
-//     return (dispatch, getState) => {
-//         dispatch({type : "REQUEST_STARTED"});
+export function newUserErrored(bool) {
+    return {
+        type: actions.NEW_USER_ERRORED,
+        hasErrored: bool
+    };
+}
 
-//         superAgent.post("/someEndpoint", {data : someValue})
-//             .then(
-//                 response => dispatch({type : "REQUEST_SUCCEEDED", payload : response}),
-//                 error => dispatch({type : "REQUEST_FAILED", error : error})
-//             );
-//     };
-// }
+export function newUserSaving(bool) {
+    return {
+        type: actions.NEW_USER_SAVING,
+        isSaving: bool
+    };
+}
+
+export function newUserSaved(id) {
+    return {
+        type: actions.NEW_USER_SAVED,
+        id
+    };
+}
 
 export const onSaveUser = (id) => {
-    return { type: actions.SAVE_USER, id }
+    return (dispatch) => {
+        dispatch(newUserSaving(true));
+
+        const saveUserBody = { id };
+        superAgent.post('/api/User')
+            .set('Content-Type', 'application/json')
+            .send(saveUserBody)
+            .then(() => dispatch(newUserSaved(id)))
+            .catch(() => dispatch(newUserErrored(true)));
+
+    }
 }

@@ -7,7 +7,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import sinStimReducers from './reducers/reducers';
-import App from './App';
+import AppContainer from './app/app-container';
 import registerServiceWorker from './registerServiceWorker';
 
 const logger = createLogger();
@@ -19,7 +19,7 @@ const store = createStore(
 
 render(
     <Provider store={store}>
-        <App />
+        <AppContainer />
     </Provider>,
     document.getElementById('root')
 );

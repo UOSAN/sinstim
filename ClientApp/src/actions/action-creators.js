@@ -2,21 +2,21 @@ import actions from './actions';
 
 import superAgent from 'superagent';
 
-export function newUserErrored(bool) {
+const newUserErrored = (bool) => {
     return {
         type: actions.NEW_USER_ERRORED,
         hasErrored: bool
     };
 }
 
-export function newUserSaving(bool) {
+const newUserSaving = (bool) => {
     return {
         type: actions.NEW_USER_SAVING,
         isSaving: bool
     };
 }
 
-export function newUserSaved(id) {
+const newUserSaved = (id) => {
     return {
         type: actions.NEW_USER_SAVED,
         id

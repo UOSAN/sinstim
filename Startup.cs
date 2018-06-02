@@ -17,6 +17,14 @@ namespace SinStim {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.AddCors(options => {
+                options.AddPolicy("DevelopmentCorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddMvc();
 
             // In production, the React files will be served from this directory
@@ -34,11 +42,11 @@ namespace SinStim {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("DevelopmentCorsPolicy");
             } else {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes => {
@@ -50,9 +58,9 @@ namespace SinStim {
             app.UseSpa(spa => {
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment()) {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                // if (env.IsDevelopment()) {
+                //     spa.UseReactDevelopmentServer(npmScript: "start");
+                // }
             });
         }
     }

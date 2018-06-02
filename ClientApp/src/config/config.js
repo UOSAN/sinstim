@@ -1,9 +1,13 @@
-var env = process.env.APP_ENV || 'development';
+import devConfig from './development.config.js';
+import productionConfig from './production.config.js';
+import stagingConfig from './staging.config.js';
 
-var config = {
-  development: require('./development.config'),
-  production: require('./production.config'),
-  staging: require('./staging.config')
+const env = process.env.APP_ENV || 'development';
+
+const config = {
+  development: devConfig,
+  production: productionConfig,
+  staging: stagingConfig
 };
 
-module.exports = config[env];
+export default config[env];

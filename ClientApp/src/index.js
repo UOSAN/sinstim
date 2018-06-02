@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
+
 import sinStimReducers from './reducers/reducers';
 import AppContainer from './app/app-container';
 import registerServiceWorker from './registerServiceWorker';

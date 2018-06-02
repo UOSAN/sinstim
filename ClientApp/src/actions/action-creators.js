@@ -1,4 +1,5 @@
 import actions from './actions';
+import config from './../config/config'
 
 import superAgent from 'superagent';
 
@@ -28,7 +29,7 @@ export const onSaveUser = (id) => {
         dispatch(newUserSaving(true));
 
         const saveUserBody = { id };
-        superAgent.post('/api/User')
+        superAgent.post(`${config.host}/api/User`)
             .set('Content-Type', 'application/json')
             .send(saveUserBody)
             .then(() => dispatch(newUserSaved(id)))

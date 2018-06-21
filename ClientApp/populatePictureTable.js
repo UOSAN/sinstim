@@ -17,7 +17,7 @@ _.forEach(categories, (category) => {
         INSERT INTO [dbo].[PICTURES]
             ([ID], [PATH], [FILE_NAME], [CATEGORY])
         VALUES
-            ('${uuidv4()}', 'path', '${fileName}', '${category}')
+            ('${uuidv4()}', 'pictures/', '${fileName}', '${category}')
         GO
         `
     });
@@ -27,6 +27,6 @@ fs.writeFile('insertPictureData.sql', insertScript, (err) => {
     if(err) {
         return console.log(err);
     }
-    console.log("The file was saved!");
+    console.log('Script Generated!');
 });
 

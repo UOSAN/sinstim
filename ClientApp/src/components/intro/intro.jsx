@@ -20,14 +20,16 @@ class Intro extends React.Component {
         return (
             <div className="intro">
                 <div className="intro-text">{introText}</div>
-                <Button className="intro-submit" onClick={this.handleOnSubmitClick}>ok</Button>
+                <div>
+                    <Button className="intro-submit" onClick={this.handleOnSubmitClick}>OK</Button>
+                </div>
             </div>
         );
     }
 }
 
-Login.propTypes = {
+Intro.propTypes = {
     onSubmitIntro: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default Intro;

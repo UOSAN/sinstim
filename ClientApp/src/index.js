@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
@@ -14,8 +14,10 @@ import registerServiceWorker from './registerServiceWorker';
 const logger = createLogger();
 const store = createStore(
   sinStimReducers,
-  applyMiddleware(logger),
-  applyMiddleware(thunk)
+  compose(
+    applyMiddleware(thunk),
+    applyMiddleware(logger)
+  )
 );
 
 render(

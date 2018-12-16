@@ -13,7 +13,7 @@ namespace SinStim {
                    .AddJsonFile("appsettings.json")
                    .Build();
             var optionsBuilder = new DbContextOptionsBuilder<SinStimContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
 
             return new SinStimContext(optionsBuilder.Options);
         }

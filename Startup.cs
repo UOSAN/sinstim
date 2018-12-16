@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,8 +35,15 @@ namespace SinStim {
                 configuration.RootPath = "ClientApp/build";
             });
 
+            services.Configure<CookiePolicyOptions>(options => {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddDbContext<SinStimContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserService, UserService>();
         }
@@ -44,8 +54,15 @@ namespace SinStim {
                 app.UseDeveloperExceptionPage();
                 app.UseCors("DevelopmentCorsPolicy");
             } else {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
 
             app.UseSpaStaticFiles();
 
@@ -58,9 +75,9 @@ namespace SinStim {
             app.UseSpa(spa => {
                 spa.Options.SourcePath = "ClientApp";
 
-                // if (env.IsDevelopment()) {
-                //     spa.UseReactDevelopmentServer(npmScript: "start");
-                // }
+                if (env.IsDevelopment()) {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

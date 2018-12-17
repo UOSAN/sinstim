@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace SinStim.Models {
-    public partial class Eligibility {
+    public class Eligibility {
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public bool? Neutral { get; set; }

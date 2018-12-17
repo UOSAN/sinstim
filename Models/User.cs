@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace SinStim.Models {
-    public partial class User {
+    public class User {
         public User() {
             Eligibilities = new HashSet<Eligibility>();
             Ratings = new HashSet<Rating>();

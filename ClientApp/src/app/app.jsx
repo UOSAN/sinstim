@@ -1,9 +1,11 @@
 import React from 'react';
 import Intro from './../components/intro/intro'
 
+import './app.css'
+
 const App = (props) => {
   return (
-      <div className="app">
+      <div className="stim-app">
           <Intro {...props} />
       </div>
   );

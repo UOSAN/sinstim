@@ -20,8 +20,8 @@ class Intro extends React.Component {
         return (
             <div className="intro">
                 <div className="intro-text">{introText}</div>
-                <div>
-                    <Button className="intro-submit" onClick={this.handleOnSubmitClick}>OK</Button>
+                <div className="intro-submit">
+                    <Button onClick={this.handleOnSubmitClick}>OK</Button>
                 </div>
             </div>
         );

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace SinStim.Models {
-    public partial class Rating {
+    public class Rating {
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public Guid PictureId { get; set; }

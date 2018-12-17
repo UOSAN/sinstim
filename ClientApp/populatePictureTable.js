@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const endOfLine = require('os').EOL;
 const _ = require('lodash');
 const uuidv4 = require('uuid/v4');
 
@@ -10,7 +11,7 @@ let insertScript = 'INSERT INTO PICTURES (ID, PATH, FILENAME, CATEGORY) VALUES '
 _.forEach(categories, (category) => {
     const files = fs.readdirSync(path.join(picturesAbsolutePath, category));
     _.forEach(files, (fileName) => {
-        insertScript +=`('${uuidv4()}', 'pictures/', '${fileName}', '${category}'),`;
+        insertScript +=`${endOfLine}('${uuidv4()}', 'pictures/', '${fileName}', '${category}'),`;
     });
 });
 insertScript = insertScript.slice(0, -1);

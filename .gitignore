@@ -195,9 +195,8 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 
-# SQL Server files
-*.mdf
-*.ldf
+# SQLite files
+*.db-journal
 
 # Business Intelligence projects
 *.rdl.data
@@ -233,5 +232,6 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 .vscode/
+
 ClientApp/insertPictureData.sql
 ClientApp/public/pictures/

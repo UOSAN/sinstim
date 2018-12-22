@@ -1,5 +1,5 @@
 import actions from './actions';
-import config from './../config/config'
+import config from './../../config/config'
 
 import superAgent from 'superagent';
 

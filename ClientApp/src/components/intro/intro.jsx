@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import placeHolderText from './intro-text'
 
 import './intro.css';
 
@@ -16,10 +17,9 @@ class Intro extends React.Component {
     }
 
     render() {
-        const introText = 'Welcome this is the intro screen.'
         return (
             <div className="intro">
-                <div className="intro-text">{introText}</div>
+                <div className="intro-text">{placeHolderText}</div>
                 <div className="intro-submit">
                     <Button onClick={this.handleOnSubmitClick}>OK</Button>
                 </div>

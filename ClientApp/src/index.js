@@ -7,7 +7,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import sinStimReducers from './reducers/reducers';
+import sinStimReducers from './state/reducers/reducers';
 import AppContainer from './app/app-container';
 import registerServiceWorker from './registerServiceWorker';
 

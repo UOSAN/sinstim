@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ButtonToolbar, ToggleButtonGroup, ToggleButton, Button} from 'react-bootstrap';
+import { ButtonToolbar, ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 
-import './rating.css';
+import './rating.scss';
 
 class Rating extends React.Component {
     constructor(props) {

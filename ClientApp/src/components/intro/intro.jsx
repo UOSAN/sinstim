@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import placeHolderText from './intro-text'
 
-import './intro.css';
+import './intro.scss';
 
 class Intro extends React.Component {
     constructor(props) {

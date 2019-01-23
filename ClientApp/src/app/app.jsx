@@ -1,7 +1,7 @@
 import React from 'react';
 import Intro from './../components/intro/intro'
 
-import './app.css'
+import './app.scss'
 
 const App = (props) => {
   return (

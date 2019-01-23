@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, FormControl, FormGroup} from 'react-bootstrap';
+import { Button, FormControl, FormGroup } from 'react-bootstrap';
 
-import './login.css';
+import './login.scss';
 
 class Login extends React.Component {
     constructor(props) {

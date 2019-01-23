@@ -235,3 +235,5 @@ _Pvt_Extensions
 
 ClientApp/insertPictureData.sql
 ClientApp/public/pictures/
+
+wwwroot/js

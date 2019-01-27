@@ -9,7 +9,6 @@ import thunk from 'redux-thunk';
 
 import sinStimReducers from './state/reducers/reducers';
 import AppContainer from './app/app-container';
-import registerServiceWorker from './registerServiceWorker';
 
 const logger = createLogger();
 const store = createStore(
@@ -26,5 +25,3 @@ render(
     </Provider>,
     document.getElementById('root')
 );
-
-registerServiceWorker();

@@ -30,7 +30,6 @@ module.exports = function(webpackEnv) {
         },
         plugins: [
             new CompressionPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
             new webpack.optimize.ModuleConcatenationPlugin()
         ],
         resolve: {

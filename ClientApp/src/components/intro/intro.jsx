@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 import placeHolderText from './intro-text'
 
 import './intro.scss';
@@ -21,7 +20,7 @@ class Intro extends React.Component {
             <div className="intro">
                 <div className="intro-text">{placeHolderText}</div>
                 <div className="intro-submit">
-                    <Button onClick={this.handleOnSubmitClick}>OK</Button>
+                    <button type="button" className="btn btn-primary" onClick={this.handleOnSubmitClick}>OK</button>
                 </div>
             </div>
         );

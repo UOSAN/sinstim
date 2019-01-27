@@ -8,20 +8,20 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import sinStimReducers from './state/reducers/reducers';
-import AppContainer from './app/app-container';
+import App from './app/app';
 
 const logger = createLogger();
 const store = createStore(
-  sinStimReducers,
-  compose(
-    applyMiddleware(thunk),
-    applyMiddleware(logger)
-  )
+    sinStimReducers,
+    compose(
+        applyMiddleware(thunk),
+        applyMiddleware(logger)
+    )
 );
 
 render(
     <Provider store={store}>
-        <AppContainer />
+        <App />
     </Provider>,
     document.getElementById('root')
 );

@@ -10,6 +10,7 @@ describe('Action Creators ->', () => {
             type: actions.SAVE_USER,
             id
         };
+
         expect(onSaveUser(id)).toEqual(expectedAction);
     });
 });

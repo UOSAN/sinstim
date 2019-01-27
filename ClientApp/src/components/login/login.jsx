@@ -5,21 +5,19 @@ import { Button, FormControl, FormGroup } from 'react-bootstrap';
 import './login.scss';
 
 class Login extends React.Component {
-    constructor(props) {
-      super(props);
-
-      this.handleOnSubmitClick = this.handleOnSubmitClick.bind(this);
+    handleOnSubmitClick = () => {
+        this.props.onSaveUser(this.textInput.value);
     }
 
-    handleOnSubmitClick() {
-        this.props.onSaveUser(this.textInput.value);
+    setTextInputRef = (inputRef) => {
+        this.textInput = inputRef;
     }
 
     render() {
         return (
             <div className="id-login">
                 <FormGroup bsSize="large" className="id-login-input-wrapper">
-                    <FormControl type="text" placeholder="mTurk Id" inputRef={input => this.textInput = input} />
+                    <FormControl inputRef={this.setTextInputRef} placeholder="mTurk Id" type="text" />
                 </FormGroup>
                 <Button className="id-login-button" onClick={this.handleOnSubmitClick}>submit</Button>
             </div>

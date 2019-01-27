@@ -1,21 +1,21 @@
-import App from './app';
 import { connect } from 'react-redux';
 import {
-  onSaveUser
-} from './../state/actions/action-creators';
+    onSaveUser
+} from '../state/actions/action-creators';
 
-const mapStateToProps = (state) => {
+// state
+const mapStateToProps = () => {
     return {
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onSaveUser: (id) => dispatch(onSaveUser(id)),
     };
-}
+};
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(App);
+);

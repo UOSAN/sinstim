@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export default
 `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam lacinia nunc elementum mauris porttitor, eu ultricies lectus maximus. Etiam in felis ut mauris porta consequat. Maecenas eget orci in purus tempor tincidunt id placerat justo. Suspendisse facilisis, lacus in lacinia varius, ex neque ornare mauris, eget molestie metus felis eget ligula. Mauris sem mi, pellentesque quis massa vitae, eleifend ullamcorper dolor. Donec sit amet faucibus nunc. Vivamus ipsum odio, pretium sit amet erat sagittis, pretium pulvinar libero. Curabitur eleifend non mi at cursus. Nam vitae ligula vel felis consectetur maximus ac quis nunc. Suspendisse potenti. Nam vestibulum massa non ante ornare consectetur.
 

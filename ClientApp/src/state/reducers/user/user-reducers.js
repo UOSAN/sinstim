@@ -14,8 +14,8 @@ const userReducer = (state = initialUserState, action) => {
             });
         case Actions.NEW_USER_SAVED:
             return Object.assign({}, state, {
-                id: action.id,
                 errorSavingUser: false,
+                id: action.id,
                 isSavingUser: false
             });
         default:

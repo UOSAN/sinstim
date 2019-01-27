@@ -6,9 +6,9 @@ import './rating.scss';
 
 class Rating extends React.Component {
     constructor(props) {
-      super(props);
+        super(props);
 
-      this.handleOnSubmitClick = this.handleOnSubmitClick.bind(this);
+        this.handleOnSubmitClick = this.handleOnSubmitClick.bind(this);
     }
 
     handleOnSubmitClick() {
@@ -19,12 +19,12 @@ class Rating extends React.Component {
         return (
             <div>
                 <ButtonToolbar>
-                    <ToggleButtonGroup type="radio" name="options">
-                    <ToggleButton value={1}>Radio 1</ToggleButton>
-                    <ToggleButton value={2}>Radio 2</ToggleButton>
-                    <ToggleButton value={3}>Radio 3</ToggleButton>
-                    <ToggleButton value={4}>Radio 4</ToggleButton>
-                    <ToggleButton value={5}>Radio 5</ToggleButton>
+                    <ToggleButtonGroup name="options" type="radio">
+                        <ToggleButton value={1}>Radio 1</ToggleButton>
+                        <ToggleButton value={2}>Radio 2</ToggleButton>
+                        <ToggleButton value={3}>Radio 3</ToggleButton>
+                        <ToggleButton value={4}>Radio 4</ToggleButton>
+                        <ToggleButton value={5}>Radio 5</ToggleButton>
                     </ToggleButtonGroup>
                 </ButtonToolbar>
                 <Button className="rating-submit" onClick={this.handleOnSubmitClick}>submit</Button>

@@ -39,6 +39,10 @@ export const onSaveUser = (id) => {
     };
 };
 
-export const onSubmitConsent = () => {
+export const onConsentAccept = () => {
+    return () => { };
+};
+
+export const onConsentDecline = () => {
     return () => { };
 };

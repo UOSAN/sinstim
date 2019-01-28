@@ -2,8 +2,23 @@
     display: flex;
     flex-direction: column;
     width: 768px;
-}
 
-.consent-submit {
-    align-self: center;
+    .consent-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .consent-accept {
+        .btn {
+            width: 80px;
+        }
+    }
+
+    .consent-decline {
+        .btn {
+            width: 80px;
+        }
+    }
 }

@@ -5,22 +5,32 @@ import placeHolderText from './consent-text';
 import './consent.scss';
 
 const Consent = (props) => {
-    function handleOnSubmitClick() {
-        props.onSubmitConsent();
+    function handleOnAcceptClick() {
+        props.onConsentAccept();
+    }
+
+    function handleOnDeclineClick() {
+        props.onConsentDecline();
     }
 
     return (
         <div className="consent">
             <div className="consent-text">{placeHolderText}</div>
-            <div className="consent-submit">
-                <button className="btn btn-primary" onClick={handleOnSubmitClick} type="button">OK</button>
+            <div className="consent-buttons">
+                <span className="consent-decline">
+                    <button className="btn btn-primary" onClick={handleOnDeclineClick} type="button">Decline</button>
+                </span>
+                <span className="consent-accept">
+                    <button className="btn btn-primary" onClick={handleOnAcceptClick} type="button">Accept</button>
+                </span>
             </div>
         </div>
     );
 };
 
 Consent.propTypes = {
-    onSubmitConsent: PropTypes.func.isRequired,
+    onConsentAccept: PropTypes.func.isRequired,
+    onConsentDecline: PropTypes.func.isRequired,
 };
 
 export default Consent;

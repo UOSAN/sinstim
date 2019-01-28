@@ -1,5 +1,5 @@
 if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function(callback) {
-      setTimeout(callback, 0);
-    }
-  }
+    window.requestAnimationFrame = (callback) => {
+        setTimeout(callback, 0);
+    };
+}

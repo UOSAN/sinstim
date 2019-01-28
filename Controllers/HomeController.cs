@@ -5,5 +5,13 @@ namespace SinStim.Controllers {
         public IActionResult Index() {
             return View();
         }
+
+        public IActionResult Survey() {
+            return View();
+        }
+
+        public IActionResult Eligibility() {
+            return View();
+        }
     }
 }

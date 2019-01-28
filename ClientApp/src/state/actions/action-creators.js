@@ -5,7 +5,6 @@ import config from './../../config/config';
 import superAgent from 'superagent';
 
 const newUserErrored = (bool) => {
-    console.log('asfasgsg');
     return {
         type: actions.NEW_USER_ERRORED,
         hasErrored: bool
@@ -36,13 +35,10 @@ export const onSaveUser = (id) => {
             .set('Content-Type', 'application/json')
             .send(saveUserBody)
             .then(() => dispatch(newUserSaved(id)))
-            .catch(() => {
-                console.log('error');
-                return dispatch(newUserErrored(true));
-            });
+            .catch(() => dispatch(newUserErrored(true)));
     };
 };
 
-export const onSubmitIntro = () => {
+export const onSubmitConsent = () => {
     return () => { };
 };

@@ -17,8 +17,8 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": <Connect(Intro) />,
-      "className": "stim-app",
+      "children": <Connect(Consent) />,
+      "className": "eligibility-app",
     },
     "ref": null,
     "rendered": Object {
@@ -38,8 +38,8 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "children": <Connect(Intro) />,
-        "className": "stim-app",
+        "children": <Connect(Consent) />,
+        "className": "eligibility-app",
       },
       "ref": null,
       "rendered": Object {

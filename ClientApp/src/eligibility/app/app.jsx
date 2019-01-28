@@ -1,12 +1,12 @@
 import React from 'react';
-import Intro from '../components/intro';
+import Consent from '../../components/consent';
 
 import './app.scss';
 
 const App = (props) => {
     return (
-        <div className="stim-app">
-            <Intro {...props} />
+        <div className="eligibility-app">
+            <Consent {...props} />
         </div>
     );
 };

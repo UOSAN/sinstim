@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { onSubmitIntro } from '../../state/actions/action-creators';
+import { onSubmitConsent } from '../../state/actions/action-creators';
 
 // (state)
 const mapStateToProps = () => {
@@ -9,7 +9,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmitIntro: () => dispatch(onSubmitIntro()),
+        onSubmitConsent: () => dispatch(onSubmitConsent()),
     };
 };
 

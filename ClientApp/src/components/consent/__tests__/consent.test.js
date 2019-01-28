@@ -1,14 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Intro from './../intro';
+import Consent from '../consent';
 
 it('should match snapshot', () => {
     const props = {
-        onSubmitIntro: () => {}
+        onSubmitConsent: () => {}
     };
 
-    const wrapper = shallow(<Intro {...props} />);
+    const wrapper = shallow(<Consent {...props} />);
 
     expect(wrapper).toMatchSnapshot();
 });

@@ -1,19 +1,24 @@
 const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const _ = require('lodash');
 
 const paths = require('./../paths');
 
-module.exports = function(webpackEnv) {
-    const isEnvProduction = webpackEnv && webpackEnv.production || false;
+module.exports = (webpackEnv) => {
+    const isEnvProduction = _.get(webpackEnv, 'production', false);
+
     return {
         mode: isEnvProduction ? 'production' : 'development',
         bail: isEnvProduction,
         devtool: isEnvProduction ? false : 'cheap-module-source-map',
-        entry: paths.entry,
+        entry: {
+            eligibility: paths.eligibilityEntry,
+            survey: paths.surveyEntry
+        },
         output: {
             path: paths.outputPath,
-            filename: paths.outputFilename
+            filename: '[name].bundle.js'
         },
         module: {
             rules: [{
@@ -72,5 +77,5 @@ module.exports = function(webpackEnv) {
             tls: 'empty',
             child_process: 'empty'
         }
-    }
+    };
 };

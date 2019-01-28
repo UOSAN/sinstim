@@ -28,15 +28,30 @@ ShallowWrapper {
 Nulla nisi elit, lobortis et sagittis quis, pulvinar vel nisi. Nam dictum, nulla vel malesuada bibendum, neque nisl aliquet dolor, non rhoncus felis neque ut arcu. Sed suscipit iaculis ex ac fringilla. Nulla tincidunt magna vel nibh aliquam ornare. Curabitur tempus sem enim, at dapibus enim viverra nec. Mauris non porta lorem. Sed id est non lorem sagittis dignissim vel at est. Etiam orci tellus, dapibus elementum eros quis, pulvinar mattis arcu. Aliquam sollicitudin massa eu ipsum luctus, vitae eleifend purus vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed lacinia erat at ligula facilisis, eu accumsan turpis luctus. Donec sollicitudin odio sit amet eros tempor, sit amet ullamcorper elit venenatis.
         </div>,
         <div
-          className="consent-submit"
+          className="consent-buttons"
         >
-          <button
-            className="btn btn-primary"
-            onClick={[Function]}
-            type="button"
+          <span
+            className="consent-decline"
           >
-            OK
-          </button>
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+              type="button"
+            >
+              Decline
+            </button>
+          </span>
+          <span
+            className="consent-accept"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+              type="button"
+            >
+              Accept
+            </button>
+          </span>
         </div>,
       ],
       "className": "consent",
@@ -64,30 +79,97 @@ Nulla nisi elit, lobortis et sagittis quis, pulvinar vel nisi. Nam dictum, nulla
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <button
-            className="btn btn-primary"
-            onClick={[Function]}
-            type="button"
-          >
-            OK
-          </button>,
-          "className": "consent-submit",
+          "children": Array [
+            <span
+              className="consent-decline"
+            >
+              <button
+                className="btn btn-primary"
+                onClick={[Function]}
+                type="button"
+              >
+                Decline
+              </button>
+            </span>,
+            <span
+              className="consent-accept"
+            >
+              <button
+                className="btn btn-primary"
+                onClick={[Function]}
+                type="button"
+              >
+                Accept
+              </button>
+            </span>,
+          ],
+          "className": "consent-buttons",
         },
         "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "OK",
-            "className": "btn btn-primary",
-            "onClick": [Function],
-            "type": "button",
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <button
+                className="btn btn-primary"
+                onClick={[Function]}
+                type="button"
+              >
+                Decline
+              </button>,
+              "className": "consent-decline",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Decline",
+                "className": "btn btn-primary",
+                "onClick": [Function],
+                "type": "button",
+              },
+              "ref": null,
+              "rendered": "Decline",
+              "type": "button",
+            },
+            "type": "span",
           },
-          "ref": null,
-          "rendered": "OK",
-          "type": "button",
-        },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <button
+                className="btn btn-primary"
+                onClick={[Function]}
+                type="button"
+              >
+                Accept
+              </button>,
+              "className": "consent-accept",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Accept",
+                "className": "btn btn-primary",
+                "onClick": [Function],
+                "type": "button",
+              },
+              "ref": null,
+              "rendered": "Accept",
+              "type": "button",
+            },
+            "type": "span",
+          },
+        ],
         "type": "div",
       },
     ],
@@ -108,15 +190,30 @@ Nulla nisi elit, lobortis et sagittis quis, pulvinar vel nisi. Nam dictum, nulla
 Nulla nisi elit, lobortis et sagittis quis, pulvinar vel nisi. Nam dictum, nulla vel malesuada bibendum, neque nisl aliquet dolor, non rhoncus felis neque ut arcu. Sed suscipit iaculis ex ac fringilla. Nulla tincidunt magna vel nibh aliquam ornare. Curabitur tempus sem enim, at dapibus enim viverra nec. Mauris non porta lorem. Sed id est non lorem sagittis dignissim vel at est. Etiam orci tellus, dapibus elementum eros quis, pulvinar mattis arcu. Aliquam sollicitudin massa eu ipsum luctus, vitae eleifend purus vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed lacinia erat at ligula facilisis, eu accumsan turpis luctus. Donec sollicitudin odio sit amet eros tempor, sit amet ullamcorper elit venenatis.
           </div>,
           <div
-            className="consent-submit"
+            className="consent-buttons"
           >
-            <button
-              className="btn btn-primary"
-              onClick={[Function]}
-              type="button"
+            <span
+              className="consent-decline"
             >
-              OK
-            </button>
+              <button
+                className="btn btn-primary"
+                onClick={[Function]}
+                type="button"
+              >
+                Decline
+              </button>
+            </span>
+            <span
+              className="consent-accept"
+            >
+              <button
+                className="btn btn-primary"
+                onClick={[Function]}
+                type="button"
+              >
+                Accept
+              </button>
+            </span>
           </div>,
         ],
         "className": "consent",
@@ -144,30 +241,97 @@ Nulla nisi elit, lobortis et sagittis quis, pulvinar vel nisi. Nam dictum, nulla
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": <button
-              className="btn btn-primary"
-              onClick={[Function]}
-              type="button"
-            >
-              OK
-            </button>,
-            "className": "consent-submit",
+            "children": Array [
+              <span
+                className="consent-decline"
+              >
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Decline
+                </button>
+              </span>,
+              <span
+                className="consent-accept"
+              >
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Accept
+                </button>
+              </span>,
+            ],
+            "className": "consent-buttons",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "OK",
-              "className": "btn btn-primary",
-              "onClick": [Function],
-              "type": "button",
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Decline
+                </button>,
+                "className": "consent-decline",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Decline",
+                  "className": "btn btn-primary",
+                  "onClick": [Function],
+                  "type": "button",
+                },
+                "ref": null,
+                "rendered": "Decline",
+                "type": "button",
+              },
+              "type": "span",
             },
-            "ref": null,
-            "rendered": "OK",
-            "type": "button",
-          },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Accept
+                </button>,
+                "className": "consent-accept",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Accept",
+                  "className": "btn btn-primary",
+                  "onClick": [Function],
+                  "type": "button",
+                },
+                "ref": null,
+                "rendered": "Accept",
+                "type": "button",
+              },
+              "type": "span",
+            },
+          ],
           "type": "div",
         },
       ],

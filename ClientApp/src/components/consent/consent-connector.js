@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { onConsentAccept, onConsentDecline } from '../../state/actions/action-creators';
 
-// (state)
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
     return {
+        isConsented: state.consent.isConsented
     };
 };
 

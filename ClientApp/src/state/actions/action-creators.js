@@ -40,9 +40,17 @@ export const onSaveUser = (id) => {
 };
 
 export const onConsentAccept = () => {
-    return () => { };
+    return (dispatch) => {
+        dispatch({
+            type: actions.CONSENT_ACCEPT
+        });
+    };
 };
 
 export const onConsentDecline = () => {
-    return () => { };
+    return (dispatch) => {
+        dispatch({
+            type: actions.CONSENT_DECLINE
+        });
+    };
 };

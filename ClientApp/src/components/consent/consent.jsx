@@ -13,6 +13,18 @@ const Consent = (props) => {
         props.onConsentDecline();
     }
 
+    function renderDeclinedConsent() {
+        const declinedConsentMessage = 'Thank you. Please go back to mTurk and decline this HIT.';
+
+        return (
+            <div className="consent-declined-text">{declinedConsentMessage}</div>
+        );
+    }
+
+    if (props.isConsented === false) {
+        return renderDeclinedConsent();
+    }
+
     return (
         <div className="consent">
             <div className="consent-text">{placeHolderText}</div>
@@ -29,6 +41,7 @@ const Consent = (props) => {
 };
 
 Consent.propTypes = {
+    isConsented: PropTypes.bool,
     onConsentAccept: PropTypes.func.isRequired,
     onConsentDecline: PropTypes.func.isRequired,
 };

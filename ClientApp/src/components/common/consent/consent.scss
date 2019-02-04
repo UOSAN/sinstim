@@ -1,9 +1,15 @@
 .consent {
+    padding-top: 15px;
     display: flex;
     flex-direction: column;
     width: 768px;
 
+    .consent-declined-text, .consent-text {
+        align-self: center;
+    }
+
     .consent-buttons {
+        padding: 5px;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;

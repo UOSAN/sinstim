@@ -1,6 +1,5 @@
 /* eslint-disable sort-keys */
 import actions from './actions';
-import config from './../../config/config';
 
 import superAgent from 'superagent';
 
@@ -31,7 +30,7 @@ export const onSaveUser = (id) => {
 
         const saveUserBody = { id };
 
-        superAgent.post(`${config.host}/api/User`)
+        superAgent.post('/api/User')
             .set('Content-Type', 'application/json')
             .send(saveUserBody)
             .then(() => dispatch(newUserSaved(id)))

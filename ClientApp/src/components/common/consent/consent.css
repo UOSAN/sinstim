@@ -1,0 +1,17 @@
+.consent {
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 768px; }
+  .consent .consent-declined-text, .consent .consent-text {
+    align-self: center; }
+  .consent .consent-buttons {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%; }
+  .consent .consent-accept .btn {
+    width: 80px; }
+  .consent .consent-decline .btn {
+    width: 80px; }

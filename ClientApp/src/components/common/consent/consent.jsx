@@ -21,21 +21,25 @@ const Consent = (props) => {
         );
     }
 
-    if (props.isConsented === false) {
-        return renderDeclinedConsent();
+    function renderConsent() {
+        return (
+            <>
+                <div className="consent-text">{placeHolderText}</div>
+                <div className="consent-buttons">
+                    <span className="consent-decline">
+                        <button className="btn btn-primary" onClick={handleOnDeclineClick} type="button">Decline</button>
+                    </span>
+                    <span className="consent-accept">
+                        <button className="btn btn-primary" onClick={handleOnAcceptClick} type="button">Accept</button>
+                    </span>
+                </div>
+            </>
+        );
     }
 
     return (
         <div className="consent">
-            <div className="consent-text">{placeHolderText}</div>
-            <div className="consent-buttons">
-                <span className="consent-decline">
-                    <button className="btn btn-primary" onClick={handleOnDeclineClick} type="button">Decline</button>
-                </span>
-                <span className="consent-accept">
-                    <button className="btn btn-primary" onClick={handleOnAcceptClick} type="button">Accept</button>
-                </span>
-            </div>
+            {props.isConsented === false ? renderDeclinedConsent() : renderConsent()}
         </div>
     );
 };

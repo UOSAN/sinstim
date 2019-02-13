@@ -30,7 +30,7 @@ export const onSaveUser = (id) => {
 
         const saveUserBody = { id };
 
-        superAgent.post('/api/User')
+        return superAgent.post('/api/User')
             .set('Content-Type', 'application/json')
             .send(saveUserBody)
             .then(() => dispatch(newUserSaved(id)))

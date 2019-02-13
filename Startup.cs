@@ -34,8 +34,10 @@ namespace SinStim {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<SinStimContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SinStimContext>(options => {
+                var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
+                options.UseSqlite(defaultConnectionString);
+            });
 
             services.AddScoped<IUserService, UserService>();
         }

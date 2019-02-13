@@ -1,22 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 
 import Consent from '../../components/common/consent';
-import Instructions from '../../components/eligibility-instructions'
+import Instructions from '../../components/eligibility-instructions';
 
 import './app.scss';
 
-const App = (props) => {
-    return (
-        <div className="eligibility-app">
-            {!props.isConsented && <Consent {...props} />}
-            {props.isConsented && <Instructions />}
-        </div>
-    );
-};
+export default class App extends React.Component {
+    static propTypes = {
+        isConsented: PropTypes.bool,
+        onSaveUser: PropTypes.func.isRequired
+    };
 
-App.propTypes = {
-    isConsented: PropTypes.bool
-};
+    state = {
+        isUserSaved: false
+    };
 
-export default App;
+    componentDidMount() {
+        const { mTurkId } = queryString.parse(location.search);
+
+        this.props.onSaveUser(mTurkId).then(() => {
+            this.setState(() => {
+                return {
+                    isUserSaved: true
+                };
+            });
+        });
+    }
+
+    render() {
+        if (!this.state.isUserSaved) {
+            return null;
+        }
+
+        return (
+            <div className="eligibility-app">
+                {!this.props.isConsented && <Consent {...this.props} />}
+                {this.props.isConsented && <Instructions />}
+            </div>
+        );
+    }
+}

@@ -5,7 +5,8 @@ import Consent from '../consent';
 
 it('should match snapshot', () => {
     const props = {
-        onSubmitConsent: () => {}
+        onConsentAccept: () => {},
+        onConsentDecline: () => {}
     };
 
     const wrapper = shallow(<Consent {...props} />);

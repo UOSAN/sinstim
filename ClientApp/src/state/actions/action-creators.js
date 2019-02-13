@@ -53,3 +53,11 @@ export const onConsentDecline = () => {
         });
     };
 };
+
+export const onEligibilityInstructionsAccept = () => {
+    return (dispatch) => {
+        dispatch({
+            type: actions.ELIGIBILITY_INSTRUCTIONS_ACCEPT
+        });
+    };
+};

@@ -5,14 +5,6 @@ import placeHolderText from './consent-text';
 import './consent.scss';
 
 const Consent = (props) => {
-    function handleOnAcceptClick() {
-        props.onConsentAccept();
-    }
-
-    function handleOnDeclineClick() {
-        props.onConsentDecline();
-    }
-
     function renderDeclinedConsent() {
         const declinedConsentMessage = 'Thank you. Please go back to mTurk and decline this HIT.';
 
@@ -27,10 +19,10 @@ const Consent = (props) => {
                 <div className="consent-text">{placeHolderText}</div>
                 <div className="consent-buttons">
                     <span className="consent-decline">
-                        <button className="btn btn-primary" onClick={handleOnDeclineClick} type="button">Decline</button>
+                        <button className="btn btn-primary" onClick={props.onConsentDecline} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
-                        <button className="btn btn-primary" onClick={handleOnAcceptClick} type="button">Accept</button>
+                        <button className="btn btn-primary" onClick={props.onConsentAccept} type="button">Accept</button>
                     </span>
                 </div>
             </>

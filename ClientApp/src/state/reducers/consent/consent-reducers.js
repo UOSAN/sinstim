@@ -1,7 +1,7 @@
 import produce from 'immer';
 import Actions from './../../actions/actions';
 
-const consentReducer = (state = {}, action) => {
+const consentReducers = (state = {}, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
             case Actions.CONSENT_ACCEPT:
@@ -16,4 +16,4 @@ const consentReducer = (state = {}, action) => {
     });
 };
 
-export default consentReducer;
+export default consentReducers;

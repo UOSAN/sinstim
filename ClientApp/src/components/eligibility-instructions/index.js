@@ -1,5 +1,4 @@
-// import connector from './consent-connector';
+import connector from './eligibility-instructions-connector';
 import Component from './eligibility-instructions';
 
-// export default connector(Component);
-export default Component;
+export default connector(Component);

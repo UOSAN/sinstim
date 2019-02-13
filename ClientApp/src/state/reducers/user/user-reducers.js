@@ -3,7 +3,7 @@ import produce from 'immer';
 import Actions from './../../actions/actions';
 import initialUserState from './initial-user-state';
 
-const userReducer = (state = initialUserState, action) => {
+const userReducers = (state = initialUserState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
             case Actions.NEW_USER_ERRORED:
@@ -24,4 +24,4 @@ const userReducer = (state = initialUserState, action) => {
     });
 };
 
-export default userReducer;
+export default userReducers;

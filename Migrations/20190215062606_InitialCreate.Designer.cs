@@ -9,8 +9,8 @@ using SinStim.Models;
 namespace SinStim.Migrations
 {
     [DbContext(typeof(SinStimContext))]
-    [Migration("20190213171151_ChangeTaskToEligibility")]
-    partial class ChangeTaskToEligibility
+    [Migration("20190215062606_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

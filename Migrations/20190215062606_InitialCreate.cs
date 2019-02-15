@@ -29,8 +29,8 @@ namespace SinStim.Migrations
                     IsRejected = table.Column<bool>(nullable: false),
                     SurveyStartTime = table.Column<DateTimeOffset>(nullable: true),
                     SurveyEndTime = table.Column<DateTimeOffset>(nullable: true),
-                    TaskStartTime = table.Column<DateTimeOffset>(nullable: true),
-                    TaskEndTime = table.Column<DateTimeOffset>(nullable: true),
+                    EligibilityStartTime = table.Column<DateTimeOffset>(nullable: true),
+                    EligibilityEndTime = table.Column<DateTimeOffset>(nullable: true),
                     AssignedCategory = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

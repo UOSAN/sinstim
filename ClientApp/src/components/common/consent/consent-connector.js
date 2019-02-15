@@ -3,7 +3,7 @@ import { onConsentAccept, onConsentDecline } from '../../../state/actions/action
 
 const mapStateToProps = (state) => {
     return {
-        isConsented: state.consent.isConsented
+        isConsented: state.isConsented
     };
 };
 

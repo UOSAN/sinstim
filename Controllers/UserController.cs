@@ -1,5 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using SinStim.Models;
 using SinStim.Services;
 
 namespace SinStim.Controllers {
@@ -13,9 +16,10 @@ namespace SinStim.Controllers {
             this.userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SaveUser([FromBody] NewUser newUser) {
-            var successful = await userService.SaveAsync(newUser.id);
+        [HttpPost("Save")]
+        public async Task<IActionResult> SaveUser([FromBody] JObject newUser) {
+            var newUserId = newUser.GetValue("id").Value<string>();
+            var successful = await userService.SaveAsync(newUserId);
             if (!successful)
             {
                 return BadRequest("Failed to save user.");
@@ -23,8 +27,38 @@ namespace SinStim.Controllers {
             return Ok();
         }
 
-        public class NewUser {
-            public string id { get; set; }
+        [HttpPost("StartEligibilitySurvey")]
+        public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
+            User userToUpdate = new User();
+            userToUpdate.Id = userJson.GetValue("id").Value<string>();
+            userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
+            var successful = await userService.UpdateAsync(userToUpdate);
+            if (!successful)
+            {
+                return BadRequest("Failed to save user.");
+            }
+            return Ok();
+        }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateUser([FromBody] JObject userJson) {
+            User userToUpdate = getUserFromJson(userJson);
+            var successful = await userService.UpdateAsync(userToUpdate);
+            if (!successful)
+            {
+                return BadRequest("Failed to save user.");
+            }
+            return Ok();
+        }
+
+        private User getUserFromJson(JObject userJson) {
+            var id = userJson.GetValue("id").Value<string>();
+            var eligibilityStartTime = userJson.GetValue("eligibilityStartTime").Value<DateTimeOffset?>();
+
+            User userToUpdate = new User();
+            userToUpdate.Id = id;
+            userToUpdate.EligibilityStartTime = eligibilityStartTime;
+            return userToUpdate;
         }
     }
 }

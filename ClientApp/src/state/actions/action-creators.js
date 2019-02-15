@@ -30,7 +30,7 @@ export const onSaveUser = (id) => {
 
         const saveUserBody = { id };
 
-        return superAgent.post('/api/User')
+        return superAgent.post('/api/User/Save')
             .set('Content-Type', 'application/json')
             .send(saveUserBody)
             .then(() => dispatch(newUserSaved(id)))
@@ -65,7 +65,7 @@ export const onStartEligibilitySurvey = (userId) => {
 
         const startEligibilitySurveyBody = { userId };
 
-        return superAgent.post('/api/User')
+        return superAgent.post('/api/User/StartEligibilitySurvey')
             .set('Content-Type', 'application/json')
             .send(startEligibilitySurveyBody)
             .then(() => dispatch(startEligibilitySurveySaved(userId)))

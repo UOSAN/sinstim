@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using SinStim.Models;
 
@@ -13,7 +14,13 @@ namespace SinStim.Services {
             newUser.Id = id;
             newUser.IsRejected = false;
             context.Users.Add(newUser);
-            var saveResult = await context.SaveChangesAsync();
+
+            var saveResult = 0;
+            try {
+                saveResult = await context.SaveChangesAsync();
+            } catch(Exception e) {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
             return saveResult == 1;
         }
 

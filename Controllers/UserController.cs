@@ -27,26 +27,13 @@ namespace SinStim.Controllers {
             return Ok();
         }
 
-        [HttpPost("StartEligibilitySurvey")]
-        public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            User userToUpdate = new User();
-            userToUpdate.Id = userJson.GetValue("id").Value<string>();
-            userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
-            var successful = await userService.UpdateAsync(userToUpdate);
-            if (!successful)
-            {
-                return BadRequest("Failed to save user.");
-            }
-            return Ok();
-        }
-
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateUser([FromBody] JObject userJson) {
             User userToUpdate = getUserFromJson(userJson);
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful)
             {
-                return BadRequest("Failed to save user.");
+                return BadRequest("Failed to update user.");
             }
             return Ok();
         }

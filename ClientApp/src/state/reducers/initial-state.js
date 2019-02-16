@@ -1,5 +1,5 @@
 export default {
     errorSavingUser: false,
-    userId: null,
+    id: null,
     isSavingUser: false
 };

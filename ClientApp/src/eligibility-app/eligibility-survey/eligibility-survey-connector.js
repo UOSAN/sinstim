@@ -1,23 +1,24 @@
 import { connect } from 'react-redux';
-// import {
-//     onSaveUser
-// } from '../../state/actions/action-creators';
+import {
+    onEndEligibilitySurvey
+} from '../../state/actions/eligibility-action-creators';
 
 const mapStateToProps = (state) => {
     return {
         // isConsented: state.isConsented,
         // errorSavingUser: state.errorSavingUser,
-        // userId: state.userId
+        // id: state.id
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // onSaveUser: (id) => dispatch(onSaveUser(id)),
+        onEndEligibilitySurvey: () => dispatch(onEndEligibilitySurvey())
+        // onSubmitEligibilitySurveyAnswer: PropTypes.func.isRequired
     };
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 );

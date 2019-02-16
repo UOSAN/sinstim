@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import {
     onSaveUser
-} from '../../state/actions/action-creators';
+} from '../../state/actions/eligibility-action-creators';
 
 const mapStateToProps = (state) => {
     return {
         isConsented: state.isConsented,
+        eligibilityStartTime: state.eligibilityStartTime,
         errorSavingUser: state.errorSavingUser,
-        userId: state.userId
+        id: state.id
     };
 };
 

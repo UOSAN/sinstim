@@ -7,15 +7,17 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 import Consent from '../../components/consent';
 import Instructions from '../eligibility-instructions';
+import EligibilitySurvey from '../eligibility-survey';
 
 import './app.scss';
 
 export default class App extends React.Component {
     static propTypes = {
+        eligibilityStartTime: PropTypes.instanceOf(Date),
         errorSavingUser: PropTypes.bool,
+        id: PropTypes.string,
         isConsented: PropTypes.bool,
-        onSaveUser: PropTypes.func.isRequired,
-        userId: PropTypes.string
+        onSaveUser: PropTypes.func.isRequired
     };
 
     state = {
@@ -41,19 +43,19 @@ export default class App extends React.Component {
     }
 
     isValidUser = () => {
-        return this.props.userId != null && this.state.isUserSaved;
+        return this.props.id != null && this.state.isUserSaved;
     }
 
     shouldSeeConsent = () => {
-        return this.isValidUser() && !this.props.isConsented;
+        return !this.props.isConsented && !this.props.eligibilityStartTime;
     }
 
     shouldSeeInstructions = () => {
-        return this.isValidUser() && this.props.isConsented;
+        return this.props.isConsented && !this.props.eligibilityStartTime;
     }
 
     shouldSeeEligibilitySurvey = () => {
-        return false;
+        return this.props.isConsented && this.props.eligibilityStartTime;
     }
 
     render() {
@@ -63,7 +65,7 @@ export default class App extends React.Component {
                     <div className="eligibility-app">
                         {this.shouldSeeConsent() && <Consent {...this.props} />}
                         {this.shouldSeeInstructions() && <Instructions />}
-                        {/* {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />} */}
+                        {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}
                     </div>
                 )}
                 <ToastContainer />

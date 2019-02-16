@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { onEligibilityInstructionsAccept } from '../../state/actions/action-creators';
+import { onStartEligibilitySurvey } from '../../state/actions/eligibility-action-creators';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onEligibilityInstructionsAccept: () => dispatch(onEligibilityInstructionsAccept()),
+        onStartEligibilitySurvey: () => dispatch(onStartEligibilitySurvey()),
     };
 };
 

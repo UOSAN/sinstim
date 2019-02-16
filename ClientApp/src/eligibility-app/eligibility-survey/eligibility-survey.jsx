@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import questions from './eligibility-survey-questions';
 
-import './eligibility.scss';
+import './eligibility-survey.scss';
 
 export default class EligibilitySurvey extends React.Component {
     static propTypes = {
@@ -60,7 +60,7 @@ export default class EligibilitySurvey extends React.Component {
                     {answers.map((answer) => {
                         return (
                             <div className="answer" key={answer.id} >
-                                <input className="form-check-input" id={answer.id} type={type} value={answer.text} />
+                                <input className="form-check-input" id={answer.id} name="eligibility" type={type} value={answer.text} />
                                 <label className="form-check-label" htmlFor={answer.id}>
                                     <span className="label-text">{answer.text}</span>
                                 </label>

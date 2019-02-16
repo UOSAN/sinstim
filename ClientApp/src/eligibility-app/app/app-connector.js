@@ -5,7 +5,9 @@ import {
 
 const mapStateToProps = (state) => {
     return {
-        isConsented: state.isConsented
+        isConsented: state.isConsented,
+        errorSavingUser: state.errorSavingUser,
+        userId: state.userId
     };
 };
 

@@ -238,3 +238,5 @@ ClientApp/public/pictures/
 
 wwwroot/js
 wwwroot/pictures
+
+*.css

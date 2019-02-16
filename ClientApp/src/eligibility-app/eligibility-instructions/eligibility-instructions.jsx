@@ -10,7 +10,7 @@ const EligibilityInstructions = (props) => {
             <div className="instructions-text">{placeHolderText}</div>
             <div className="instructions-buttons">
                 <span className="instructions-accept">
-                    <button className="btn btn-primary" onClick={props.onEligibilityInstructionsAccept} type="button">OK</button>
+                    <button className="btn btn-outline-primary" onClick={props.onEligibilityInstructionsAccept} type="button">OK</button>
                 </span>
             </div>
         </div>

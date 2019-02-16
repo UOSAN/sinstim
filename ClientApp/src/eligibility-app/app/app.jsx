@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
-import Consent from '../../components/common/consent';
+import Consent from '../../components/consent';
 import Instructions from '../eligibility-instructions';
 
 import './app.scss';

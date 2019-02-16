@@ -1,5 +1,5 @@
 import React from 'react';
-import Consent from '../../components/common/consent';
+import Consent from '../../components/consent';
 
 import './app.scss';
 

@@ -19,10 +19,10 @@ const Consent = (props) => {
                 <div className="consent-text">{placeHolderText}</div>
                 <div className="consent-buttons">
                     <span className="consent-decline">
-                        <button className="btn btn-primary" onClick={props.onConsentDecline} type="button">Decline</button>
+                        <button className="btn btn-outline-secondary" onClick={props.onConsentDecline} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
-                        <button className="btn btn-primary" onClick={props.onConsentAccept} type="button">Accept</button>
+                        <button className="btn btn-outline-primary" onClick={props.onConsentAccept} type="button">Accept</button>
                     </span>
                 </div>
             </>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
 import Consent from '../../components/common/consent';
-import Instructions from '../../components/eligibility-instructions';
+import Instructions from '../eligibility-instructions';
 
 import './app.scss';
 

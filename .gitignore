@@ -237,3 +237,4 @@ ClientApp/insertPictureData.sql
 ClientApp/public/pictures/
 
 wwwroot/js
+wwwroot/pictures

@@ -71,7 +71,7 @@
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/config/enzyme.js",
+    "setupFilesAfterEnv": ["<rootDir>/config/enzyme.js"],
     "testEnvironment": "jsdom",
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(js|jsx)"

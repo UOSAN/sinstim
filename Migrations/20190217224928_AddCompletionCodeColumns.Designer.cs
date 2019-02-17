@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinStim.Models;
 
 namespace SinStim.Migrations
 {
     [DbContext(typeof(SinStimContext))]
-    partial class SinStimContextModelSnapshot : ModelSnapshot
+    [Migration("20190217224928_AddCompletionCodeColumns")]
+    partial class AddCompletionCodeColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

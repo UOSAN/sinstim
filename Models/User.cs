@@ -12,8 +12,10 @@ namespace SinStim.Models {
         public bool IsRejected { get; set; }
         public DateTimeOffset? SurveyStartTime { get; set; }
         public DateTimeOffset? SurveyEndTime { get; set; }
+        public Guid? SurveyCompletionCode { get; set; }
         public DateTimeOffset? EligibilityStartTime { get; set; }
         public DateTimeOffset? EligibilityEndTime { get; set; }
+        public Guid? EligibilityCompletionCode { get; set; }
         public string AssignedCategory { get; set; }
 
         public ICollection<Eligibility> Eligibilities { get; set; }

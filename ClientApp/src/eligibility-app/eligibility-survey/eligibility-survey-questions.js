@@ -59,4 +59,125 @@ export default [{
         id: 'no',
         text: 'no'
     }]
+}, {
+    id: 'e_cocaine',
+    text: 'Have you tried cocaine?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_cookies',
+    text: 'Do you enjoy cookies?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_cookies',
+    text: 'Do you enjoy cookies?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_fries',
+    text: 'Do you like fries?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_heroin',
+    text: 'Have you tried heroin?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_icecream',
+    text: 'Do you like ice cream?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_marijuana',
+    text: 'Do you smoke marijuana?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_icecream',
+    text: 'Do you like ice cream?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_methamphetamine',
+    text: 'Have you tried methamphetamines?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_pasta',
+    text: 'Do you like pasta?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_pills',
+    text: 'Do you like pills?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
 }];

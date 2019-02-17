@@ -4,20 +4,31 @@
     width: 768px;
     margin: 15px;
 
-    .text {
-        display: block;
+    .question {
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
     }
 
-    .question {
-        align-self: center;
+    .form-check {
+        margin: 5px;
+    }
+
+    .text {
+        margin: 5px;
     }
 
     .answer {
         margin-top: 15px;
     }
 
-    .question-accept {
-        align-self: center;
-        margin-top: 15px
+    .navigation-buttons {
+        display: flex;
+        justify-content: center;
+    }
+
+    .question-back, .question-next {
+        margin: 15px;
     }
 }

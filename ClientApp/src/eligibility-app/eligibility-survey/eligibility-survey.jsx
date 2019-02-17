@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _cloneDeep from 'lodash/cloneDeep';
+import _some from 'lodash/some';
+import produce from 'immer';
 
-import questions from './eligibility-survey-questions';
+import QUESTIONS from './eligibility-survey-questions';
 
 import './eligibility-survey.scss';
 
@@ -16,16 +19,15 @@ export default class EligibilitySurvey extends React.Component {
 
         this.state = {
             currentQuestionIndex: 0,
-            isAcceptButtonEnabled: false,
-            isSurveyOver: false
+            isSurveyOver: false,
+            questions: _cloneDeep(QUESTIONS)
         };
     }
 
-    handleOnAcceptClick = async () => {
-        const { selectedAnswer } = this.state;
+    handleOnNextClick = async () => {
+        const { selectedAnswer, questions } = this.state;
         const { id: questionId } = questions[this.state.currentQuestionIndex];
-        const { onSubmitEligibilitySurveyAnswer } = this.props;
-        const { onEndEligibilitySurvey } = this.props;
+        const { onEndEligibilitySurvey, onSubmitEligibilitySurveyAnswer } = this.props;
 
         await onSubmitEligibilitySurveyAnswer({ questionId, selectedAnswer });
 
@@ -41,26 +43,45 @@ export default class EligibilitySurvey extends React.Component {
         } else {
             this.setState(() => {
                 return {
-                    currentQuestionIndex: nextQuestionIndex,
-                    acceptButtonEnabled: false
+                    currentQuestionIndex: nextQuestionIndex
                 };
             });
         }
     }
 
-    handleOnAnswerChanged = (evt) => {
-        const { value: answer } = evt.currentTarget;
-
-        this.setState(() => {
+    handleOnBackClick = () => {
+        this.setState((state) => {
             return {
-                selectedAnswer: answer,
-                acceptButtonEnabled: true
+                currentQuestionIndex: state.currentQuestionIndex - 1,
             };
         });
     }
 
+    handleOnAnswerChanged = (evt) => {
+        const { id: answerId } = evt.target;
+
+        this.setState((previousState) => {
+            return produce(previousState, (draftState) => {
+                draftState.questions[draftState.currentQuestionIndex].answers.forEach((answer) => {
+                    answer.checked = answer.id === answerId;
+                });
+            });
+        });
+    }
+
+    isNextButtonDisabled() {
+        const { answers } = this.state.questions[this.state.currentQuestionIndex];
+        const isQuestionAnswered = _some(answers, (answer) => answer.checked);
+
+        return !isQuestionAnswered;
+    }
+
+    isBackButtonDisabled() {
+        return this.state.currentQuestionIndex === 0;
+    }
+
     renderQuestion = () => {
-        const { text, type, answers } = questions[this.state.currentQuestionIndex];
+        const { text, type, answers } = this.state.questions[this.state.currentQuestionIndex];
 
         return (
             <div className="question">
@@ -69,7 +90,15 @@ export default class EligibilitySurvey extends React.Component {
                     {answers.map((answer) => {
                         return (
                             <div className="answer" key={answer.id} >
-                                <input className="form-check-input" id={answer.id} name="eligibility" type={type} value={answer.text} />
+                                <input
+                                    checked={Boolean(answer.checked)}
+                                    className="form-check-input"
+                                    id={answer.id}
+                                    name="eligibility"
+                                    onChange={this.handleOnAnswerChanged}
+                                    type={type}
+                                    value={answer.text}
+                                    />
                                 <label className="form-check-label" htmlFor={answer.id}>
                                     <span className="label-text">{answer.text}</span>
                                 </label>
@@ -82,22 +111,37 @@ export default class EligibilitySurvey extends React.Component {
     }
 
     render() {
+        const isNextButtonDisabled = this.isNextButtonDisabled();
+        const isBackButtonDisabled = this.isBackButtonDisabled();
+
         if (this.state.isSurveyOver) {
             return (<div>The End</div>);
         }
         return (
             <div className="eligibility-survey">
                 {this.renderQuestion()}
-                <span className="question-accept">
-                    <button
-                        className="btn btn-outline-primary"
-                        disabled={this.state.isAcceptButtonEnabled}
-                        onClick={this.handleOnAcceptClick}
-                        type="button"
-                        >
-                        Accept
-                    </button>
-                </span>
+                <div className="navigation-buttons">
+                    <span className="question-back">
+                        <button
+                            className="btn btn-outline-secondary"
+                            disabled={isBackButtonDisabled}
+                            onClick={this.handleOnBackClick}
+                            type="button"
+                            >
+                            Back
+                        </button>
+                    </span>
+                    <span className="question-next">
+                        <button
+                            className="btn btn-outline-primary"
+                            disabled={isNextButtonDisabled}
+                            onClick={this.handleOnNextClick}
+                            type="button"
+                            >
+                            Next
+                        </button>
+                    </span>
+                </div>
             </div>
         );
     }

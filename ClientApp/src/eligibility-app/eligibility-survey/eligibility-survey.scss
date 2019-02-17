@@ -1,8 +1,23 @@
 .eligibility-survey {
     display: flex;
     flex-direction: column;
+    width: 768px;
+    margin: 15px;
 
     .text {
         display: block;
+    }
+
+    .question {
+        align-self: center;
+    }
+
+    .answer {
+        margin-top: 15px;
+    }
+
+    .question-accept {
+        align-self: center;
+        margin-top: 15px
     }
 }

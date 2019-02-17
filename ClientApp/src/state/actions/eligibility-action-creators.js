@@ -112,3 +112,19 @@ export const onEndEligibilitySurvey = () => {
             .catch(() => dispatch(endEligibilitySurveyErrored(true)));
     };
 };
+
+// export const onSubmitEligibilitySurveyAnswer = () => {
+//     return (dispatch, getState) => {
+//         const { id } = getState();
+
+//         dispatch(eligibilitySurveyAnswerSaving(true));
+
+//         const endEligibilitySurveyBody = { id };
+
+//         return superAgent.post('/api/Eligibility/Answer')
+//             .set('Content-Type', 'application/json')
+//             .send(endEligibilitySurveyBody)
+//             .then((response) => dispatch(eligibilitySurveyAnswerSaved(response.body.eligibilityendTime)))
+//             .catch(() => dispatch(eligibilitySurveyAnswerErrored(true)));
+//     };
+// };

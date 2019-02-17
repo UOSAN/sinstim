@@ -10,18 +10,20 @@ namespace SinStim.Controllers {
     public class EligibilityController : Controller {
 
         private readonly IUserService userService;
-
-        public EligibilityController(IUserService userService)
-        {
+        private readonly SinStimContext context;
+        public EligibilityController(IUserService userService, SinStimContext context) {
             this.userService = userService;
+            this.context = context;
         }
 
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            User userToUpdate = new User();
-            userToUpdate.Id = userJson.GetValue("id").Value<string>();
+            var userId = userJson.GetValue("id").Value<string>();
+
+            User userToUpdate = await context.FindAsync<User>(userId);
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
+
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful)
             {
@@ -35,15 +37,19 @@ namespace SinStim.Controllers {
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(DateTimeOffset))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
-            User userToUpdate = new User();
-            userToUpdate.Id = userJson.GetValue("id").Value<string>();
+            var userId = userJson.GetValue("id").Value<string>();
+
+            User userToUpdate = await context.FindAsync<User>(userId);
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
+
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful)
             {
                 return BadRequest("Failed to update eligibility end time.");
             }
-            return Ok(userToUpdate.EligibilityEndTime);
+            var response = new JObject();
+            response.Add("eligibilityEndTime", userToUpdate.EligibilityEndTime);
+            return Ok(response);
         }
     }
 }

@@ -15,7 +15,9 @@ export default class EligibilitySurvey extends React.Component {
         super(props);
 
         this.state = {
-            currentQuestionIndex: 0
+            currentQuestionIndex: 0,
+            isAcceptButtonEnabled: false,
+            isSurveyOver: false
         };
     }
 
@@ -31,10 +33,16 @@ export default class EligibilitySurvey extends React.Component {
 
         if (nextQuestionIndex >= questions.length) {
             await onEndEligibilitySurvey();
+            this.setState(() => {
+                return {
+                    isSurveyOver: true
+                };
+            });
         } else {
             this.setState(() => {
                 return {
-                    currentQuestionIndex: nextQuestionIndex
+                    currentQuestionIndex: nextQuestionIndex,
+                    acceptButtonEnabled: false
                 };
             });
         }
@@ -45,7 +53,8 @@ export default class EligibilitySurvey extends React.Component {
 
         this.setState(() => {
             return {
-                selectedAnswer: answer
+                selectedAnswer: answer,
+                acceptButtonEnabled: true
             };
         });
     }
@@ -56,7 +65,7 @@ export default class EligibilitySurvey extends React.Component {
         return (
             <div className="question">
                 <span className="text">{text}</span>
-                <div className="form-check form-check-inline">
+                <div className="form-check">
                     {answers.map((answer) => {
                         return (
                             <div className="answer" key={answer.id} >
@@ -73,11 +82,21 @@ export default class EligibilitySurvey extends React.Component {
     }
 
     render() {
+        if (this.state.isSurveyOver) {
+            return (<div>The End</div>);
+        }
         return (
             <div className="eligibility-survey">
                 {this.renderQuestion()}
                 <span className="question-accept">
-                    <button className="btn btn-outline-primary" onClick={this.handleOnAcceptClick} type="button">Accept</button>
+                    <button
+                        className="btn btn-outline-primary"
+                        disabled={this.state.isAcceptButtonEnabled}
+                        onClick={this.handleOnAcceptClick}
+                        type="button"
+                        >
+                        Accept
+                    </button>
                 </span>
             </div>
         );

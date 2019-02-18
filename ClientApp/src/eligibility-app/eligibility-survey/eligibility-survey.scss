@@ -5,6 +5,7 @@
     margin: 15px;
 
     .question {
+        width: 512px;
         margin: 5px;
         display: flex;
         flex-direction: column;
@@ -12,7 +13,7 @@
     }
 
     .form-check {
-        margin: 5px;
+        margin: 5px 5px 5px 30px;
     }
 
     .text {
@@ -26,6 +27,7 @@
     .navigation-buttons {
         display: flex;
         justify-content: center;
+        align-items: center;
     }
 
     .question-back, .question-next {

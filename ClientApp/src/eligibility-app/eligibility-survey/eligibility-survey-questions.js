@@ -1,32 +1,4 @@
 export default [{
-    id: 'e_demo1',
-    text: 'demographic question 1',
-    type: 'radio',
-    answers: [{
-        id: 'answer1',
-        text: 'answer 1'
-    }, {
-        id: 'answer2',
-        text: 'answer 2'
-    }, {
-        id: 'answer3',
-        text: 'answer 3'
-    }]
-}, {
-    id: 'e_demo2',
-    text: 'demographic question 2',
-    type: 'radio',
-    answers: [{
-        id: 'answer1',
-        text: 'answer 1'
-    }, {
-        id: 'answer2',
-        text: 'answer 2'
-    }, {
-        id: 'answer3',
-        text: 'answer 3'
-    }]
-}, {
     id: 'e_alcohol',
     text: 'Do you drink alcohol?',
     type: 'radio',
@@ -40,17 +12,6 @@ export default [{
 }, {
     id: 'e_chocolate',
     text: 'Do you enjoy chocolate?',
-    type: 'radio',
-    answers: [{
-        id: 'yes',
-        text: 'yes'
-    }, {
-        id: 'no',
-        text: 'no'
-    }]
-}, {
-    id: 'e_tobacco',
-    text: 'Do you use tobacco products?',
     type: 'radio',
     answers: [{
         id: 'yes',
@@ -82,8 +43,8 @@ export default [{
         text: 'no'
     }]
 }, {
-    id: 'e_cookies',
-    text: 'Do you enjoy cookies?',
+    id: 'e_donuts',
+    text: 'Do you enjoy donuts?',
     type: 'radio',
     answers: [{
         id: 'yes',
@@ -137,17 +98,6 @@ export default [{
         text: 'no'
     }]
 }, {
-    id: 'e_icecream',
-    text: 'Do you like ice cream?',
-    type: 'radio',
-    answers: [{
-        id: 'yes',
-        text: 'yes'
-    }, {
-        id: 'no',
-        text: 'no'
-    }]
-}, {
     id: 'e_methamphetamine',
     text: 'Have you tried methamphetamines?',
     type: 'radio',
@@ -172,6 +122,28 @@ export default [{
 }, {
     id: 'e_pills',
     text: 'Do you like pills?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_pizza',
+    text: 'Do you like pizza?',
+    type: 'radio',
+    answers: [{
+        id: 'yes',
+        text: 'yes'
+    }, {
+        id: 'no',
+        text: 'no'
+    }]
+}, {
+    id: 'e_tobacco',
+    text: 'Do you use tobacco products?',
     type: 'radio',
     answers: [{
         id: 'yes',

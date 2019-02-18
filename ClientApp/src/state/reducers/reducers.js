@@ -41,9 +41,10 @@ function reducer(state = initialState, action) {
                 draft.isSavingEligibilityEndTime = action.isSaving;
                 break;
             case Actions.END_ELIGIBILITY_SURVEY_SAVED:
-                draft.isSavingEligibilityENDTime = false;
-                draft.errorSavingEligibilityENDTime = false;
-                draft.eligibilityENDTime = new Date(action.eligibilityENDTime);
+                draft.isSavingEligibilityEndTime = false;
+                draft.errorSavingEligibilityEndTime = false;
+                draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
+                draft.eligibilityCompletionCode = action.eligibilityCompletionCode;
                 break;
 
             case Actions.CONSENT_ACCEPT:

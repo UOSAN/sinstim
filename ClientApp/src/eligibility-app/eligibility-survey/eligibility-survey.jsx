@@ -84,9 +84,9 @@ export default class EligibilitySurvey extends React.Component {
         const { text, type, answers } = this.state.questions[this.state.currentQuestionIndex];
 
         return (
-            <div className="question">
-                <span className="text">{text}</span>
-                <div className="form-check">
+            <div className="question card">
+                <span className="text card-header">{text}</span>
+                <div className="form-check card-body">
                     {answers.map((answer) => {
                         return (
                             <div className="answer" key={answer.id} >
@@ -106,6 +106,19 @@ export default class EligibilitySurvey extends React.Component {
                         );
                     })}
                 </div>
+            </div>
+        );
+    }
+
+    renderQuestionTracker() {
+        const { currentQuestionIndex } = this.state;
+        const { length: totalQuestions } = this.state.questions;
+
+        return (
+            <div className="question-tracker">
+                <span className="badge badge-pill badge-primary">
+                    Question {currentQuestionIndex + 1} of {totalQuestions}
+                </span>
             </div>
         );
     }
@@ -131,6 +144,7 @@ export default class EligibilitySurvey extends React.Component {
                             Back
                         </button>
                     </span>
+                    {this.renderQuestionTracker()}
                     <span className="question-next">
                         <button
                             className="btn btn-outline-primary"

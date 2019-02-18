@@ -90,10 +90,11 @@ const endEligibilitySurveySaving = (bool) => {
     };
 };
 
-const endEligibilitySurveySaved = (eligibilityEndTime) => {
+const endEligibilitySurveySaved = ({ eligibilityEndTime, eligibilityCompletionCode }) => {
     return {
         type: actions.END_ELIGIBILITY_SURVEY_SAVED,
-        eligibilityEndTime
+        eligibilityEndTime,
+        eligibilityCompletionCode
     };
 };
 
@@ -108,7 +109,7 @@ export const onEndEligibilitySurvey = () => {
         return superAgent.post('/api/Eligibility/End')
             .set('Content-Type', 'application/json')
             .send(endEligibilitySurveyBody)
-            .then((response) => dispatch(endEligibilitySurveySaved(response.body.eligibilityendTime)))
+            .then((response) => dispatch(endEligibilitySurveySaved(response.body)))
             .catch(() => dispatch(endEligibilitySurveyErrored(true)));
     };
 };

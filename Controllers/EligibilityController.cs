@@ -25,8 +25,7 @@ namespace SinStim.Controllers {
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
-            if (!successful)
-            {
+            if (!successful) {
                 return BadRequest("Failed to update eligibility start time.");
             }
             var response = new JObject();
@@ -43,13 +42,42 @@ namespace SinStim.Controllers {
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
-            if (!successful)
-            {
+            if (!successful) {
                 return BadRequest("Failed to update eligibility end time.");
             }
             var response = new JObject();
             response.Add("eligibilityEndTime", userToUpdate.EligibilityEndTime);
+            response.Add("eligibilityCompletionCode", userToUpdate.EligibilityCompletionCode);
             return Ok(response);
         }
+
+        [HttpPost("Answer")]
+        [ProducesResponseType(200, Type = typeof(DateTimeOffset))]
+        public async Task<IActionResult> SubmitAnswers([FromBody] JObject userJson) {
+            var userId = userJson.GetValue("id").Value<string>();
+            User userToUpdate = await context.FindAsync<User>(userId);
+
+            var successful = await userService.UpdateAsync(userToUpdate);
+            if (!successful) {
+                return BadRequest();
+            }
+            var response = new JObject();
+            response.Add("eligibilityEndTime", userToUpdate.EligibilityEndTime);
+
+            return Ok(response);
+        }
+
+        // [HttpGet("Completion/{id}")]
+        // [ProducesResponseType(200, Type = typeof(Guid))]
+        // public async Task<IActionResult> GetCompletionCode(string id) {
+        //     User userToUpdate = await context.FindAsync<User>(id);
+
+        //     if (userToUpdate == null) {
+        //         return NotFound();
+        //     }
+        //     var response = new JObject();
+        //     response.Add("eligibilityCompletionCode", userToUpdate.EligibilityCompletionCode);
+        //     return Ok(response);
+        // }
     }
 }

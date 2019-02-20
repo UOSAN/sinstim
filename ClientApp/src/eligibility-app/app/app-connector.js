@@ -5,10 +5,11 @@ import {
 
 const mapStateToProps = (state) => {
     return {
-        isConsented: state.isConsented,
+        eligibilityEndTime: state.eligibilityEndTime,
         eligibilityStartTime: state.eligibilityStartTime,
         errorSavingUser: state.errorSavingUser,
-        id: state.id
+        id: state.id,
+        isConsented: state.isConsented
     };
 };
 

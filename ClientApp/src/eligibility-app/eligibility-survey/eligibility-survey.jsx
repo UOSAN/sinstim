@@ -10,7 +10,6 @@ import './eligibility-survey.scss';
 
 export default class EligibilitySurvey extends React.Component {
     static propTypes = {
-        eligibilityCompletionCode: PropTypes.string.isRequired,
         onEndEligibilitySurvey: PropTypes.func.isRequired,
         onSubmitEligibilitySurveyAnswer: PropTypes.func.isRequired
     };
@@ -20,7 +19,6 @@ export default class EligibilitySurvey extends React.Component {
 
         this.state = {
             currentQuestionIndex: 0,
-            isSurveyOver: false,
             questions: _cloneDeep(QUESTIONS)
         };
     }
@@ -36,11 +34,6 @@ export default class EligibilitySurvey extends React.Component {
 
         if (nextQuestionIndex >= questions.length) {
             await onEndEligibilitySurvey();
-            this.setState(() => {
-                return {
-                    isSurveyOver: true
-                };
-            });
         } else {
             this.setState(() => {
                 return {
@@ -111,14 +104,6 @@ export default class EligibilitySurvey extends React.Component {
         );
     }
 
-    renderEnd() {
-        return (
-            <div className="survey-code">
-                <span>Survey Code: {this.props.eligibilityCompletionCode}</span>
-            </div>
-        );
-    }
-
     renderQuestionTracker() {
         const { currentQuestionIndex } = this.state;
         const { length: totalQuestions } = this.state.questions;
@@ -132,12 +117,12 @@ export default class EligibilitySurvey extends React.Component {
         );
     }
 
-    renderSurvey() {
+    render() {
         const isNextButtonDisabled = this.isNextButtonDisabled();
         const isBackButtonDisabled = this.isBackButtonDisabled();
 
         return (
-            <>
+            <div className="eligibility-survey">
                 {this.renderQuestion()}
                 <div className="navigation-buttons">
                     <span className="question-back">
@@ -162,20 +147,6 @@ export default class EligibilitySurvey extends React.Component {
                         </button>
                     </span>
                 </div>
-            </>
-        );
-    }
-
-    render() {
-        let contentToRender = this.renderSurvey();
-
-        if (this.state.isSurveyOver) {
-            contentToRender = this.renderEnd();
-        }
-
-        return (
-            <div className="eligibility-survey">
-                {contentToRender}
             </div>
         );
     }

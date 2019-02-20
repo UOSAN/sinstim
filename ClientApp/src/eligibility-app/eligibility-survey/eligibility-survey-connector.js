@@ -6,9 +6,7 @@ import {
 
 const mapStateToProps = (state) => {
     return {
-        // isConsented: state.isConsented,
-        // errorSavingUser: state.errorSavingUser,
-        // id: state.id
+        eligibilityCompletionCode: state.eligibilityCompletionCode
     };
 };
 
@@ -21,6 +19,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 );

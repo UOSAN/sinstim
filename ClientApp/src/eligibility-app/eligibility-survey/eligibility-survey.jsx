@@ -10,6 +10,7 @@ import './eligibility-survey.scss';
 
 export default class EligibilitySurvey extends React.Component {
     static propTypes = {
+        eligibilityCompletionCode: PropTypes.string.isRequired,
         onEndEligibilitySurvey: PropTypes.func.isRequired,
         onSubmitEligibilitySurveyAnswer: PropTypes.func.isRequired
     };
@@ -110,6 +111,14 @@ export default class EligibilitySurvey extends React.Component {
         );
     }
 
+    renderEnd() {
+        return (
+            <div className="survey-code">
+                <span>Survey Code: {this.props.eligibilityCompletionCode}</span>
+            </div>
+        );
+    }
+
     renderQuestionTracker() {
         const { currentQuestionIndex } = this.state;
         const { length: totalQuestions } = this.state.questions;
@@ -123,15 +132,12 @@ export default class EligibilitySurvey extends React.Component {
         );
     }
 
-    render() {
+    renderSurvey() {
         const isNextButtonDisabled = this.isNextButtonDisabled();
         const isBackButtonDisabled = this.isBackButtonDisabled();
 
-        if (this.state.isSurveyOver) {
-            return (<div>The End</div>);
-        }
         return (
-            <div className="eligibility-survey">
+            <>
                 {this.renderQuestion()}
                 <div className="navigation-buttons">
                     <span className="question-back">
@@ -156,6 +162,20 @@ export default class EligibilitySurvey extends React.Component {
                         </button>
                     </span>
                 </div>
+            </>
+        );
+    }
+
+    render() {
+        let contentToRender = this.renderSurvey();
+
+        if (this.state.isSurveyOver) {
+            contentToRender = this.renderEnd();
+        }
+
+        return (
+            <div className="eligibility-survey">
+                {contentToRender}
             </div>
         );
     }

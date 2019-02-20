@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys */
-import superAgent from 'superagent';
+import axios from 'axios';
 
 import actions from './actions';
 
@@ -30,9 +30,7 @@ export const onSaveUser = (id) => {
 
         const saveUserBody = { id };
 
-        return superAgent.post('/api/User/Save')
-            .set('Content-Type', 'application/json')
-            .send(saveUserBody)
+        return axios.post('/api/User/Save', saveUserBody)
             .then(() => dispatch(newUserSaved(id)))
             .catch(() => dispatch(newUserErrored(true)));
     };
@@ -68,10 +66,8 @@ export const onStartEligibilitySurvey = () => {
 
         const startEligibilitySurveyBody = { id };
 
-        return superAgent.post('/api/Eligibility/Start')
-            .set('Content-Type', 'application/json')
-            .send(startEligibilitySurveyBody)
-            .then((response) => dispatch(startEligibilitySurveySaved(response.body.eligibilityStartTime)))
+        return axios.post('/api/Eligibility/Start', startEligibilitySurveyBody)
+            .then((response) => dispatch(startEligibilitySurveySaved(response.data.eligibilityStartTime)))
             .catch(() => dispatch(startEligibilitySurveyErrored(true)));
     };
 };
@@ -106,10 +102,8 @@ export const onEndEligibilitySurvey = () => {
 
         const endEligibilitySurveyBody = { id };
 
-        return superAgent.post('/api/Eligibility/End')
-            .set('Content-Type', 'application/json')
-            .send(endEligibilitySurveyBody)
-            .then((response) => dispatch(endEligibilitySurveySaved(response.body)))
+        return axios.post('/api/Eligibility/End', endEligibilitySurveyBody)
+            .then((response) => dispatch(endEligibilitySurveySaved(response.data)))
             .catch(() => dispatch(endEligibilitySurveyErrored(true)));
     };
 };
@@ -122,10 +116,8 @@ export const onEndEligibilitySurvey = () => {
 
 //         const endEligibilitySurveyBody = { id };
 
-//         return superAgent.post('/api/Eligibility/Answer')
-//             .set('Content-Type', 'application/json')
-//             .send(endEligibilitySurveyBody)
-//             .then((response) => dispatch(eligibilitySurveyAnswerSaved(response.body.eligibilityendTime)))
+//         return axios.post('/api/Eligibility/Answer', endEligibilitySurveyBody)
+//             .then((response) => dispatch(eligibilitySurveyAnswerSaved(response.data.eligibilityendTime)))
 //             .catch(() => dispatch(eligibilitySurveyAnswerErrored(true)));
 //     };
 // };

@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     width: 768px;
-    margin: 15px;
 
     .question {
         width: 512px;
@@ -22,6 +21,10 @@
 
     .answer {
         margin-top: 15px;
+
+        .form-check-label, input[type="radio"] {
+            cursor: pointer;
+        }
     }
 
     .navigation-buttons {
@@ -32,9 +35,5 @@
 
     .question-back, .question-next {
         margin: 15px;
-    }
-
-    .survey-code {
-        align-self: center;
     }
 }

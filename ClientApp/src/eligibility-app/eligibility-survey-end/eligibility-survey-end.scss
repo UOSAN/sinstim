@@ -1,5 +1,15 @@
 .survey-end {
-    .survey-code {
-        align-self: center;
+    display: flex;
+    flex-direction: column;
+
+    h4 {
+        display: flex;
+        justify-content: center;
+    }
+
+    .copy-code-button {
+        margin-top: 25px;
+        display: flex;
+        justify-content: center;
     }
 }

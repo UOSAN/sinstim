@@ -5,6 +5,8 @@ import placeHolderText from './consent-text';
 import './consent.scss';
 
 const Consent = (props) => {
+    const { isConsented, onConsentAccept, onConsentDecline } = props;
+
     function renderDeclinedConsent() {
         const declinedConsentMessage = 'Thank you. Please go back to mTurk and decline this HIT.';
 
@@ -16,13 +18,14 @@ const Consent = (props) => {
     function renderConsent() {
         return (
             <>
-                <div className="consent-text">{placeHolderText}</div>
+                <div className="consent-header card-header text-center">Consent</div>
+                <div className="consent-text card-body">{placeHolderText}</div>
                 <div className="consent-buttons">
                     <span className="consent-decline">
-                        <button className="btn btn-outline-secondary" onClick={props.onConsentDecline} type="button">Decline</button>
+                        <button className="btn btn-outline-secondary" onClick={onConsentDecline} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
-                        <button className="btn btn-outline-primary" onClick={props.onConsentAccept} type="button">Accept</button>
+                        <button className="btn btn-outline-primary" onClick={onConsentAccept} type="button">Accept</button>
                     </span>
                 </div>
             </>
@@ -30,8 +33,8 @@ const Consent = (props) => {
     }
 
     return (
-        <div className="consent">
-            {props.isConsented === false ? renderDeclinedConsent() : renderConsent()}
+        <div className="consent card">
+            {isConsented === false ? renderDeclinedConsent() : renderConsent()}
         </div>
     );
 };

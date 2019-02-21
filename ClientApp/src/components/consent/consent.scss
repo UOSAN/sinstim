@@ -1,15 +1,17 @@
 .consent {
-    padding-top: 15px;
-    display: flex;
-    flex-direction: column;
     width: 768px;
+
+    .consent-text {
+        overflow-y: auto;
+        max-height: 350px;
+    }
 
     .consent-declined-text, .consent-text {
         align-self: center;
     }
 
     .consent-buttons {
-        padding: 5px;
+        padding: 15px;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;

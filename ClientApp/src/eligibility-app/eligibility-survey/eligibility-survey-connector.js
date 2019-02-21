@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import {
-    onEndEligibilitySurvey,
-    // onSubmitEligibilitySurveyAnswer
+    onEndEligibilitySurvey
 } from '../../state/actions/eligibility-action-creators';
 
 const mapStateToProps = (state) => {
@@ -12,9 +11,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onEndEligibilitySurvey: () => dispatch(onEndEligibilitySurvey()),
-        onSubmitEligibilitySurveyAnswer: () => {}
-        // onSubmitEligibilitySurveyAnswer: () => dispatch(onSubmitEligibilitySurveyAnswer())
+        onEndEligibilitySurvey: (answers) => dispatch(onEndEligibilitySurvey(answers))
     };
 };
 

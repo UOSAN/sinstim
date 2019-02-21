@@ -107,17 +107,3 @@ export const onEndEligibilitySurvey = () => {
             .catch(() => dispatch(endEligibilitySurveyErrored(true)));
     };
 };
-
-// export const onSubmitEligibilitySurveyAnswer = () => {
-//     return (dispatch, getState) => {
-//         const { id } = getState();
-
-//         dispatch(eligibilitySurveyAnswerSaving(true));
-
-//         const endEligibilitySurveyBody = { id };
-
-//         return axios.post('/api/Eligibility/Answer', endEligibilitySurveyBody)
-//             .then((response) => dispatch(eligibilitySurveyAnswerSaved(response.data.eligibilityendTime)))
-//             .catch(() => dispatch(eligibilitySurveyAnswerErrored(true)));
-//     };
-// };

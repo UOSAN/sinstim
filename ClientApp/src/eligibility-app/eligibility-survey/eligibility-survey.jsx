@@ -10,8 +10,7 @@ import './eligibility-survey.scss';
 
 export default class EligibilitySurvey extends React.Component {
     static propTypes = {
-        onEndEligibilitySurvey: PropTypes.func.isRequired,
-        onSubmitEligibilitySurveyAnswer: PropTypes.func.isRequired
+        onEndEligibilitySurvey: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -24,16 +23,13 @@ export default class EligibilitySurvey extends React.Component {
     }
 
     handleOnNextClick = async () => {
-        const { selectedAnswer, questions } = this.state;
-        const { id: questionId } = questions[this.state.currentQuestionIndex];
-        const { onEndEligibilitySurvey, onSubmitEligibilitySurveyAnswer } = this.props;
-
-        await onSubmitEligibilitySurveyAnswer({ questionId, selectedAnswer });
+        const { questions } = this.state;
+        const { onEndEligibilitySurvey } = this.props;
 
         const nextQuestionIndex = this.state.currentQuestionIndex + 1;
 
         if (nextQuestionIndex >= questions.length) {
-            await onEndEligibilitySurvey();
+            await onEndEligibilitySurvey(); // submit answers object of answerIds and questionIds?
         } else {
             this.setState(() => {
                 return {
@@ -81,7 +77,7 @@ export default class EligibilitySurvey extends React.Component {
             <div className="question card">
                 <span className="text card-header">{text}</span>
                 <div className="form-check card-body">
-                    {answers.map((answer) => {
+                    {answers.map((answer) => { // TODO: answer id is (yes or no) this should be the value i think
                         return (
                             <div className="answer" key={answer.id} >
                                 <input

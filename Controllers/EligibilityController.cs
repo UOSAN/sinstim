@@ -35,7 +35,7 @@ namespace SinStim.Controllers {
 
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(DateTimeOffset))]
-        public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
+        public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) { // TODO: start saving answers
             var userId = userJson.GetValue("id").Value<string>();
 
             User userToUpdate = await context.FindAsync<User>(userId);
@@ -50,34 +50,5 @@ namespace SinStim.Controllers {
             response.Add("eligibilityCompletionCode", userToUpdate.EligibilityCompletionCode);
             return Ok(response);
         }
-
-        [HttpPost("Answer")]
-        [ProducesResponseType(200, Type = typeof(DateTimeOffset))]
-        public async Task<IActionResult> SubmitAnswers([FromBody] JObject userJson) {
-            var userId = userJson.GetValue("id").Value<string>();
-            User userToUpdate = await context.FindAsync<User>(userId);
-
-            var successful = await userService.UpdateAsync(userToUpdate);
-            if (!successful) {
-                return BadRequest();
-            }
-            var response = new JObject();
-            response.Add("eligibilityEndTime", userToUpdate.EligibilityEndTime);
-
-            return Ok(response);
-        }
-
-        // [HttpGet("Completion/{id}")]
-        // [ProducesResponseType(200, Type = typeof(Guid))]
-        // public async Task<IActionResult> GetCompletionCode(string id) {
-        //     User userToUpdate = await context.FindAsync<User>(id);
-
-        //     if (userToUpdate == null) {
-        //         return NotFound();
-        //     }
-        //     var response = new JObject();
-        //     response.Add("eligibilityCompletionCode", userToUpdate.EligibilityCompletionCode);
-        //     return Ok(response);
-        // }
     }
 }

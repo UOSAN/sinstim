@@ -10,7 +10,7 @@ namespace SinStim.Services {
         }
 
         public async Task<bool> SaveAsync(string id, bool isRejected, Guid eligibilityCompletionCode) {
-            User newUser = new User();
+            var newUser = new User();
             newUser.Id = id;
             newUser.IsRejected = isRejected;
             newUser.EligibilityCompletionCode = eligibilityCompletionCode;
@@ -33,7 +33,7 @@ namespace SinStim.Services {
             } catch(Exception e) {
                 System.Diagnostics.Debug.WriteLine(e);
             }
-            return saveResult == 1;
+            return saveResult >= 1;
         }
     }
 }

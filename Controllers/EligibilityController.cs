@@ -19,9 +19,7 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            var userId = userJson.GetValue("id").Value<string>();
-
-            User userToUpdate = await context.FindAsync<User>(userId);
+            var userToUpdate = await getUserToUpdate(userJson);
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
@@ -29,26 +27,54 @@ namespace SinStim.Controllers {
                 return BadRequest("Failed to update eligibility start time.");
             }
             var response = new JObject();
-            response.Add("eligibilityStartTime", userToUpdate.EligibilityStartTime);
+            response.Add(CONSTANTS.USER.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
             return Ok(response);
         }
 
         [HttpPost("End")]
-        [ProducesResponseType(200, Type = typeof(DateTimeOffset))]
-        public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) { // TODO: start saving answers
-            var userId = userJson.GetValue("id").Value<string>();
-
-            User userToUpdate = await context.FindAsync<User>(userId);
+        [ProducesResponseType(200, Type = typeof(JObject))]
+        public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
+            var userToUpdate = await getUserToUpdate(userJson);
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
+            var eligibility = getEligibility(userJson);
+            userToUpdate.Eligibilities.Add(eligibility);
 
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful) {
                 return BadRequest("Failed to update eligibility end time.");
             }
             var response = new JObject();
-            response.Add("eligibilityEndTime", userToUpdate.EligibilityEndTime);
-            response.Add("eligibilityCompletionCode", userToUpdate.EligibilityCompletionCode);
+            response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
+            response.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
             return Ok(response);
+        }
+
+        private async Task<User> getUserToUpdate(JObject requestBody) {
+            var userId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
+            return await context.FindAsync<User>(userId);
+        }
+
+        private Eligibility getEligibility(JObject requestBody) {
+            var eligibility = new Eligibility();
+            eligibility.Id = Guid.NewGuid();
+            eligibility.UserId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
+
+            var answers = requestBody.GetValue(CONSTANTS.ELIGIBILITY.ANSWERS).Value<JObject>();
+            eligibility.Alcohol = answers.GetValue(CONSTANTS.ELIGIBILITY.ALCOHOL).Value<bool?>();
+            eligibility.Chocolate = answers.GetValue(CONSTANTS.ELIGIBILITY.CHOCOLATE).Value<bool?>();
+            eligibility.Cocaine = answers.GetValue(CONSTANTS.ELIGIBILITY.COCAINE).Value<bool?>();
+            eligibility.Cookies = answers.GetValue(CONSTANTS.ELIGIBILITY.COOKIES).Value<bool?>();
+            eligibility.Donuts = answers.GetValue(CONSTANTS.ELIGIBILITY.DONUTS).Value<bool?>();
+            eligibility.Fries = answers.GetValue(CONSTANTS.ELIGIBILITY.FRIES).Value<bool?>();
+            eligibility.Heroin = answers.GetValue(CONSTANTS.ELIGIBILITY.HEROIN).Value<bool?>();
+            eligibility.IceCream = answers.GetValue(CONSTANTS.ELIGIBILITY.ICECREAM).Value<bool?>();
+            eligibility.Marijuana = answers.GetValue(CONSTANTS.ELIGIBILITY.MARIJUANA).Value<bool?>();
+            eligibility.Methamphetamine = answers.GetValue(CONSTANTS.ELIGIBILITY.METHAMPHETAMINE).Value<bool?>();
+            eligibility.Pasta = answers.GetValue(CONSTANTS.ELIGIBILITY.PASTA).Value<bool?>();
+            eligibility.Pills = answers.GetValue(CONSTANTS.ELIGIBILITY.PILLS).Value<bool?>();
+            eligibility.Pizza = answers.GetValue(CONSTANTS.ELIGIBILITY.PIZZA).Value<bool?>();
+            eligibility.Tobacco = answers.GetValue(CONSTANTS.ELIGIBILITY.TOBACCO).Value<bool?>();
+            return eligibility;
         }
     }
 }

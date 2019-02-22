@@ -94,13 +94,16 @@ const endEligibilitySurveySaved = ({ eligibilityEndTime, eligibilityCompletionCo
     };
 };
 
-export const onEndEligibilitySurvey = () => {
+export const onEndEligibilitySurvey = (answers) => {
     return (dispatch, getState) => {
         const { id } = getState();
 
         dispatch(endEligibilitySurveySaving(true));
 
-        const endEligibilitySurveyBody = { id };
+        const endEligibilitySurveyBody = {
+            id,
+            answers
+        };
 
         return axios.post('/api/Eligibility/End', endEligibilitySurveyBody)
             .then((response) => dispatch(endEligibilitySurveySaved(response.data)))

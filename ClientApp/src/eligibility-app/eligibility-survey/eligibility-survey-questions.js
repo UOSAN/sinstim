@@ -4,9 +4,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -15,9 +17,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -26,9 +30,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -37,9 +43,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -48,9 +56,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -59,9 +69,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -70,9 +82,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -81,9 +95,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -92,9 +108,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -103,9 +121,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -114,9 +134,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -125,9 +147,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -136,9 +160,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }, {
@@ -147,9 +173,11 @@ export default [{
     type: 'radio',
     answers: [{
         id: 'yes',
+        value: true,
         text: 'yes'
     }, {
         id: 'no',
+        value: false,
         text: 'no'
     }]
 }];

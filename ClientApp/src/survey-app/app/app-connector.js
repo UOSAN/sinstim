@@ -1,18 +1,24 @@
 import { connect } from 'react-redux';
 import {
-    onSaveUser
+    onStartSurvey
 } from '../../state/actions/common-action-creators';
 
 const mapStateToProps = (state) => {
-    // return {
-    //     isConsented: state.isConsented
-    // };
+    return {
+        eligibilityEndTime: state.eligibilityEndTime,
+        eligibilityStartTime: state.eligibilityStartTime,
+        errorStartingSurvey: state.errorStartingSurvey,
+        id: state.id,
+        isConsented: state.isConsented,
+        surveyEndTime: state.surveyEndTime,
+        surveyStartTime: state.surveyStartTime,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    // return {
-    //     onSaveUser: (id) => dispatch(onSaveUser(id)),
-    // };
+    return {
+        onStartSurvey: (id) => dispatch(onStartSurvey(id)),
+    };
 };
 
 export default connect(

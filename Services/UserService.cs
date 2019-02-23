@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using SinStim.Controllers;
 using SinStim.Models;
 
 namespace SinStim.Services {
@@ -34,6 +36,11 @@ namespace SinStim.Services {
                 System.Diagnostics.Debug.WriteLine(e);
             }
             return saveResult >= 1;
+        }
+
+        public async Task<User> GetUserToUpdate(JObject requestBody) {
+            var userId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
+            return await context.FindAsync<User>(userId);
         }
     }
 }

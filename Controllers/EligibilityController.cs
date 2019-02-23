@@ -9,17 +9,20 @@ namespace SinStim.Controllers {
     [Route("api/[controller]")]
     public class EligibilityController : Controller {
 
-        private readonly IUserService userService;
         private readonly SinStimContext context;
-        public EligibilityController(IUserService userService, SinStimContext context) {
-            this.userService = userService;
+        private readonly IUserService userService;
+
+        public EligibilityController(SinStimContext context, IUserService userService) {
             this.context = context;
+            this.userService = userService;
         }
 
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            var userToUpdate = await getUserToUpdate(userJson);
+            var userToUpdate = await userService.GetUserToUpdate(userJson);
+            if(userToUpdate == null) { return StatusCode(401); }
+
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
@@ -34,7 +37,9 @@ namespace SinStim.Controllers {
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
-            var userToUpdate = await getUserToUpdate(userJson);
+            var userToUpdate = await userService.GetUserToUpdate(userJson);
+            if(userToUpdate == null || userToUpdate.EligibilityStartTime == null) { return StatusCode(401); }
+
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
             var eligibility = getEligibility(userJson);
             userToUpdate.Eligibilities.Add(eligibility);
@@ -47,11 +52,6 @@ namespace SinStim.Controllers {
             response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
             response.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
             return Ok(response);
-        }
-
-        private async Task<User> getUserToUpdate(JObject requestBody) {
-            var userId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
-            return await context.FindAsync<User>(userId);
         }
 
         private Eligibility getEligibility(JObject requestBody) {

@@ -11,8 +11,7 @@ namespace SinStim.Controllers {
 
         private readonly IUserService userService;
 
-        public UserController(IUserService userService)
-        {
+        public UserController(IUserService userService) {
             this.userService = userService;
         }
 
@@ -21,8 +20,7 @@ namespace SinStim.Controllers {
             var newUserId = newUser.GetValue(CONSTANTS.USER.ID).Value<string>();
             var eligibilityCompletionCode = Guid.NewGuid();
             var successful = await userService.SaveAsync(newUserId, false, eligibilityCompletionCode);
-            if (!successful)
-            {
+            if (!successful) {
                 return BadRequest("Failed to save user.");
             }
             return Ok();

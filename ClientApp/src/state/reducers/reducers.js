@@ -54,6 +54,20 @@ function reducer(state = initialState, action) {
                 draft.isConsented = false;
                 break;
 
+            case Actions.GET_USER_ERRORED:
+                draft.isGettingUser = false;
+                draft.errorGettingUser = action.hasErrored;
+                break;
+            case Actions.GET_USER_IN_PROGRESS:
+                draft.isGettingUser = action.isSaving;
+                break;
+            case Actions.GET_USER_COMPLETE:
+                draft.isGettingUser = false;
+                draft.errorGettingUser = false;
+                draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
+                draft.eligibilityStartTime = new Date(action.eligibilityStartTime);
+                break;
+
             default:
                 return draft;
         }

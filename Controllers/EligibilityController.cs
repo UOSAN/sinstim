@@ -9,18 +9,16 @@ namespace SinStim.Controllers {
     [Route("api/[controller]")]
     public class EligibilityController : Controller {
 
-        private readonly SinStimContext context;
         private readonly IUserService userService;
 
-        public EligibilityController(SinStimContext context, IUserService userService) {
-            this.context = context;
+        public EligibilityController(IUserService userService) {
             this.userService = userService;
         }
 
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            var userToUpdate = await userService.GetUserToUpdate(userJson);
+            var userToUpdate = await userService.GetUser(userJson);
             if(userToUpdate == null) { return StatusCode(401); }
 
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
@@ -37,7 +35,7 @@ namespace SinStim.Controllers {
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
-            var userToUpdate = await userService.GetUserToUpdate(userJson);
+            var userToUpdate = await userService.GetUser(userJson);
             if(userToUpdate == null || userToUpdate.EligibilityStartTime == null) { return StatusCode(401); }
 
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);

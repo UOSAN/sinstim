@@ -1,11 +1,12 @@
-import './index.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
+
+import './index.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import sinStimReducers from '../state/reducers/reducers';
 import App from './app';

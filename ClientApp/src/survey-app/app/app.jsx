@@ -16,7 +16,7 @@ export default class App extends React.Component {
         errorStartingSurvey: PropTypes.bool,
         id: PropTypes.string,
         isConsented: PropTypes.bool,
-        onStartSurvey: PropTypes.func.isRequired,
+        onGetUser: PropTypes.func.isRequired,
         surveyEndTime: PropTypes.instanceOf(Date),
         surveyStartTime: PropTypes.instanceOf(Date),
     };
@@ -26,7 +26,7 @@ export default class App extends React.Component {
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
 
-        this.props.onStartSurvey(mTurkId).then(() => {
+        this.props.onGetUser(mTurkId).then(() => {
             if (this.props.errorStartingSurvey) {
                 toast.error('Error starting survey', {
                     position: toast.POSITION.BOTTOM_LEFT

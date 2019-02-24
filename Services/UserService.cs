@@ -38,8 +38,12 @@ namespace SinStim.Services {
             return saveResult >= 1;
         }
 
-        public async Task<User> GetUserToUpdate(JObject requestBody) {
+        public async Task<User> GetUser(JObject requestBody) {
             var userId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
+            return await GetUser(userId);
+        }
+
+        public async Task<User> GetUser(string userId) {
             return await context.FindAsync<User>(userId);
         }
     }

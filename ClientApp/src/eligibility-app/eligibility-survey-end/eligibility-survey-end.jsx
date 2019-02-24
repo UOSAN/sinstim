@@ -39,7 +39,7 @@ export default class EligibilitySurveyEnd extends React.Component {
                     onClick={this.handleOnNextClick}
                     type="button"
                     >
-                    Copy
+                    Copy code to clipboard
                 </button>
             );
         }

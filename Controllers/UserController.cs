@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SinStim.Models;
@@ -24,6 +25,20 @@ namespace SinStim.Controllers {
                 return BadRequest("Failed to save user.");
             }
             return Ok();
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUser(string id) {
+            var user = await userService.GetUser(id);
+            if (user == null) {
+                return StatusCode(404);
+            }
+            var response = new JObject();
+            response.Add(CONSTANTS.USER.ID, user.Id);
+            response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, user.EligibilityEndTime);
+            response.Add(CONSTANTS.USER.ELIGIBILITY_START_TIME, user.EligibilityStartTime);
+            return Ok(response);
         }
     }
 }

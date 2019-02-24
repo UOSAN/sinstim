@@ -20,7 +20,7 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartPictureSurvey([FromBody] JObject userJson) {
-            var userToUpdate = await userService.GetUserToUpdate(userJson);
+            var userToUpdate = await userService.GetUser(userJson);
             if(!IsAllowToStartSurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);

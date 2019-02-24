@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import {
-    onStartSurvey
-} from '../../state/actions/common-action-creators';
+    onGetUser
+} from '../../state/actions/survey-action-creators';
 
 const mapStateToProps = (state) => {
     return {
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onStartSurvey: (id) => dispatch(onStartSurvey(id)),
+        onGetUser: (id) => dispatch(onGetUser(id))
     };
 };
 

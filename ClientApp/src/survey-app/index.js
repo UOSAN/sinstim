@@ -9,7 +9,7 @@ import './index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import sinStimReducers from '../state/reducers/reducers';
-import App from './app/app';
+import App from './app';
 
 const logger = createLogger();
 const store = createStore(

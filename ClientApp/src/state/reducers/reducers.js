@@ -47,6 +47,10 @@ function reducer(state = initialState, action) {
                 draft.eligibilityCompletionCode = action.eligibilityCompletionCode;
                 break;
 
+            case Actions.SET_CONSENT_TEXT:
+                draft.consentText = action.consentText;
+                break;
+
             case Actions.CONSENT_ACCEPT:
                 draft.isConsented = true;
                 break;
@@ -66,6 +70,7 @@ function reducer(state = initialState, action) {
                 draft.errorGettingUser = false;
                 draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
                 draft.eligibilityStartTime = new Date(action.eligibilityStartTime);
+                draft.id = action.id;
                 break;
 
             default:

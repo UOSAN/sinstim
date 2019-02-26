@@ -16,3 +16,12 @@ export const onConsentDecline = () => {
         });
     };
 };
+
+export const setConsentText = (consentText) => {
+    return (dispatch) => {
+        dispatch({
+            type: actions.SET_CONSENT_TEXT,
+            consentText
+        });
+    };
+};

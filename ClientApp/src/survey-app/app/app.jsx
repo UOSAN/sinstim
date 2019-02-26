@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 import Consent from '../../components/consent';
+import consentText from '../consent-text';
 
 import './app.scss';
 
@@ -17,6 +18,7 @@ export default class App extends React.Component {
         id: PropTypes.string,
         isConsented: PropTypes.bool,
         onGetUser: PropTypes.func.isRequired,
+        setConsentText: PropTypes.func.isRequired,
         surveyEndTime: PropTypes.instanceOf(Date),
         surveyStartTime: PropTypes.instanceOf(Date),
     };
@@ -25,6 +27,8 @@ export default class App extends React.Component {
 
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
+
+        this.props.setConsentText(consentText);
 
         this.props.onGetUser(mTurkId).then(() => {
             if (this.props.errorStartingSurvey) {

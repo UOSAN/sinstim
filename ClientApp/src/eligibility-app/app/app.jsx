@@ -9,6 +9,7 @@ import Consent from '../../components/consent';
 import Instructions from '../eligibility-instructions';
 import EligibilitySurvey from '../eligibility-survey';
 import EligibilitySurveyEnd from '../eligibility-survey-end';
+import consentText from '../consent-text';
 
 import './app.scss';
 
@@ -19,7 +20,8 @@ export default class App extends React.Component {
         errorSavingUser: PropTypes.bool,
         id: PropTypes.string,
         isConsented: PropTypes.bool,
-        onSaveUser: PropTypes.func.isRequired
+        onSaveUser: PropTypes.func.isRequired,
+        setConsentText: PropTypes.func.isRequired
     };
 
     state = {
@@ -28,6 +30,8 @@ export default class App extends React.Component {
 
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
+
+        this.props.setConsentText(consentText);
 
         this.props.onSaveUser(mTurkId).then(() => {
             if (this.props.errorSavingUser) {
@@ -69,7 +73,7 @@ export default class App extends React.Component {
             <>
                 {this.isValidUser() && (
                     <div className="eligibility-app">
-                        {this.shouldSeeConsent() && <Consent {...this.props} />}
+                        {this.shouldSeeConsent() && <Consent />}
                         {this.shouldSeeInstructions() && <Instructions />}
                         {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}
                         {this.shouldSeeEligibilitySurveyEnd() && <EligibilitySurveyEnd />}

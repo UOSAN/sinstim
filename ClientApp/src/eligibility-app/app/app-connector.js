@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import {
-    onSaveUser
-} from '../../state/actions/eligibility-action-creators';
+import { onSaveUser } from '../../state/actions/eligibility-action-creators';
+import { setConsentText } from '../../state/actions/common-action-creators';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,6 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSaveUser: (id) => dispatch(onSaveUser(id)),
+        setConsentText: (consentText) => dispatch(setConsentText(consentText))
     };
 };
 

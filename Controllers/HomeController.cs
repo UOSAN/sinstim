@@ -13,5 +13,9 @@ namespace SinStim.Controllers {
         public IActionResult Eligibility() {
             return View();
         }
+
+        public IActionResult Admin() {
+            return View();
+        }
     }
 }

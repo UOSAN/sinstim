@@ -13,6 +13,7 @@ module.exports = (webpackEnv) => {
         bail: isEnvProduction,
         devtool: isEnvProduction ? false : 'cheap-module-source-map',
         entry: {
+            admin: paths.adminEntry,
             eligibility: paths.eligibilityEntry,
             survey: paths.surveyEntry
         },

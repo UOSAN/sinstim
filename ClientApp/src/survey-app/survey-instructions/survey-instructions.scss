@@ -1,0 +1,23 @@
+.survey-instructions {
+    display: flex;
+    flex-direction: column;
+    width: 768px;
+
+    .instructions-text {
+        align-self: center;
+    }
+
+    .instructions-buttons {
+        padding: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .instructions-accept {
+        .btn {
+            width: 80px;
+        }
+    }
+}

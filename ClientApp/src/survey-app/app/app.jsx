@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Consent from '../../components/consent';
 import consentText from '../consent-text';
 
+import Instructions from '../survey-instructions';
+
 import './app.scss';
 
 export default class App extends React.Component {
@@ -76,9 +78,9 @@ export default class App extends React.Component {
             <>
                 {this.isValidUser() && (
                     <div className="survey-app">
-                        {this.shouldSeeConsent() && <Consent {...this.props} />}
-                        {/* {this.shouldSeeInstructions() && <Instructions />}
-                        {this.shouldSeeSurvey() && <Survey />}
+                        {this.shouldSeeConsent() && <Consent />}
+                        {this.shouldSeeInstructions() && <Instructions />}
+                        {/* {this.shouldSeeSurvey() && <Survey />}
                         {this.shouldSeeSurveyEnd() && <SurveyEnd />} */}
                     </div>
                 )}

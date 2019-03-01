@@ -1,64 +1,56 @@
 /* eslint-disable sort-keys */
 import axios from 'axios';
+import reportService from './../../services/report-service';
 
 import actions from './actions';
 
-const generateCompletionReportErrored = (bool) => {
+const fetchingReportDataErrored = (bool) => {
     return {
-        type: actions.GENERATE_COMPLETION_REPORT_ERRORED,
+        type: actions.FETCHING_REPORT_DATA_ERRORED,
         hasErrored: bool
     };
 };
 
-const generateCompletionReportInProgress = (bool) => {
+const fetchingReportDataInProgress = (bool) => {
     return {
-        type: actions.GENERATE_COMPLETION_REPORT_IN_PROGRESS,
-        isGetting: bool
+        type: actions.FETCHING_REPORT_DATA_IN_PROGRESS,
+        isFetching: bool
     };
 };
 
 const generateCompletionReportComplete = () => {
     return {
-        type: actions.GENERATE_COMPLETION_REPORT_COMPLETE
+        type: actions.FETCHING_COMPLETION_REPORT_DATA_COMPLETE
     };
 };
 
 export const onGenerateCompletionReport = () => {
     return (dispatch) => {
-        dispatch(generateCompletionReportInProgress(true));
+        dispatch(fetchingReportDataInProgress(true));
 
         return axios.get('/api/Admin/Completion')
-            .then((response) => dispatch(generateCompletionReportComplete(response.data)))
-            .catch(() => dispatch(generateCompletionReportErrored(true)));
+            .then((response) => {
+                dispatch(generateCompletionReportComplete());
+                return reportService.processCompletionReportData(response.data);
+            })
+            .catch(() => dispatch(fetchingReportDataErrored(true)));
     };
 };
-
-const generateEligibilityReportErrored = (bool) => {
-    return {
-        type: actions.GENERATE_COMPLETION_REPORT_ERRORED,
-        hasErrored: bool
-    };
-};
-
-const generateEligibilityReportInProgress = (bool) => {
-    return {
-        type: actions.GENERATE_COMPLETION_REPORT_IN_PROGRESS,
-        isGetting: bool
-    };
-};
-
 const generateEligibilityReportComplete = () => {
     return {
-        type: actions.GENERATE_COMPLETION_REPORT_COMPLETE
+        type: actions.FETCHING_ELIGIBILITY_REPORT_DATA_COMPLETE
     };
 };
 
 export const onGenerateEligibilityReport = () => {
     return (dispatch) => {
-        dispatch(generateEligibilityReportInProgress(true));
+        dispatch(fetchingReportDataInProgress(true));
 
         return axios.get('/api/Admin/Eligibility')
-            .then((response) => dispatch(generateEligibilityReportComplete(response.data)))
-            .catch(() => dispatch(generateEligibilityReportErrored(true)));
+            .then((response) => {
+                dispatch(generateEligibilityReportComplete());
+                return reportService.processEligibilityReportData(response.data);
+            })
+            .catch(() => dispatch(fetchingReportDataErrored(true)));
     };
 };

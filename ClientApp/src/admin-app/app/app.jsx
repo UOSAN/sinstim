@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
+import { CSVDownload } from 'react-csv';
 
 import './app.scss';
 
 const App = (props) => {
-    const [state, setState] = useState({
+    const [credentials, setCredentials] = useState({
         email: '',
         password: ''
     });
+    const [reportData, setReportData] = useState({});
 
     function handleInputChange(evt) {
         const { type, value } = evt.target;
 
-        setState((previousState) => {
+        setCredentials((previousState) => {
             return {
                 ...previousState,
                 [type]: value
@@ -20,16 +23,35 @@ const App = (props) => {
         });
     }
 
-    function handleGenerateCompletionReport() {
-        const { email, password } = state;
+    async function handleGenerateCompletionReport() {
+        setReportData({});
+        const { email, password } = credentials;
+        const { data, headers } = await props.onGenerateCompletionReport({ email, password });
 
-        props.onGenerateCompletionReport({ email, password });
+        setReportData({
+            data,
+            headers,
+        });
     }
 
-    function handleGenerateEligibilityReport() {
-        const { email, password } = state;
+    async function handleGenerateEligibilityReport() {
+        setReportData({});
+        const { email, password } = credentials;
+        const { data, headers } = await props.onGenerateEligibilityReport({ email, password });
 
-        props.onGenerateEligibilityReport({ email, password });
+        setReportData({
+            data,
+            headers
+        });
+    }
+
+    function renderReport() {
+        const { data, headers } = reportData;
+
+        if (data && headers) {
+            return <CSVDownload data={data} headers={headers} target="_self" />;
+        }
+        return null;
     }
 
     return (
@@ -42,20 +64,20 @@ const App = (props) => {
                         onChange={handleInputChange}
                         placeholder="email"
                         type="email"
-                        value={state.email}
+                        value={credentials.email}
                         />
                     <input
                         className="password"
                         onChange={handleInputChange}
                         placeholder="password"
                         type="password"
-                        value={state.password}
+                        value={credentials.password}
                         />
                 </div>
                 <div className="report-generation-buttons">
                     <button
                         className="btn btn-outline-primary completion"
-                        disabled={!state.email || !state.password}
+                        disabled={!credentials.email || !credentials.password}
                         onClick={handleGenerateCompletionReport}
                         type="button"
                         >
@@ -63,7 +85,7 @@ const App = (props) => {
                     </button>
                     <button
                         className="btn btn-outline-primary eligibility"
-                        disabled={!state.email || !state.password}
+                        disabled={!credentials.email || !credentials.password}
                         onClick={handleGenerateEligibilityReport}
                         type="button"
                         >
@@ -71,6 +93,8 @@ const App = (props) => {
                     </button>
                 </div>
             </div>
+            {renderReport()}
+            <ToastContainer />
         </div>
     );
 };

@@ -73,6 +73,24 @@ function reducer(state = initialState, action) {
                 draft.id = action.id;
                 break;
 
+            case Actions.FETCHING_REPORT_DATA_ERRORED:
+                draft.isFetchingReportData = false;
+                draft.errorFetchingReportData = action.hasErrored;
+                break;
+            case Actions.FETCHING_REPORT_DATA_IN_PROGRESS:
+                draft.isFetchingReportData = action.isFetching;
+                break;
+
+            case Actions.FETCHING_COMPLETION_REPORT_DATA_COMPLETE:
+                draft.isFetchingReportData = false;
+                draft.errorFetchingReportData = false;
+                break;
+
+            case Actions.FETCHING_ELIGIBILITY_REPORT_DATA_COMPLETE:
+                draft.isFetchingReportData = false;
+                draft.errorFetchingReportData = false;
+                break;
+
             default:
                 return draft;
         }

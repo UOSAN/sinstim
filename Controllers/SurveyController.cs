@@ -21,7 +21,7 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartPictureSurvey([FromBody] JObject userJson) {
             var userToUpdate = await userService.GetUser(userJson);
-            if(!IsAllowToStartSurvey(userToUpdate)) { return StatusCode(401); }
+            if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
@@ -55,8 +55,8 @@ namespace SinStim.Controllers {
         //     return Ok();
         // }
 
-        private bool IsAllowToStartSurvey(User user)  {
-            return user == null || user.EligibilityStartTime == null || user.EligibilityEndTime == null;
+        private bool IsAllowedToStartPictureSurvey(User user)  {
+            return user != null && user.EligibilityStartTime != null && user.EligibilityEndTime != null;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
             var userToUpdate = await userService.GetUser(userJson);
-            if(userToUpdate == null) { return StatusCode(401); }
+            if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
@@ -36,7 +36,7 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
             var userToUpdate = await userService.GetUser(userJson);
-            if(userToUpdate == null || userToUpdate.EligibilityStartTime == null) { return StatusCode(401); }
+            if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
             var eligibility = getEligibility(userJson);
@@ -50,6 +50,14 @@ namespace SinStim.Controllers {
             response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
             response.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
             return Ok(response);
+        }
+
+        private bool isAllowedToStartEligibilitySurvey(User user) {
+            return user != null && user.EligibilityCompletionCode != null;
+        }
+
+        private bool isAllowedToEndEligibilitySurvey(User user) {
+            return isAllowedToStartEligibilitySurvey(user) && user.EligibilityStartTime != null;
         }
 
         private Eligibility getEligibility(JObject requestBody) {

@@ -29,13 +29,6 @@ namespace SinStim.Services {
             }).ToList();
         }
 
-        // var query = db.Categories         // source
-        //     .Join(db.CategoryMaps,         // target
-        //         c => c.CategoryId,          // FK
-        //         cm => cm.ChildCategoryId,   // PK
-        //         (c, cm) => new { Category = c, CategoryMaps = cm }) // project result
-        //     .Select(x => x.Category);  // select result
-
         public async Task<List<JObject>> GetEligibilityData() {
             var completionData = await getEligibilitySurveyCompleteUsers()
                 .Join(context.Eligibilities,

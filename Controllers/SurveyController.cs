@@ -20,17 +20,20 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartPictureSurvey([FromBody] JObject userJson) {
-            var userToUpdate = await userService.GetUser(userJson);
+            var userId = userJson.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var userToUpdate = await userService.GetUser(userId);
             if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
-            userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
+            userToUpdate.SurveyCompletionCode = Guid.NewGuid();
+            userToUpdate.SurveyStartTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful) {
-                return BadRequest("Failed to update survey start time.");
+                return BadRequest("Failed to start picture survey.");
             }
+
             var response = new JObject();
-            response.Add(CONSTANTS.USER.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
+            response.Add(CONSTANTS.USER.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
             return Ok(response);
         }
 
@@ -56,7 +59,10 @@ namespace SinStim.Controllers {
         // }
 
         private bool IsAllowedToStartPictureSurvey(User user)  {
-            return user != null && user.EligibilityStartTime != null && user.EligibilityEndTime != null;
+            return user != null
+                && user.EligibilityStartTime != null
+                && user.EligibilityEndTime != null
+                && user.SurveyStartTime == null;
         }
     }
 }

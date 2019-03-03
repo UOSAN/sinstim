@@ -7,6 +7,10 @@ namespace SinStim.Controllers {
             public const string ELIGIBILITY_START_TIME = "eligibilityStartTime";
             public const string ELIGIBILITY_END_TIME = "eligibilityEndTime";
             public const string ELIGIBILITY_COMPLETION_CODE = "eligibilityCompletionCode";
+
+            public const string SURVEY_START_TIME = "surveyStartTime";
+            public const string SURVEY_END_TIME = "surveyEndTime";
+            public const string SURVEY_COMPLETION_CODE = "surveyCompletionCode";
         }
 
         public static class ELIGIBILITY {

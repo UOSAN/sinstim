@@ -37,10 +37,6 @@ export default class App extends React.Component {
                 toast.error('Error starting survey', {
                     position: toast.POSITION.BOTTOM_LEFT
                 });
-            } else {
-                this.setState(() => {
-                    return { };
-                });
             }
         });
     }

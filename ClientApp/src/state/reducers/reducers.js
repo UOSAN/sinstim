@@ -73,6 +73,18 @@ function reducer(state = initialState, action) {
                 draft.id = action.id;
                 break;
 
+            case Actions.START_SURVEY_ERRORED:
+                draft.isStartingSurvey = false;
+                draft.errorStartingSurvey = action.hasErrored;
+                break;
+            case Actions.START_SURVEY_SAVING:
+                draft.isStartingSurvey = action.isSaving;
+                break;
+            case Actions.START_SURVEY_SAVED:
+                draft.isStartingSurvey = false;
+                draft.surveyStartTime = new Date(action.surveyStartTime);
+                break;
+
             case Actions.FETCHING_REPORT_DATA_ERRORED:
                 draft.isFetchingReportData = false;
                 draft.errorFetchingReportData = action.hasErrored;

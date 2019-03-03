@@ -50,21 +50,23 @@ const startSurveySaving = (bool) => {
     };
 };
 
-const startSurveySaved = (id) => {
+const startSurveySaved = ({ surveyStartTime }) => {
     return {
         type: actions.START_SURVEY_SAVED,
-        id
+        surveyStartTime
     };
 };
 
-export const onStartSurvey = (id) => {
-    return (dispatch) => {
+export const onStartSurvey = () => {
+    return (dispatch, getState) => {
+        const { id } = getState();
+
         dispatch(startSurveySaving(true));
 
         const startSurveyBody = { id };
 
         return axios.post('/api/Survey/Start', startSurveyBody)
-            .then(() => dispatch(startSurveySaved(id)))
+            .then((response) => dispatch(startSurveySaved(response.data)))
             .catch(() => dispatch(startSurveyErrored(true)));
     };
 };

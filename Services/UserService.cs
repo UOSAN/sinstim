@@ -11,11 +11,10 @@ namespace SinStim.Services {
             this.context = context;
         }
 
-        public async Task<bool> SaveAsync(string id, bool isRejected, Guid eligibilityCompletionCode) {
+        public async Task<bool> SaveAsync(string id, bool isRejected) {
             var newUser = new User();
             newUser.Id = id;
             newUser.IsRejected = isRejected;
-            newUser.EligibilityCompletionCode = eligibilityCompletionCode;
             context.Users.Add(newUser);
 
             var saveResult = 0;
@@ -36,11 +35,6 @@ namespace SinStim.Services {
                 System.Diagnostics.Debug.WriteLine(e);
             }
             return saveResult >= 1;
-        }
-
-        public async Task<User> GetUser(JObject requestBody) {
-            var userId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
-            return await GetUser(userId);
         }
 
         public async Task<User> GetUser(string userId) {

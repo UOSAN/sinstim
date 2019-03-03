@@ -24,10 +24,6 @@ export default class App extends React.Component {
         setConsentText: PropTypes.func.isRequired
     };
 
-    state = {
-        isUserSaved: false
-    };
-
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
 
@@ -38,18 +34,12 @@ export default class App extends React.Component {
                 toast.error('Error saving user id', {
                     position: toast.POSITION.BOTTOM_LEFT
                 });
-            } else {
-                this.setState(() => {
-                    return {
-                        isUserSaved: true
-                    };
-                });
             }
         });
     }
 
     isValidUser = () => {
-        return this.props.id != null && this.state.isUserSaved;
+        return this.props.id != null;
     }
 
     shouldSeeConsent = () => {

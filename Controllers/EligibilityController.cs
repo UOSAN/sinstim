@@ -18,15 +18,18 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            var userToUpdate = await userService.GetUser(userJson);
+            var userId = userJson.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var userToUpdate = await userService.GetUser(userId);
             if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
+            userToUpdate.EligibilityCompletionCode = Guid.NewGuid();
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful) {
-                return BadRequest("Failed to update eligibility start time.");
+                return BadRequest("Failed to start eligibility survey.");
             }
+
             var response = new JObject();
             response.Add(CONSTANTS.USER.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
             return Ok(response);
@@ -35,7 +38,8 @@ namespace SinStim.Controllers {
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
-            var userToUpdate = await userService.GetUser(userJson);
+            var userId = userJson.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var userToUpdate = await userService.GetUser(userId);
             if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
@@ -44,8 +48,9 @@ namespace SinStim.Controllers {
 
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful) {
-                return BadRequest("Failed to update eligibility end time.");
+                return BadRequest("Failed to end eligibility survey.");
             }
+
             var response = new JObject();
             response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
             response.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
@@ -53,11 +58,14 @@ namespace SinStim.Controllers {
         }
 
         private bool isAllowedToStartEligibilitySurvey(User user) {
-            return user != null && user.EligibilityCompletionCode != null;
+            return user != null && user.EligibilityStartTime == null;
         }
 
         private bool isAllowedToEndEligibilitySurvey(User user) {
-            return isAllowedToStartEligibilitySurvey(user) && user.EligibilityStartTime != null;
+            return user != null
+                && user.EligibilityStartTime != null
+                && user.EligibilityCompletionCode != null
+                && user.EligibilityEndTime == null;;
         }
 
         private Eligibility getEligibility(JObject requestBody) {

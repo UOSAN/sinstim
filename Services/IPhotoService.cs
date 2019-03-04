@@ -1,4 +1,4 @@
-namespace sinstim.Services {
+namespace SinStim.Services {
     public interface IPhotoService {
 
     }

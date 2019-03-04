@@ -1,6 +1,6 @@
 using SinStim.Models;
 
-namespace sinstim.Services {
+namespace SinStim.Services {
     public class PhotoService : IPhotoService {
 
         private readonly SinStimContext context;

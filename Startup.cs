@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using sinstim.Services;
-using SinStim.Models;
 using SinStim.Services;
+using SinStim.Models;
 
 namespace SinStim {
     public class Startup {

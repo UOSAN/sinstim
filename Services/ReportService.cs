@@ -8,7 +8,7 @@ using SinStim.Controllers;
 using SinStim.Models;
 
 namespace SinStim.Services {
-    public partial class ReportService : IReportService {
+    public class ReportService : IReportService {
         private readonly SinStimContext context;
         public ReportService(SinStimContext context) {
             this.context = context;

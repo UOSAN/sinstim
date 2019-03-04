@@ -30,5 +30,23 @@ namespace SinStim.Controllers {
            public const string PIZZA = "e_pizza";
            public const string TOBACCO = "e_tobacco";
         }
+
+        public static class CATEGORY {
+           public const string ALCOHOL = "alcohol";
+           public const string CHOCOLATE = "chocolate";
+           public const string COCAINE = "cocaine";
+           public const string COOKIES = "cookies";
+           public const string DONUTS = "donuts";
+           public const string FRIES = "fries";
+           public const string HEROIN = "heroin";
+           public const string ICECREAM = "icecream";
+           public const string MARIJUANA = "marijuana";
+           public const string METHAMPHETAMINE = "methamphetamine";
+           public const string NEUTRAL = "neutral";
+           public const string PASTA = "pasta";
+           public const string PILLS = "pills";
+           public const string PIZZA = "pizza";
+           public const string TOBACCO = "tobacco";
+        }
     }
 }

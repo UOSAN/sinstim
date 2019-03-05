@@ -1,5 +1,3 @@
-using System;
-
 namespace SinStim.Controllers {
     public static class CONSTANTS {
         public static class USER {

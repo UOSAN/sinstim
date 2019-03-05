@@ -1,7 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using SinStim.Controllers;
 using SinStim.Models;
 
 namespace SinStim.Services {

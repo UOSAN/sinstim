@@ -29,8 +29,10 @@ namespace SinStim.Migrations
                     IsRejected = table.Column<bool>(nullable: false),
                     SurveyStartTime = table.Column<DateTimeOffset>(nullable: true),
                     SurveyEndTime = table.Column<DateTimeOffset>(nullable: true),
+                    SurveyCompletionCode = table.Column<Guid>(nullable: true),
                     EligibilityStartTime = table.Column<DateTimeOffset>(nullable: true),
                     EligibilityEndTime = table.Column<DateTimeOffset>(nullable: true),
+                    EligibilityCompletionCode = table.Column<Guid>(nullable: true),
                     AssignedCategory = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -44,7 +46,6 @@ namespace SinStim.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Neutral = table.Column<bool>(nullable: true),
                     Alcohol = table.Column<bool>(nullable: true),
                     Tobacco = table.Column<bool>(nullable: true),
                     Cocaine = table.Column<bool>(nullable: true),
@@ -101,7 +102,8 @@ namespace SinStim.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Eligibilities_UserId",
                 table: "Eligibilities",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_PictureId",

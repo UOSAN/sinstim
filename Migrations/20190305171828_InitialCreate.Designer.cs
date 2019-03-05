@@ -9,14 +9,14 @@ using SinStim.Models;
 namespace SinStim.Migrations
 {
     [DbContext(typeof(SinStimContext))]
-    [Migration("20190215062606_InitialCreate")]
+    [Migration("20190305171828_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>
                 {
@@ -43,8 +43,6 @@ namespace SinStim.Migrations
 
                     b.Property<bool?>("Methamphetamine");
 
-                    b.Property<bool?>("Neutral");
-
                     b.Property<bool?>("Pasta");
 
                     b.Property<bool?>("Pills");
@@ -57,7 +55,8 @@ namespace SinStim.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Eligibilities");
                 });
@@ -107,11 +106,15 @@ namespace SinStim.Migrations
 
                     b.Property<string>("AssignedCategory");
 
+                    b.Property<Guid?>("EligibilityCompletionCode");
+
                     b.Property<DateTimeOffset?>("EligibilityEndTime");
 
                     b.Property<DateTimeOffset?>("EligibilityStartTime");
 
                     b.Property<bool>("IsRejected");
+
+                    b.Property<Guid?>("SurveyCompletionCode");
 
                     b.Property<DateTimeOffset?>("SurveyEndTime");
 
@@ -125,8 +128,8 @@ namespace SinStim.Migrations
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>
                 {
                     b.HasOne("SinStim.Models.User", "User")
-                        .WithMany("Eligibilities")
-                        .HasForeignKey("UserId");
+                        .WithOne("Eligibility")
+                        .HasForeignKey("SinStim.Models.Eligibility", "UserId");
                 });
 
             modelBuilder.Entity("SinStim.Models.Rating", b =>

@@ -43,8 +43,7 @@ namespace SinStim.Controllers {
             if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
-            var eligibility = getEligibility(userJson);
-            userToUpdate.Eligibilities.Add(eligibility);
+            userToUpdate.Eligibility = getEligibility(userJson);
 
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful) {

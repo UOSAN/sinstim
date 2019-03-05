@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace SinStim.Models {
     public class User {
         public User() {
-            Eligibilities = new HashSet<Eligibility>();
             Ratings = new HashSet<Rating>();
         }
 
@@ -17,8 +16,7 @@ namespace SinStim.Models {
         public DateTimeOffset? EligibilityEndTime { get; set; }
         public Guid? EligibilityCompletionCode { get; set; }
         public string AssignedCategory { get; set; }
-
-        public ICollection<Eligibility> Eligibilities { get; set; }
+        public Eligibility Eligibility { get; set; }
         public ICollection<Rating> Ratings { get; set; }
     }
 }

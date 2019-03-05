@@ -14,7 +14,7 @@ namespace SinStim.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>
                 {
@@ -41,8 +41,6 @@ namespace SinStim.Migrations
 
                     b.Property<bool?>("Methamphetamine");
 
-                    b.Property<bool?>("Neutral");
-
                     b.Property<bool?>("Pasta");
 
                     b.Property<bool?>("Pills");
@@ -55,7 +53,8 @@ namespace SinStim.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Eligibilities");
                 });
@@ -127,8 +126,8 @@ namespace SinStim.Migrations
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>
                 {
                     b.HasOne("SinStim.Models.User", "User")
-                        .WithMany("Eligibilities")
-                        .HasForeignKey("UserId");
+                        .WithOne("Eligibility")
+                        .HasForeignKey("SinStim.Models.Eligibility", "UserId");
                 });
 
             modelBuilder.Entity("SinStim.Models.Rating", b =>

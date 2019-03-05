@@ -15,7 +15,6 @@ namespace SinStim.Services {
 
         public async Task<string> GetAssignedCategory(string userId) {
             var user = await userService.GetUser(userId);
-            var eligibleCategories = user.Eligibilities.FirstOrDefault();
 
             return "";
         }

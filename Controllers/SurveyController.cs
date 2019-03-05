@@ -11,10 +11,12 @@ namespace SinStim.Controllers {
 
         private readonly SinStimContext context;
         private readonly IUserService userService;
+        private readonly ISurveyService surveyService;
 
-        public SurveyController(SinStimContext context, IUserService userService) {
+        public SurveyController(SinStimContext context, IUserService userService, ISurveyService surveyService) {
             this.context = context;
             this.userService = userService;
+            this.surveyService = surveyService;
         }
 
         [HttpPost("Start")]
@@ -26,6 +28,7 @@ namespace SinStim.Controllers {
 
             userToUpdate.SurveyCompletionCode = Guid.NewGuid();
             userToUpdate.SurveyStartTime = new DateTimeOffset(DateTime.Now);
+            userToUpdate.AssignedCategory = surveyService.GetAssignedCategory(userId);
 
             var successful = await userService.UpdateAsync(userToUpdate);
             if (!successful) {

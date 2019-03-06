@@ -7,6 +7,14 @@ function reducer(state = initialState, action) {
     /* eslint-disable complexity */
     return produce(state, (draft) => {
         switch (action.type) {
+            // common reducers
+            case Actions.CONSENT_ACCEPT:
+                draft.isConsented = true;
+                break;
+            case Actions.CONSENT_DECLINE:
+                draft.isConsented = false;
+                break;
+
             case Actions.REQUEST_ERRORED:
                 draft.requestInProgress = false;
                 draft.requestErrored = action.requestErrored;
@@ -14,7 +22,7 @@ function reducer(state = initialState, action) {
             case Actions.REQUEST_IN_PROGRESS:
                 draft.requestInProgress = action.requestInProgress;
                 break;
-
+            // eligibility reducers
             case Actions.NEW_USER_SAVED:
                 draft.requestInProgress = false;
                 draft.requestErrored = false;
@@ -33,14 +41,7 @@ function reducer(state = initialState, action) {
                 draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
                 draft.eligibilityCompletionCode = action.eligibilityCompletionCode;
                 break;
-
-            case Actions.CONSENT_ACCEPT:
-                draft.isConsented = true;
-                break;
-            case Actions.CONSENT_DECLINE:
-                draft.isConsented = false;
-                break;
-
+            // survey reducers
             case Actions.GET_USER_COMPLETE:
                 draft.requestInProgress = false;
                 draft.requestErrored = false;
@@ -55,7 +56,7 @@ function reducer(state = initialState, action) {
                 draft.surveyStartTime = new Date(action.surveyStartTime);
                 draft.assignedCategory = action.assignedCategory;
                 break;
-
+            // admin panel reducers
             case Actions.FETCHING_REPORT_DATA_ERRORED:
                 draft.isFetchingReportData = false;
                 draft.errorFetchingReportData = action.hasErrored;

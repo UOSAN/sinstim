@@ -2,20 +2,10 @@
 import axios from 'axios';
 
 import actions from './actions';
-
-const requestErrored = (bool) => {
-    return {
-        type: actions.REQUEST_ERRORED,
-        requestErrored: bool
-    };
-};
-
-const requestInProgress = (bool) => {
-    return {
-        type: actions.REQUEST_IN_PROGRESS,
-        requestInProgress: bool
-    };
-};
+import {
+    requestErrored,
+    requestInProgress
+} from './common-action-creators';
 
 const newUserSaved = (id) => {
     return {

@@ -41,30 +41,17 @@ function reducer(state = initialState, action) {
                 draft.isConsented = false;
                 break;
 
-            case Actions.GET_USER_ERRORED:
-                draft.isGettingUser = false;
-                draft.errorGettingUser = action.hasErrored;
-                break;
-            case Actions.GET_USER_IN_PROGRESS:
-                draft.isGettingUser = action.isSaving;
-                break;
             case Actions.GET_USER_COMPLETE:
-                draft.isGettingUser = false;
-                draft.errorGettingUser = false;
+                draft.requestInProgress = false;
+                draft.requestErrored = false;
                 draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
                 draft.eligibilityStartTime = new Date(action.eligibilityStartTime);
                 draft.id = action.id;
                 break;
 
-            case Actions.START_SURVEY_ERRORED:
-                draft.isStartingSurvey = false;
-                draft.errorStartingSurvey = action.hasErrored;
-                break;
-            case Actions.START_SURVEY_SAVING:
-                draft.isStartingSurvey = action.isSaving;
-                break;
             case Actions.START_SURVEY_SAVED:
-                draft.isStartingSurvey = false;
+                draft.requestInProgress = false;
+                draft.requestErrored = false;
                 draft.surveyStartTime = new Date(action.surveyStartTime);
                 draft.assignedCategory = action.assignedCategory;
                 break;

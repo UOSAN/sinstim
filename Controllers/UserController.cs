@@ -17,7 +17,7 @@ namespace SinStim.Controllers {
 
         [HttpPost("Save")]
         public async Task<IActionResult> SaveUser([FromBody] JObject newUser) {
-            var newUserId = newUser.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var newUserId = newUser.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
             var eligibilityCompletionCode = Guid.NewGuid();
             var successful = await userService.SaveAsync(newUserId, false);
             if (!successful) {
@@ -34,9 +34,9 @@ namespace SinStim.Controllers {
                 return StatusCode(404);
             }
             var response = new JObject();
-            response.Add(CONSTANTS.USER.ID, user.Id);
-            response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, user.EligibilityEndTime);
-            response.Add(CONSTANTS.USER.ELIGIBILITY_START_TIME, user.EligibilityStartTime);
+            response.Add(CONSTANTS.REQUEST.ID, user.Id);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_END_TIME, user.EligibilityEndTime);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, user.EligibilityStartTime);
             return Ok(response);
         }
     }

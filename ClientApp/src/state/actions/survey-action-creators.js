@@ -50,9 +50,10 @@ const startSurveySaving = (bool) => {
     };
 };
 
-const startSurveySaved = ({ surveyStartTime }) => {
+const startSurveySaved = ({ surveyStartTime, assignedCategory }) => {
     return {
         type: actions.START_SURVEY_SAVED,
+        assignedCategory,
         surveyStartTime
     };
 };

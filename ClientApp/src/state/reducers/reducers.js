@@ -83,6 +83,7 @@ function reducer(state = initialState, action) {
             case Actions.START_SURVEY_SAVED:
                 draft.isStartingSurvey = false;
                 draft.surveyStartTime = new Date(action.surveyStartTime);
+                draft.assignedCategory = action.assignedCategory;
                 break;
 
             case Actions.FETCHING_REPORT_DATA_ERRORED:

@@ -22,8 +22,8 @@ namespace SinStim.Services {
 
             return completionData.Select(u => {
                 var jObject = new JObject();
-                jObject.Add(CONSTANTS.USER.ID, u.Id);
-                jObject.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, u.CompletionCode);
+                jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
+                jObject.Add(CONSTANTS.REQUEST.ELIGIBILITY_COMPLETION_CODE, u.CompletionCode);
                 return jObject;
             }).ToList();
         }
@@ -71,7 +71,7 @@ namespace SinStim.Services {
                 })
                 .Select(u => {
                     var jObject = new JObject();
-                    jObject.Add(CONSTANTS.USER.ID, u.Id);
+                    jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
                     return jObject;
                 }).ToList();
         }

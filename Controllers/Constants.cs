@@ -1,6 +1,6 @@
 namespace SinStim.Controllers {
     public static class CONSTANTS {
-        public static class USER {
+        public static class REQUEST {
             public const string ID = "id";
             public const string ELIGIBILITY_START_TIME = "eligibilityStartTime";
             public const string ELIGIBILITY_END_TIME = "eligibilityEndTime";
@@ -9,6 +9,7 @@ namespace SinStim.Controllers {
             public const string SURVEY_START_TIME = "surveyStartTime";
             public const string SURVEY_END_TIME = "surveyEndTime";
             public const string SURVEY_COMPLETION_CODE = "surveyCompletionCode";
+            public const string ASSIGNED_CATEGORY = "assignedCategory";
         }
 
         public static class ELIGIBILITY {

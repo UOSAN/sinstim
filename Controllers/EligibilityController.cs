@@ -18,7 +18,7 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            var userId = userJson.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
             var userToUpdate = await userService.GetUser(userId);
             if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
@@ -31,14 +31,14 @@ namespace SinStim.Controllers {
             }
 
             var response = new JObject();
-            response.Add(CONSTANTS.USER.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
             return Ok(response);
         }
 
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
-            var userId = userJson.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
             var userToUpdate = await userService.GetUser(userId);
             if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
@@ -51,8 +51,8 @@ namespace SinStim.Controllers {
             }
 
             var response = new JObject();
-            response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
-            response.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
             return Ok(response);
         }
 
@@ -70,7 +70,7 @@ namespace SinStim.Controllers {
         private Eligibility getEligibility(JObject requestBody) {
             var eligibility = new Eligibility();
             eligibility.Id = Guid.NewGuid();
-            eligibility.UserId = requestBody.GetValue(CONSTANTS.USER.ID).Value<string>();
+            eligibility.UserId = requestBody.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
 
             var answers = requestBody.GetValue(CONSTANTS.ELIGIBILITY.ANSWERS).Value<JObject>();
             eligibility.Alcohol = answers.GetValue(CONSTANTS.ELIGIBILITY.ALCOHOL).Value<bool?>();

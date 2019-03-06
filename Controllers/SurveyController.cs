@@ -22,7 +22,7 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartPictureSurvey([FromBody] JObject userJson) {
-            var userId = userJson.GetValue(CONSTANTS.USER.ID).Value<string>();
+            var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
             var userToUpdate = await userService.GetUser(userId);
             if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
@@ -36,7 +36,8 @@ namespace SinStim.Controllers {
             }
 
             var response = new JObject();
-            response.Add(CONSTANTS.USER.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
+            response.Add(CONSTANTS.REQUEST.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
+            response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);
             return Ok(response);
         }
 

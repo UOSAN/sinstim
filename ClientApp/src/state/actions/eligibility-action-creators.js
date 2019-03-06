@@ -3,17 +3,17 @@ import axios from 'axios';
 
 import actions from './actions';
 
-const newUserErrored = (bool) => {
+const requestErrored = (bool) => {
     return {
-        type: actions.NEW_USER_ERRORED,
-        hasErrored: bool
+        type: actions.REQUEST_ERRORED,
+        requestErrored: bool
     };
 };
 
-const newUserSaving = (bool) => {
+const requestInProgress = (bool) => {
     return {
-        type: actions.NEW_USER_SAVING,
-        isSaving: bool
+        type: actions.REQUEST_IN_PROGRESS,
+        requestInProgress: bool
     };
 };
 
@@ -26,28 +26,13 @@ const newUserSaved = (id) => {
 
 export const onSaveUser = (id) => {
     return (dispatch) => {
-        dispatch(newUserSaving(true));
+        dispatch(requestInProgress(true));
 
         const saveUserBody = { id };
 
         return axios.post('/api/User/Save', saveUserBody)
             .then(() => dispatch(newUserSaved(id)))
-            .catch(() => dispatch(newUserErrored(true)));
-    };
-};
-
-
-const startEligibilitySurveyErrored = (bool) => {
-    return {
-        type: actions.START_ELIGIBILITY_SURVEY_ERRORED,
-        hasErrored: bool
-    };
-};
-
-const startEligibilitySurveySaving = (bool) => {
-    return {
-        type: actions.START_ELIGIBILITY_SURVEY_SAVING,
-        isSaving: bool
+            .catch(() => dispatch(requestErrored(true)));
     };
 };
 
@@ -62,27 +47,13 @@ export const onStartEligibilitySurvey = () => {
     return (dispatch, getState) => {
         const { id } = getState();
 
-        dispatch(startEligibilitySurveySaving(true));
+        dispatch(requestInProgress(true));
 
         const startEligibilitySurveyBody = { id };
 
         return axios.post('/api/Eligibility/Start', startEligibilitySurveyBody)
             .then((response) => dispatch(startEligibilitySurveySaved(response.data.eligibilityStartTime)))
-            .catch(() => dispatch(startEligibilitySurveyErrored(true)));
-    };
-};
-
-const endEligibilitySurveyErrored = (bool) => {
-    return {
-        type: actions.END_ELIGIBILITY_SURVEY_ERRORED,
-        hasErrored: bool
-    };
-};
-
-const endEligibilitySurveySaving = (bool) => {
-    return {
-        type: actions.END_ELIGIBILITY_SURVEY_SAVING,
-        isSaving: bool
+            .catch(() => dispatch(requestErrored(true)));
     };
 };
 
@@ -98,7 +69,7 @@ export const onEndEligibilitySurvey = (answers) => {
     return (dispatch, getState) => {
         const { id } = getState();
 
-        dispatch(endEligibilitySurveySaving(true));
+        dispatch(requestInProgress(true));
 
         const endEligibilitySurveyBody = {
             id,
@@ -107,6 +78,6 @@ export const onEndEligibilitySurvey = (answers) => {
 
         return axios.post('/api/Eligibility/End', endEligibilitySurveyBody)
             .then((response) => dispatch(endEligibilitySurveySaved(response.data)))
-            .catch(() => dispatch(endEligibilitySurveyErrored(true)));
+            .catch(() => dispatch(requestErrored(true)));
     };
 };

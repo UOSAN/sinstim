@@ -47,10 +47,6 @@ function reducer(state = initialState, action) {
                 draft.eligibilityCompletionCode = action.eligibilityCompletionCode;
                 break;
 
-            case Actions.SET_CONSENT_TEXT:
-                draft.consentText = action.consentText;
-                break;
-
             case Actions.CONSENT_ACCEPT:
                 draft.isConsented = true;
                 break;

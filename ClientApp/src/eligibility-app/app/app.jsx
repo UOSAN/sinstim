@@ -20,14 +20,11 @@ export default class App extends React.Component {
         errorSavingUser: PropTypes.bool,
         id: PropTypes.string,
         isConsented: PropTypes.bool,
-        onSaveUser: PropTypes.func.isRequired,
-        setConsentText: PropTypes.func.isRequired
+        onSaveUser: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
-
-        this.props.setConsentText(consentText);
 
         this.props.onSaveUser(mTurkId).then(() => {
             if (this.props.errorSavingUser) {
@@ -63,7 +60,7 @@ export default class App extends React.Component {
             <>
                 {this.isValidUser() && (
                     <div className="eligibility-app">
-                        {this.shouldSeeConsent() && <Consent />}
+                        {this.shouldSeeConsent() && <Consent text={consentText} />}
                         {this.shouldSeeInstructions() && <Instructions />}
                         {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}
                         {this.shouldSeeEligibilitySurveyEnd() && <EligibilitySurveyEnd />}

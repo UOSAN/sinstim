@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { onGetUser } from '../../state/actions/survey-action-creators';
-import { setConsentText } from '../../state/actions/common-action-creators';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,8 +15,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetUser: (id) => dispatch(onGetUser(id)),
-        setConsentText: (consentText) => dispatch(setConsentText(consentText))
+        onGetUser: (id) => dispatch(onGetUser(id))
     };
 };
 

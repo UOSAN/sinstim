@@ -26,11 +26,12 @@ export const onGetUser = (id) => {
     };
 };
 
-const startSurveySaved = ({ surveyStartTime, assignedCategory }) => {
+const startSurveySaved = ({ surveyStartTime, assignedCategory, surveyQuestionNumbers }) => {
     return {
         type: actions.START_SURVEY_SAVED,
         assignedCategory,
-        surveyStartTime
+        surveyStartTime,
+        surveyQuestionNumbers
     };
 };
 

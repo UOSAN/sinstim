@@ -55,6 +55,7 @@ function reducer(state = initialState, action) {
                 draft.requestErrored = false;
                 draft.surveyStartTime = new Date(action.surveyStartTime);
                 draft.assignedCategory = action.assignedCategory;
+                draft.surveyQuestionNumbers = action.surveyQuestionNumbers;
                 break;
             // admin panel reducers
             case Actions.FETCHING_REPORT_DATA_ERRORED:

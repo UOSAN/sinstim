@@ -2,20 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using SinStim.Controllers;
 using SinStim.Models;
 
 namespace SinStim.Services {
     public class SurveyService : ISurveyService {
 
-        private readonly SinStimContext context;
+        private readonly SinStimContext Context;
+        private readonly IConfiguration Configuration;
 
-        public SurveyService(SinStimContext context) {
-            this.context = context;
+        public SurveyService(SinStimContext context, IConfiguration configuration) {
+            this.Context = context;
+            this.Configuration = configuration;
+        }
+
+        public Array GetSurveyQuestionNumbers(string category) {
+            int numberOfPicturesInCategory = Context.Pictures.Count(p => p.Category == category);
+            int numberOfPicturesToRate = Configuration.GetValue<int>("numberOfPicturesToRate");
+            int numberOfPicturesToTake = numberOfPicturesToRate >= numberOfPicturesInCategory
+                ? numberOfPicturesInCategory
+                : numberOfPicturesToRate;
+            return Enumerable.Range(1, numberOfPicturesInCategory).OrderBy(g => Guid.NewGuid()).Take(numberOfPicturesToTake).ToArray();
         }
 
         public string GetAssignedCategory(string userId) {
-            var eligibility = context.Eligibilities.FirstOrDefault(e => e.UserId == userId);
+            var eligibility = Context.Eligibilities.FirstOrDefault(e => e.UserId == userId);
             var potentialCategories = GetPotentialCategories(eligibility);
             var idx = GetRandomAssignedCategoryIndex(potentialCategories.Count-1);
 
@@ -42,8 +54,7 @@ namespace SinStim.Services {
         }
 
         private int GetRandomAssignedCategoryIndex(int maxValue) {
-            Random random = new Random();
-            return random.Next(maxValue);
+            return new Random().Next(maxValue);
         }
     }
 }

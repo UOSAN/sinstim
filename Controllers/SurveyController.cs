@@ -34,10 +34,11 @@ namespace SinStim.Controllers {
             if (!successful) {
                 return BadRequest("Failed to start picture survey.");
             }
-
+            var surveyQuestionNumbers = JArray.FromObject(surveyService.GetSurveyQuestionNumbers(userToUpdate.AssignedCategory));
             var response = new JObject();
             response.Add(CONSTANTS.REQUEST.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
             response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);
+            response.Add(CONSTANTS.REQUEST.SURVEY_QUESTION_NUMBERS, surveyQuestionNumbers);
             return Ok(response);
         }
 

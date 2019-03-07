@@ -45,7 +45,7 @@ const Survey = (props) => {
 
         return (
             <div className="picture">
-                <img alt="picture" src={src} />
+                <img alt={assignedCategory} src={src} />
             </div>
         );
     }

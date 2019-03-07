@@ -3,12 +3,6 @@ import {
     onEndEligibilitySurvey
 } from '../../state/actions/eligibility-action-creators';
 
-const mapStateToProps = (state) => {
-    return {
-        eligibilityCompletionCode: state.eligibilityCompletionCode
-    };
-};
-
 const mapDispatchToProps = (dispatch) => {
     return {
         onEndEligibilitySurvey: (answers) => dispatch(onEndEligibilitySurvey(answers))
@@ -16,6 +10,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 );

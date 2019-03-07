@@ -5,10 +5,10 @@ import queryString from 'query-string';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import Consent from '../../components/consent';
 import consentText from '../consent-text';
-
+import Consent from '../../components/consent';
 import Instructions from '../survey-instructions';
+import Survey from '../survey';
 
 import './app.scss';
 
@@ -49,7 +49,10 @@ export default class App extends React.Component {
     }
 
     shouldSeeInstructions = () => {
-        return this.isValidUser() && this.props.isConsented;
+        return this.isValidUser()
+            && this.props.isConsented
+            && !this.props.surveyStartTime
+            && !this.props.surveyEndTime;
     }
 
     shouldSeeSurvey = () => {
@@ -73,8 +76,8 @@ export default class App extends React.Component {
                     <div className="survey-app">
                         {this.shouldSeeConsent() && <Consent text={consentText} />}
                         {this.shouldSeeInstructions() && <Instructions />}
-                        {/* {this.shouldSeeSurvey() && <Survey />}
-                        {this.shouldSeeSurveyEnd() && <SurveyEnd />} */}
+                        {this.shouldSeeSurvey() && <Survey />}
+                        {/* {this.shouldSeeSurveyEnd() && <SurveyEnd />} */}
                     </div>
                 )}
                 <ToastContainer />

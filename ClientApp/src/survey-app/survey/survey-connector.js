@@ -1,13 +1,21 @@
 import { connect } from 'react-redux';
-import { onStartSurvey } from '../../state/actions/survey-action-creators';
+import { onEndSurvey, onRatePicture } from '../../state/actions/survey-action-creators';
+
+const mapStateToProps = (state) => {
+    return {
+        assignedCategory: state.assignedCategory,
+        surveyQuestionNumbers: state.surveyQuestionNumbers
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // onStartSurvey: () => dispatch(onStartSurvey()),
+        onEndSurvey: () => dispatch(onEndSurvey()),
+        onRatePicture: () => dispatch(onRatePicture()),
     };
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 );

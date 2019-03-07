@@ -47,3 +47,29 @@ export const onStartSurvey = () => {
             .catch(() => dispatch(requestErrored(true)));
     };
 };
+
+export const onRatePicture = () => {
+
+};
+
+const endSurveySaved = ({ surveyEndTime, surveyCompletionCode }) => {
+    return {
+        type: actions.END_SURVEY_SAVED,
+        surveyEndTime,
+        surveyCompletionCode
+    };
+};
+
+export const onEndSurvey = () => {
+    return (dispatch, getState) => {
+        const { id } = getState();
+
+        dispatch(requestInProgress(true));
+
+        const endSurveyBody = { id };
+
+        return axios.post('/api/Survey/End', endSurveyBody)
+            .then((response) => dispatch(endSurveySaved(response.data)))
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};

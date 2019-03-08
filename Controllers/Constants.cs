@@ -11,6 +11,9 @@ namespace SinStim.Controllers {
             public const string SURVEY_COMPLETION_CODE = "surveyCompletionCode";
             public const string ASSIGNED_CATEGORY = "assignedCategory";
             public const string SURVEY_QUESTION_NUMBERS = "surveyQuestionNumbers";
+            public const string FILE_NAME = "fileName";
+            public const string DESIRABILITY = "desirability";
+            public const string RECOGNIZABILITY = "recognizability";
         }
 
         public static class ELIGIBILITY {

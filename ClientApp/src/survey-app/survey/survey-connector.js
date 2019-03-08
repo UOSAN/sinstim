@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onEndSurvey: () => dispatch(onEndSurvey()),
-        onRatePicture: () => dispatch(onRatePicture()),
+        onRatePicture: (pictureData) => dispatch(onRatePicture(pictureData)),
     };
 };
 

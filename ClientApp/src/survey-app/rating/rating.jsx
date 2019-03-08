@@ -26,6 +26,8 @@ const RADIO_BUTTONS = [{
 }];
 
 const Rating = (props) => {
+    const { ratingName, currentPictureFileName } = props;
+
     function handleOnChange(evt) {
         props.onRatingChange(evt.target.value);
     }
@@ -33,12 +35,12 @@ const Rating = (props) => {
     function renderRadioButtons() {
         const buttonsElements = RADIO_BUTTONS.map((button) => {
             return (
-                <div className="form-check form-check-inline" key={button.key}>
+                <div className="form-check form-check-inline" key={currentPictureFileName + button.key}>
                     <label className="form-check-label">
                         <input
                             className="form-check-input"
                             id={`radio-${button.key}`}
-                            name={props.name}
+                            name={ratingName}
                             onChange={handleOnChange}
                             type="radio"
                             value={button.value}
@@ -64,8 +66,9 @@ const Rating = (props) => {
 };
 
 Rating.propTypes = {
-    name: PropTypes.string.isRequired,
-    onRatingChange: PropTypes.func.isRequired
+    currentPictureFileName: PropTypes.string.isRequired,
+    onRatingChange: PropTypes.func.isRequired,
+    ratingName: PropTypes.string.isRequired
 };
 
 export default Rating;

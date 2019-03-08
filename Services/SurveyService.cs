@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SinStim.Controllers;
 using SinStim.Models;
@@ -17,8 +18,8 @@ namespace SinStim.Services {
             this.Configuration = configuration;
         }
 
-        public Array GetSurveyQuestionNumbers(string category) {
-            int numberOfPicturesInCategory = Context.Pictures.Count(p => p.Category == category);
+        public async Task<Array> GetSurveyQuestionNumbers(string category) {
+            int numberOfPicturesInCategory = await Context.Pictures.CountAsync(p => p.Category == category);
             int numberOfPicturesToRate = Configuration.GetValue<int>("numberOfPicturesToRate");
             int numberOfPicturesToTake = numberOfPicturesToRate >= numberOfPicturesInCategory
                 ? numberOfPicturesInCategory
@@ -26,12 +27,36 @@ namespace SinStim.Services {
             return Enumerable.Range(1, numberOfPicturesInCategory).OrderBy(g => Guid.NewGuid()).Take(numberOfPicturesToTake).ToArray();
         }
 
-        public string GetAssignedCategory(string userId) {
-            var eligibility = Context.Eligibilities.FirstOrDefault(e => e.UserId == userId);
+        public async Task<string> GetAssignedCategory(string userId) {
+            var eligibility = await Context.Eligibilities.FirstOrDefaultAsync(e => e.UserId == userId);
             var potentialCategories = GetPotentialCategories(eligibility);
             var idx = GetRandomAssignedCategoryIndex(potentialCategories.Count-1);
 
             return potentialCategories.ElementAt(idx);
+        }
+
+        public async Task<bool> RatePicture(string userId, int desirability, int recognizability, string fileName) {
+            var picture = await Context.Pictures.FirstOrDefaultAsync(p => p.FileName == fileName);
+            var rating = new Rating();
+            rating.Id = Guid.NewGuid();
+            rating.UserId = userId;
+            rating.PictureId = picture.Id;
+            rating.Recognizability = recognizability;
+            rating.Desirability = desirability;
+
+            return await SaveAsync(rating);
+        }
+
+        private async Task<bool> SaveAsync(Rating rating) {
+            Context.Ratings.Add(rating);
+
+            var saveResult = 0;
+            try {
+                saveResult = await Context.SaveChangesAsync();
+            } catch(Exception e) {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return saveResult == 1;
         }
 
         private List<string> GetPotentialCategories(Eligibility eligibility) {

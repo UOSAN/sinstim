@@ -13,14 +13,13 @@ const Survey = (props) => {
         surveyQuestionNumbers,
     } = props;
     const [state, setState] = useState({
-        isNextButtonDisabled: true
+        currentPictureIndex: 0
     });
 
     function onRecognizabilityChange(value) {
         setState((previousState) => {
             return {
                 ...previousState,
-                isNextButtonDisabled: !previousState.desirability || !value,
                 recognizability: value
             };
         });
@@ -30,18 +29,42 @@ const Survey = (props) => {
         setState((previousState) => {
             return {
                 ...previousState,
-                desirability: value,
-                isNextButtonDisabled: !previousState.recognizability || !value
+                desirability: value
             };
         });
     }
 
-    function handleOnNextClick() {
-        console.log('Rating: ', state);
+    async function handleOnNextClick() {
+        await onRatePicture({
+            fileName: getCurrentPictureFileName(),
+            desirability: state.desirability,
+            recognizability: state.recognizability
+        });
+
+        const nextPictureIndex = state.currentPictureIndex + 1;
+
+        if (nextPictureIndex >= surveyQuestionNumbers.length) {
+            await onEndSurvey();
+        } else {
+            setState((previousState) => {
+                return {
+                    ...previousState,
+                    currentPictureIndex: nextPictureIndex,
+                    desirability: null,
+                    recognizability: null
+                };
+            });
+        }
     }
 
-    function renderPicture() {
-        const src = `/pictures/${assignedCategory}/${assignedCategory}_${state.currentPictureIndex}.jpg`;
+    function getCurrentPictureFileName() {
+        const pictureNumber = surveyQuestionNumbers[state.currentPictureIndex];
+
+        return `${assignedCategory}_${pictureNumber}.jpg`;
+    }
+
+    function renderPicture(currentPictureFileName) {
+        const src = `/pictures/${assignedCategory}/${currentPictureFileName}`;
 
         return (
             <div className="picture">
@@ -51,16 +74,26 @@ const Survey = (props) => {
     }
 
     function renderQuestion() {
+        const currentPictureFileName = getCurrentPictureFileName();
+
         return (
             <div className="question">
-                {renderPicture()}
+                {renderPicture(currentPictureFileName)}
                 <div className="recognizability">
                     <span>Recognizability</span>
-                    <Rating name="recognizability" onRatingChange={onRecognizabilityChange} />
+                    <Rating
+                        currentPictureFileName={currentPictureFileName}
+                        onRatingChange={onRecognizabilityChange}
+                        ratingName="recognizability"
+                        />
                 </div>
                 <div className="desirability">
                     <span>Desirability</span>
-                    <Rating name="desirability" onRatingChange={onDesirabilityChange} />
+                    <Rating
+                        currentPictureFileName={currentPictureFileName}
+                        onRatingChange={onDesirabilityChange}
+                        ratingName="desirability"
+                        />
                 </div>
             </div>
         );
@@ -73,7 +106,7 @@ const Survey = (props) => {
                 <span className="question-next">
                     <button
                         className="btn btn-outline-primary"
-                        disabled={state.isNextButtonDisabled}
+                        disabled={!state.desirability || !state.recognizability}
                         onClick={handleOnNextClick}
                         type="button"
                         >
@@ -88,6 +121,7 @@ const Survey = (props) => {
 Survey.propTypes = {
     assignedCategory: PropTypes.string.isRequired,
     onEndSurvey: PropTypes.func.isRequired,
+    onRatePicture: PropTypes.func.isRequired,
     surveyQuestionNumbers: PropTypes.array.isRequired
 };
 

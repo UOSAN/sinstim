@@ -49,8 +49,29 @@ export const onStartSurvey = () => {
     };
 };
 
-export const onRatePicture = () => {
+const ratePictureSaved = () => {
+    return {
+        type: actions.RATE_PICTURE_SAVED
+    };
+};
 
+export const onRatePicture = ({ fileName, desirability, recognizability }) => {
+    return (dispatch, getState) => {
+        const { id } = getState();
+
+        dispatch(requestInProgress(true));
+
+        const ratePictureBody = {
+            desirability,
+            fileName,
+            id,
+            recognizability
+        };
+
+        return axios.post('/api/Survey/Rate', ratePictureBody)
+            .then(() => dispatch(ratePictureSaved()))
+            .catch(() => dispatch(requestErrored(true)));
+    };
 };
 
 const endSurveySaved = ({ surveyEndTime, surveyCompletionCode }) => {

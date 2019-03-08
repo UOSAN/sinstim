@@ -57,6 +57,11 @@ function reducer(state = initialState, action) {
                 draft.assignedCategory = action.assignedCategory;
                 draft.surveyQuestionNumbers = action.surveyQuestionNumbers;
                 break;
+
+            case Actions.RATE_PICTURE_SAVED:
+                draft.requestInProgress = false;
+                draft.requestErrored = false;
+                break;
             // admin panel reducers
             case Actions.FETCHING_REPORT_DATA_ERRORED:
                 draft.isFetchingReportData = false;

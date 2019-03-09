@@ -9,6 +9,7 @@ namespace SinStim.Controllers {
             public const string SURVEY_START_TIME = "surveyStartTime";
             public const string SURVEY_END_TIME = "surveyEndTime";
             public const string SURVEY_COMPLETION_CODE = "surveyCompletionCode";
+
             public const string ASSIGNED_CATEGORY = "assignedCategory";
             public const string SURVEY_QUESTION_NUMBERS = "surveyQuestionNumbers";
             public const string FILE_NAME = "fileName";

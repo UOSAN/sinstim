@@ -62,6 +62,13 @@ function reducer(state = initialState, action) {
                 draft.requestInProgress = false;
                 draft.requestErrored = false;
                 break;
+
+            case Actions.END_SURVEY_SAVED:
+                draft.requestInProgress = false;
+                draft.requestErrored = false;
+                draft.surveyEndTime = new Date(action.surveyEndTime);
+                draft.surveyCompletionCode = action.surveyCompletionCode;
+                break;
             // admin panel reducers
             case Actions.FETCHING_REPORT_DATA_ERRORED:
                 draft.isFetchingReportData = false;

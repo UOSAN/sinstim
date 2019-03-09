@@ -6,7 +6,6 @@ import {
 
 const mapStateToProps = (state) => {
     return {
-        consentText: state.consentText,
         isConsented: state.isConsented
     };
 };

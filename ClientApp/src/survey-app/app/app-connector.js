@@ -3,6 +3,7 @@ import { onGetUser } from '../../state/actions/survey-action-creators';
 
 const mapStateToProps = (state) => {
     return {
+        completionCode: state.surveyCompletionCode,
         eligibilityEndTime: state.eligibilityEndTime,
         eligibilityStartTime: state.eligibilityStartTime,
         errorStartingSurvey: state.errorStartingSurvey,

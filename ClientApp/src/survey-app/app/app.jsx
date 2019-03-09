@@ -9,11 +9,13 @@ import consentText from '../consent-text';
 import Consent from '../../components/consent';
 import Instructions from '../survey-instructions';
 import Survey from '../survey';
+import SurveyEnd from '../../components/survey-end';
 
 import './app.scss';
 
 export default class App extends React.Component {
     static propTypes = {
+        completionCode: PropTypes.string,
         eligibilityEndTime: PropTypes.instanceOf(Date),
         eligibilityStartTime: PropTypes.instanceOf(Date),
         errorStartingSurvey: PropTypes.bool,
@@ -23,8 +25,6 @@ export default class App extends React.Component {
         surveyEndTime: PropTypes.instanceOf(Date),
         surveyStartTime: PropTypes.instanceOf(Date),
     };
-
-    state = { };
 
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
@@ -77,7 +77,7 @@ export default class App extends React.Component {
                         {this.shouldSeeConsent() && <Consent text={consentText} />}
                         {this.shouldSeeInstructions() && <Instructions />}
                         {this.shouldSeeSurvey() && <Survey />}
-                        {/* {this.shouldSeeSurveyEnd() && <SurveyEnd />} */}
+                        {this.shouldSeeSurveyEnd() && <SurveyEnd completionCode={this.props.completionCode} />}
                     </div>
                 )}
                 <ToastContainer />

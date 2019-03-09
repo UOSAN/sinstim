@@ -60,39 +60,49 @@ namespace SinStim.Controllers {
             return Ok();
         }
 
-        // [HttpPost("End")]
-        // [ProducesResponseType(200, Type = typeof(JObject))]
-        // public async Task<IActionResult> EndPictureSurvey([FromBody] JObject userJson) {
-        //     var userToUpdate = await userService.GetUserToUpdate(userJson);
-        //     if(userToUpdate == null || userToUpdate.EligibilityStartTime == null) { return BadRequest(); }
+        [HttpPost("End")]
+        [ProducesResponseType(200, Type = typeof(JObject))]
+        public async Task<IActionResult> EndPictureSurvey([FromBody] JObject userJson) {
+            var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+            var userToUpdate = await userService.GetUser(userId);
+            if(!IsAllowedToEndPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
-        //     userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
-        //     var eligibility = getEligibility(userJson);
-        //     userToUpdate.Eligibilities.Add(eligibility);
+            userToUpdate.SurveyEndTime = new DateTimeOffset(DateTime.Now);
 
-        //     var successful = await userService.UpdateAsync(userToUpdate);
-        //     if (!successful) {
-        //         return BadRequest("Failed to update survey end time.");
-        //     }
-        //     var response = new JObject();
-        //     response.Add(CONSTANTS.USER.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
-        //     response.Add(CONSTANTS.USER.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
-        //     return Ok(response);
-        //     return Ok();
-        // }
+            var successful = await userService.UpdateAsync(userToUpdate);
+            if (!successful) {
+                return BadRequest("Failed to end picture survey.");
+            }
+
+            var response = new JObject();
+            response.Add(CONSTANTS.REQUEST.SURVEY_END_TIME, userToUpdate.SurveyEndTime);
+            response.Add(CONSTANTS.REQUEST.SURVEY_COMPLETION_CODE, userToUpdate.SurveyCompletionCode);
+            return Ok(response);
+        }
 
         private bool IsAllowedToStartPictureSurvey(User user)  {
             return user != null
-                && user.EligibilityStartTime != null
-                && user.EligibilityEndTime != null
+                && IsCompletedEligibilitySurvey(user)
                 && user.SurveyStartTime == null;
         }
 
         private bool IsAllowedToRatePicture(User user)  {
             return user != null
-                && user.EligibilityStartTime != null
-                && user.EligibilityEndTime != null
+                && IsCompletedEligibilitySurvey(user)
                 && user.SurveyStartTime != null;
+        }
+
+        private bool IsAllowedToEndPictureSurvey(User user)  {
+            return user != null
+                && IsCompletedEligibilitySurvey(user)
+                && user.SurveyStartTime != null
+                && user.SurveyCompletionCode != null
+                && user.SurveyEndTime == null;
+        }
+
+        private bool IsCompletedEligibilitySurvey(User user) {
+            return user.EligibilityStartTime != null
+                && user.EligibilityEndTime != null;
         }
     }
 }

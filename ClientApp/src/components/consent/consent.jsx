@@ -17,14 +17,14 @@ const Consent = (props) => {
     function renderConsent() {
         return (
             <>
-                <div className="consent-header card-header text-center">Consent</div>
-                <div className="consent-text card-body">{text}</div>
-                <div className="consent-buttons">
+                <div className="consent-header card-header card-header-title is-centered">Consent</div>
+                <div className="consent-text card-content">{text}</div>
+                <div className="consent-buttons card-footer">
                     <span className="consent-decline">
-                        <button className="btn btn-outline-secondary" onClick={onConsentDecline} type="button">Decline</button>
+                        <button className="button is-dark is-outlined" onClick={onConsentDecline} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
-                        <button className="btn btn-outline-primary" onClick={onConsentAccept} type="button">Accept</button>
+                        <button className="button is-primary is-outlined" onClick={onConsentAccept} type="button">Accept</button>
                     </span>
                 </div>
             </>

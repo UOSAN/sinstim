@@ -1,39 +1,19 @@
 .eligibility-survey {
     display: flex;
     flex-direction: column;
-    width: 768px;
-
-    .question {
-        width: 512px;
-        margin: 5px;
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-    }
-
-    .form-check {
-        margin: 5px 5px 5px 30px;
-    }
-
-    .text {
-        margin: 5px;
-    }
+    width: 512px;
 
     .answer {
         margin-top: 15px;
 
-        .form-check-label, input[type="radio"] {
-            cursor: pointer;
+        input[type="radio"] {
+            margin-right: 5px;
         }
     }
 
     .navigation-buttons {
-        display: flex;
-        justify-content: center;
+        padding: 15px;
+        justify-content: space-around;
         align-items: center;
-    }
-
-    .question-back, .question-next {
-        margin: 15px;
     }
 }

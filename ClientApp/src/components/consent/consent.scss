@@ -6,26 +6,11 @@
         max-height: 350px;
     }
 
-    .consent-declined-text, .consent-text {
-        align-self: center;
-    }
-
     .consent-buttons {
         padding: 15px;
-        display: flex;
-        flex-direction: row;
         justify-content: space-evenly;
-        width: 100%;
-    }
 
-    .consent-accept {
-        .btn {
-            width: 80px;
-        }
-    }
-
-    .consent-decline {
-        .btn {
+        .button {
             width: 80px;
         }
     }

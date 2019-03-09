@@ -105,7 +105,7 @@ const Survey = (props) => {
             <div className="navigation-buttons">
                 <span className="question-next">
                     <button
-                        className="btn btn-outline-primary"
+                        className="button is-primary is-outlined"
                         disabled={!state.desirability || !state.recognizability}
                         onClick={handleOnNextClick}
                         type="button"

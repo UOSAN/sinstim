@@ -60,7 +60,7 @@ export default class App extends React.Component {
         return (
             <>
                 {this.isValidUser() && (
-                    <div className="eligibility-app">
+                    <div className="eligibility-app container is-fluid">
                         {this.shouldSeeConsent() && <Consent text={consentText} />}
                         {this.shouldSeeInstructions() && <Instructions />}
                         {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}

@@ -21,7 +21,7 @@ const SurveyEnd = (props) => {
         document.execCommand('copy');
 
         if (!toast.isActive(toastId)) {
-            const id = toast.info('Survey code copied to clipboard.', {
+            const id = toast('Survey code copied to clipboard.', {
                 position: toast.POSITION.BOTTOM_CENTER
             });
 
@@ -33,7 +33,7 @@ const SurveyEnd = (props) => {
         if (document.queryCommandSupported('copy')) {
             return (
                 <button
-                    className="btn btn-outline-primary"
+                    className="button is-primary is-outlined"
                     onClick={handleOnNextClick}
                     type="button"
                     >
@@ -45,13 +45,16 @@ const SurveyEnd = (props) => {
     }
 
     return (
-        <div className="survey-end jumbotron">
-            <div className="survey-code-wrapper">
-                <h4>Survey Code: </h4>
-                <hr className="my-4" />
-                <span id="survey-code">{completionCode}</span>
+        <div className="survey-end card">
+            <div className="card-header">
+                <div className="card-header-title is-centered" id="survey-code">
+                    Survey Code:
+                </div>
             </div>
-            <div className="copy-code-button">
+            <div className="card-content">
+                {completionCode}
+            </div>
+            <div className="copy-code-button card-footer">
                 {renderCopyButton()}
             </div>
         </div>

@@ -1,22 +1,16 @@
 .eligibility-instructions {
-    display: flex;
-    flex-direction: column;
     width: 768px;
 
     .instructions-text {
-        align-self: center;
+        overflow-y: auto;
+        max-height: 350px;
     }
 
     .instructions-buttons {
-        padding: 5px;
-        display: flex;
-        flex-direction: row;
+        padding: 15px;
         justify-content: space-evenly;
-        width: 100%;
-    }
 
-    .instructions-accept {
-        .btn {
+        .button {
             width: 80px;
         }
     }

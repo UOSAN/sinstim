@@ -7,11 +7,11 @@ import './survey-instructions.scss';
 const SurveyInstructions = (props) => {
     return (
         <div className="survey-instructions card">
-            <div className="instructions-header card-header text-center">Instructions</div>
-            <div className="instructions-text card-body">{placeHolderText}</div>
-            <div className="instructions-buttons">
+            <div className="instructions-header card-header card-header-title is-centered">Instructions</div>
+            <div className="instructions-text card-content">{placeHolderText}</div>
+            <div className="instructions-buttons card-footer">
                 <span className="instructions-accept">
-                    <button className="btn btn-outline-primary" onClick={props.onStartSurvey} type="button">OK</button>
+                    <button className="button is-primary is-outlined" onClick={props.onStartSurvey} type="button">OK</button>
                 </span>
             </div>
         </div>

@@ -35,33 +35,31 @@ const Rating = (props) => {
     function renderRadioButtons() {
         const buttonsElements = RADIO_BUTTONS.map((button) => {
             return (
-                <div className="form-check form-check-inline" key={currentPictureFileName + button.key}>
-                    <label className="form-check-label">
-                        <input
-                            className="form-check-input"
-                            id={`radio-${button.key}`}
-                            name={ratingName}
-                            onChange={handleOnChange}
-                            type="radio"
-                            value={button.value}
-                            />
-                        {button.label}
-                    </label>
-                </div>
+                <label className="radio" key={currentPictureFileName + button.key}>
+                    <input
+                        className="radio"
+                        id={`radio-${button.key}`}
+                        name={ratingName}
+                        onChange={handleOnChange}
+                        type="radio"
+                        value={button.value}
+                        />
+                    {button.label}
+                </label>
             );
         });
 
         return (
-            <div>
+            <div className="control">
                 {buttonsElements}
             </div>
         );
     }
 
     return (
-        <>
+        <div className="rating">
             {renderRadioButtons()}
-        </>
+        </div>
     );
 };
 

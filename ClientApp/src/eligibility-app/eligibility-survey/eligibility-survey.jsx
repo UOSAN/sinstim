@@ -89,29 +89,31 @@ export default class EligibilitySurvey extends React.Component {
         const { text, type, answers } = this.state.questions[this.state.currentQuestionIndex];
 
         return (
-            <div className="question card">
-                <span className="text card-header">{text}</span>
-                <div className="form-check card-body">
+            <>
+                <div className="card-header">
+                    <div className="card-header-title is-centered">{text}</div>
+                </div>
+                <div className="card-content">
                     {answers.map((answer) => {
                         return (
                             <div className="answer" key={answer.id} >
                                 <input
                                     checked={Boolean(answer.checked)}
-                                    className="form-check-input"
+                                    className="radio"
                                     id={answer.id}
                                     name="eligibility"
                                     onChange={this.handleOnAnswerChanged}
                                     type={type}
                                     value={answer.value}
                                     />
-                                <label className="form-check-label" htmlFor={answer.id}>
+                                <label className="radio" htmlFor={answer.id}>
                                     <span className="label-text">{answer.text}</span>
                                 </label>
                             </div>
                         );
                     })}
                 </div>
-            </div>
+            </>
         );
     }
 
@@ -121,7 +123,7 @@ export default class EligibilitySurvey extends React.Component {
 
         return (
             <div className="question-tracker">
-                <span className="badge badge-pill badge-primary">
+                <span className="tag is-medium">
                     Question {currentQuestionIndex + 1} of {totalQuestions}
                 </span>
             </div>
@@ -133,12 +135,12 @@ export default class EligibilitySurvey extends React.Component {
         const isBackButtonDisabled = this.isBackButtonDisabled();
 
         return (
-            <div className="eligibility-survey">
+            <div className="eligibility-survey card">
                 {this.renderQuestion()}
-                <div className="navigation-buttons">
+                <div className="navigation-buttons card-footer">
                     <span className="question-back">
                         <button
-                            className="btn btn-outline-secondary"
+                            className="button is-dark is-outlined"
                             disabled={isBackButtonDisabled}
                             onClick={this.handleOnBackClick}
                             type="button"
@@ -149,7 +151,7 @@ export default class EligibilitySurvey extends React.Component {
                     {this.renderQuestionTracker()}
                     <span className="question-next">
                         <button
-                            className="btn btn-outline-primary"
+                            className="button is-primary is-outlined"
                             disabled={isNextButtonDisabled}
                             onClick={this.handleOnNextClick}
                             type="button"

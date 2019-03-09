@@ -5,8 +5,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import './index.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bulma/css/bulma.min.css/';
 
 import sinStimReducers from '../state/reducers/reducers';
 import App from './app';

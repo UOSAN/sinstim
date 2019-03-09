@@ -55,28 +55,42 @@ const App = (props) => {
     }
 
     return (
-        <div className="admin-app">
+        <div className="admin-app container is-fluid">
             <div className="panel">
                 <div className="authorization-inputs">
-                    <input
-                        autoFocus={true}
-                        className="email"
-                        onChange={handleInputChange}
-                        placeholder="email"
-                        type="email"
-                        value={credentials.email}
-                        />
-                    <input
-                        className="password"
-                        onChange={handleInputChange}
-                        placeholder="password"
-                        type="password"
-                        value={credentials.password}
-                        />
+                    <div className="field">
+                        <p className="control has-icons-left">
+                            <input
+                                autoFocus={true}
+                                className="input"
+                                onChange={handleInputChange}
+                                placeholder="Email"
+                                type="email"
+                                value={credentials.email}
+                                />
+                            <span className="icon is-small is-left">
+                                <i className="fas fa-envelope" />
+                            </span>
+                        </p>
+                    </div>
+                    <div className="field">
+                        <p className="control has-icons-left">
+                            <input
+                                className="input"
+                                onChange={handleInputChange}
+                                placeholder="Password"
+                                type="password"
+                                value={credentials.password}
+                                />
+                            <span className="icon is-small is-left">
+                                <i className="fas fa-lock" />
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div className="report-generation-buttons">
                     <button
-                        className="btn btn-outline-primary completion"
+                        className="button is-primary is-outlined completion"
                         disabled={!credentials.email || !credentials.password}
                         onClick={handleGenerateCompletionReport}
                         type="button"
@@ -84,7 +98,7 @@ const App = (props) => {
                     Generate Completion Report
                     </button>
                     <button
-                        className="btn btn-outline-primary eligibility"
+                        className="button is-primary is-outlined eligibility"
                         disabled={!credentials.email || !credentials.password}
                         onClick={handleGenerateEligibilityReport}
                         type="button"

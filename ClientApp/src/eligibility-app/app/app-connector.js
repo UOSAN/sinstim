@@ -3,6 +3,7 @@ import { onSaveUser } from '../../state/actions/eligibility-action-creators';
 
 const mapStateToProps = (state) => {
     return {
+        eligibilityCompletionCode: state.eligibilityCompletionCode,
         eligibilityEndTime: state.eligibilityEndTime,
         eligibilityStartTime: state.eligibilityStartTime,
         errorSavingUser: state.errorSavingUser,

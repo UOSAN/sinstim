@@ -8,13 +8,14 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Consent from '../../components/consent';
 import Instructions from '../eligibility-instructions';
 import EligibilitySurvey from '../eligibility-survey';
-import EligibilitySurveyEnd from '../eligibility-survey-end';
+import SurveyEnd from '../../components/survey-end';
 import consentText from '../consent-text';
 
 import './app.scss';
 
 export default class App extends React.Component {
     static propTypes = {
+        eligibilityCompletionCode: PropTypes.string,
         eligibilityEndTime: PropTypes.instanceOf(Date),
         eligibilityStartTime: PropTypes.instanceOf(Date),
         errorSavingUser: PropTypes.bool,
@@ -63,7 +64,7 @@ export default class App extends React.Component {
                         {this.shouldSeeConsent() && <Consent text={consentText} />}
                         {this.shouldSeeInstructions() && <Instructions />}
                         {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}
-                        {this.shouldSeeEligibilitySurveyEnd() && <EligibilitySurveyEnd />}
+                        {this.shouldSeeEligibilitySurveyEnd() && <SurveyEnd completionCode={this.props.eligibilityCompletionCode} />}
                     </div>
                 )}
                 <ToastContainer />

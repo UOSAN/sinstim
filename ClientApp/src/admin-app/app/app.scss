@@ -4,32 +4,32 @@
     flex-direction: column;
     align-items: center;
 
-    .panel {
+    .card-content {
         display: flex;
-        justify-content: center;
-    }
+        flex-wrap: wrap;
 
-    .authorization-inputs {
-        margin: 25px;
+        .authorization-inputs {
+            margin: 25px;
 
-        .field {
-            width: 235px;
-            margin-top: 20px;
+            .field {
+                width: 235px;
+                margin-top: 20px;
+            }
         }
-    }
 
-    .report-generation-buttons {
-        display: flex;
-        flex-direction: column;
-        margin: 25px;
+        .report-generation-buttons {
+            display: flex;
+            flex-direction: column;
+            margin: 25px;
 
-        .eligibility {
-            width: 235px;
-            margin-top: 20px;
-        }
-        .completion {
-            width: 235px;
-            margin-top: 20px;
+            .eligibility {
+                width: 235px;
+                margin-top: 20px;
+            }
+            .completion {
+                width: 235px;
+                margin-top: 20px;
+            }
         }
     }
 }

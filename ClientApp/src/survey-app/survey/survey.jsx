@@ -100,9 +100,9 @@ const Survey = (props) => {
     }
 
     return (
-        <div className="picture-survey">
+        <div className="picture-survey card">
             {renderQuestion()}
-            <div className="navigation-buttons">
+            <div className="navigation-buttons card-footer">
                 <span className="question-next">
                     <button
                         className="button is-primary is-outlined"

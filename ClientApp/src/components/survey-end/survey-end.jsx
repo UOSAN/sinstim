@@ -47,11 +47,11 @@ const SurveyEnd = (props) => {
     return (
         <div className="survey-end card">
             <div className="card-header">
-                <div className="card-header-title is-centered" id="survey-code">
+                <div className="card-header-title is-centered">
                     Survey Code:
                 </div>
             </div>
-            <div className="card-content">
+            <div className="card-content" id="survey-code">
                 {completionCode}
             </div>
             <div className="copy-code-button card-footer">

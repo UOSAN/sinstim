@@ -1,0 +1,24 @@
+.picture-survey {
+    img {
+        margin: 15px;
+        max-width: 450px;
+        max-height: 450px;
+        width: auto;
+        height: auto;
+      }
+
+    .recognizability, .desirability {
+        display: flex;
+        padding: 15px;
+        justify-content: space-between;
+    }
+
+    .navigation-buttons {
+        padding: 15px;
+        justify-content: space-evenly;
+
+        .button {
+            width: 80px;
+        }
+    }
+}

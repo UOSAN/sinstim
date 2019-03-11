@@ -1,11 +1,9 @@
 .picture-survey {
-    img {
+    min-width: 480px;
+
+    figure {
         margin: 15px;
-        max-width: 450px;
-        max-height: 450px;
-        width: auto;
-        height: auto;
-      }
+    }
 
     .recognizability, .desirability {
         display: flex;

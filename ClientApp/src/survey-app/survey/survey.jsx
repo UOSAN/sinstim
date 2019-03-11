@@ -67,9 +67,9 @@ const Survey = (props) => {
         const src = `/pictures/${assignedCategory}/${currentPictureFileName}`;
 
         return (
-            <div className="picture">
+            <figure className="picture image is-square">
                 <img alt={assignedCategory} src={src} />
-            </div>
+            </figure>
         );
     }
 

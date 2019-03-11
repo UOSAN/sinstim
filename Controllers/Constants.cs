@@ -52,5 +52,9 @@ namespace SinStim.Controllers {
            public const string PIZZA = "pizza";
            public const string TOBACCO = "tobacco";
         }
+
+        public static class CONFIG {
+            public const string NUMBER_OF_PICTURES_TO_RATE = "numberOfPicturesToRate";
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace SinStim.Services {
 
         public async Task<Array> GetSurveyQuestionNumbers(string category) {
             int numberOfPicturesInCategory = await Context.Pictures.CountAsync(p => p.Category == category);
-            int numberOfPicturesToRate = Configuration.GetValue<int>("numberOfPicturesToRate");
+            int numberOfPicturesToRate = Configuration.GetValue<int>(CONSTANTS.CONFIG.NUMBER_OF_PICTURES_TO_RATE);
             int numberOfPicturesToTake = numberOfPicturesToRate >= numberOfPicturesInCategory
                 ? numberOfPicturesInCategory
                 : numberOfPicturesToRate;

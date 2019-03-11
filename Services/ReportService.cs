@@ -72,6 +72,7 @@ namespace SinStim.Services {
                 .Select(u => {
                     var jObject = new JObject();
                     jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
+                    // jObject.Add(CONSTANTS.)
                     return jObject;
                 }).ToList();
         }
@@ -81,6 +82,10 @@ namespace SinStim.Services {
                 u.EligibilityCompletionCode != null
                 && u.EligibilityStartTime != null
                 && u.EligibilityEndTime != null);
+        }
+
+        private async Task<bool> stillNeedsRatings(string category) {
+            return true;
         }
     }
 }

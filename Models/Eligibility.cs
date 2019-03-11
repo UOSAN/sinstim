@@ -2,7 +2,7 @@
 
 namespace SinStim.Models {
     public class Eligibility {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string UserId { get; set; }
         public bool? Alcohol { get; set; }
         public bool? Tobacco { get; set; }

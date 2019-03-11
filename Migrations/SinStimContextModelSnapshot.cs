@@ -18,7 +18,7 @@ namespace SinStim.Migrations
 
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool?>("Alcohol");
@@ -61,7 +61,7 @@ namespace SinStim.Migrations
 
             modelBuilder.Entity("SinStim.Models.Picture", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Category");
@@ -77,12 +77,12 @@ namespace SinStim.Migrations
 
             modelBuilder.Entity("SinStim.Models.Rating", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("Desirability");
 
-                    b.Property<Guid>("PictureId");
+                    b.Property<string>("PictureId");
 
                     b.Property<int?>("Recognizability");
 
@@ -104,7 +104,7 @@ namespace SinStim.Migrations
 
                     b.Property<string>("AssignedCategory");
 
-                    b.Property<Guid?>("EligibilityCompletionCode");
+                    b.Property<string>("EligibilityCompletionCode");
 
                     b.Property<DateTimeOffset?>("EligibilityEndTime");
 
@@ -112,7 +112,7 @@ namespace SinStim.Migrations
 
                     b.Property<bool>("IsRejected");
 
-                    b.Property<Guid?>("SurveyCompletionCode");
+                    b.Property<string>("SurveyCompletionCode");
 
                     b.Property<DateTimeOffset?>("SurveyEndTime");
 
@@ -134,8 +134,7 @@ namespace SinStim.Migrations
                 {
                     b.HasOne("SinStim.Models.Picture", "Picture")
                         .WithMany("Ratings")
-                        .HasForeignKey("PictureId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PictureId");
 
                     b.HasOne("SinStim.Models.User", "User")
                         .WithMany("Ratings")

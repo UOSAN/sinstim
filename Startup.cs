@@ -36,7 +36,7 @@ namespace SinStim {
 
             services.AddDbContext<SinStimContext>(options => {
                 var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlite(defaultConnectionString, ob => ob.SuppressForeignKeyEnforcement());
+                options.UseSqlite(defaultConnectionString);
             });
 
             services.AddScoped<IUserService, UserService>();

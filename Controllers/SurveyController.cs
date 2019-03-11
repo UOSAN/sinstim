@@ -26,7 +26,7 @@ namespace SinStim.Controllers {
             var userToUpdate = await userService.GetUser(userId);
             if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
-            userToUpdate.SurveyCompletionCode = Guid.NewGuid();
+            userToUpdate.SurveyCompletionCode = Guid.NewGuid().ToString();
             userToUpdate.SurveyStartTime = new DateTimeOffset(DateTime.Now);
             userToUpdate.AssignedCategory = await surveyService.GetAssignedCategory(userId);
 

@@ -7,7 +7,7 @@ namespace SinStim.Models {
             Ratings = new HashSet<Rating>();
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Path { get; set; }
         public string FileName { get; set; }
         public string Category { get; set; }

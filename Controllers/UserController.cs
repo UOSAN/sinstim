@@ -18,7 +18,6 @@ namespace SinStim.Controllers {
         [HttpPost("Save")]
         public async Task<IActionResult> SaveUser([FromBody] JObject newUser) {
             var newUserId = newUser.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var eligibilityCompletionCode = Guid.NewGuid();
             var successful = await userService.SaveAsync(newUserId, false);
             if (!successful) {
                 return BadRequest("Failed to save user.");

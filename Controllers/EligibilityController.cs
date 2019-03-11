@@ -22,7 +22,7 @@ namespace SinStim.Controllers {
             var userToUpdate = await userService.GetUser(userId);
             if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
-            userToUpdate.EligibilityCompletionCode = Guid.NewGuid();
+            userToUpdate.EligibilityCompletionCode = Guid.NewGuid().ToString();
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
             var successful = await userService.UpdateAsync(userToUpdate);
@@ -69,7 +69,7 @@ namespace SinStim.Controllers {
 
         private Eligibility getEligibility(JObject requestBody) {
             var eligibility = new Eligibility();
-            eligibility.Id = Guid.NewGuid();
+            eligibility.Id = Guid.NewGuid().ToString();
             eligibility.UserId = requestBody.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
 
             var answers = requestBody.GetValue(CONSTANTS.ELIGIBILITY.ANSWERS).Value<JObject>();

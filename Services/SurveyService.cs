@@ -38,7 +38,7 @@ namespace SinStim.Services {
         public async Task<bool> RatePicture(string userId, int desirability, int recognizability, string fileName) {
             var picture = await Context.Pictures.FirstOrDefaultAsync(p => p.FileName == fileName);
             var rating = new Rating();
-            rating.Id = Guid.NewGuid();
+            rating.Id = Guid.NewGuid().ToString();
             rating.UserId = userId;
             rating.PictureId = picture.Id;
             rating.Recognizability = recognizability;

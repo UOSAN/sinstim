@@ -11,7 +11,7 @@ namespace SinStim.Migrations
                 name: "Pictures",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     Path = table.Column<string>(nullable: true),
                     FileName = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true)
@@ -29,10 +29,10 @@ namespace SinStim.Migrations
                     IsRejected = table.Column<bool>(nullable: false),
                     SurveyStartTime = table.Column<DateTimeOffset>(nullable: true),
                     SurveyEndTime = table.Column<DateTimeOffset>(nullable: true),
-                    SurveyCompletionCode = table.Column<Guid>(nullable: true),
+                    SurveyCompletionCode = table.Column<string>(nullable: true),
                     EligibilityStartTime = table.Column<DateTimeOffset>(nullable: true),
                     EligibilityEndTime = table.Column<DateTimeOffset>(nullable: true),
-                    EligibilityCompletionCode = table.Column<Guid>(nullable: true),
+                    EligibilityCompletionCode = table.Column<string>(nullable: true),
                     AssignedCategory = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -44,7 +44,7 @@ namespace SinStim.Migrations
                 name: "Eligibilities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Alcohol = table.Column<bool>(nullable: true),
                     Tobacco = table.Column<bool>(nullable: true),
@@ -76,9 +76,9 @@ namespace SinStim.Migrations
                 name: "Ratings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    PictureId = table.Column<Guid>(nullable: false),
+                    PictureId = table.Column<string>(nullable: true),
                     Recognizability = table.Column<int>(nullable: true),
                     Desirability = table.Column<int>(nullable: true)
                 },
@@ -90,7 +90,7 @@ namespace SinStim.Migrations
                         column: x => x.PictureId,
                         principalTable: "Pictures",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Ratings_Users_UserId",
                         column: x => x.UserId,

@@ -6,5 +6,6 @@ namespace SinStim.Services {
     public interface IReportService {
         Task<List<JObject>> GetEligibilityData();
         Task<List<JObject>> GetCompletionData();
+        Task<List<JObject>> GetStatusData();
     }
 }

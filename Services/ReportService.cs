@@ -77,6 +77,10 @@ namespace SinStim.Services {
                 }).ToList();
         }
 
+        public Task<List<JObject>> GetStatusData() {
+            throw new System.NotImplementedException();
+        }
+
         private IQueryable<User> getEligibilitySurveyCompleteUsers() {
             return context.Users.Where(u =>
                 u.EligibilityCompletionCode != null

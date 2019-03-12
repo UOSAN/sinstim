@@ -22,9 +22,16 @@ namespace SinStim.Controllers {
 
         [HttpGet("Completion")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetUser(string id) {
-           var eligibilityData = await reportService.GetCompletionData();
-            return Ok(eligibilityData);
+        public async Task<IActionResult> GetCompletionData(string id) {
+           var completionData = await reportService.GetCompletionData();
+            return Ok(completionData);
+        }
+
+        [HttpGet("Status")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetStatus(string id) {
+           var statusData = await reportService.GetStatusData();
+            return Ok(statusData);
         }
     }
 }

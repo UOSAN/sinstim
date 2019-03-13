@@ -2,15 +2,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using SinStim.Controllers;
 using SinStim.Models;
 
 namespace SinStim.Services {
     public class ReportService : IReportService {
-        private readonly SinStimContext context;
-        public ReportService(SinStimContext context) {
-            this.context = context;
+        private readonly SinStimContext Context;
+        private readonly IConfiguration Configuration;
+
+        public ReportService(SinStimContext context, IConfiguration configuration) {
+            this.Context = context;
+            this.Configuration = configuration;
         }
 
         public async Task<List<JObject>>  GetCompletionData() {
@@ -30,7 +34,7 @@ namespace SinStim.Services {
 
         public async Task<List<JObject>> GetEligibilityData() {
             var completionData = await getEligibilitySurveyCompleteUsers()
-                .Join(context.Eligibilities,
+                .Join(Context.Eligibilities,
                     u => u.Id,
                     e => e.UserId,
                     (u, e) => new { User = u, Eligibility = e })
@@ -50,11 +54,7 @@ namespace SinStim.Services {
                     IceCream = results.Eligibility.IceCream,
                     Pasta = results.Eligibility.Pasta,
                     Pizza = results.Eligibility.Pizza
-                }).ToListAsync();
-
-            return completionData
-                .Where(cd => {
-                    return cd.Alcohol != false
+                }).Where(cd => cd.Alcohol != false
                         || cd.Tobacco != false
                         || cd.Cocaine != false
                         || cd.Heroin != false
@@ -67,9 +67,10 @@ namespace SinStim.Services {
                         || cd.Fries != false
                         || cd.IceCream != false
                         || cd.Pasta != false
-                        || cd.Pizza != false;
-                })
-                .Select(u => {
+                        || cd.Pizza != false
+                ).ToListAsync();
+
+                return completionData.Select(u => {
                     var jObject = new JObject();
                     jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
                     // jObject.Add(CONSTANTS.)
@@ -78,8 +79,8 @@ namespace SinStim.Services {
         }
 
         public async Task<List<JObject>> GetStatusData() {
-            var qry = await context.Pictures.GroupJoin(
-                  context.Ratings,
+            var qry = await Context.Pictures.GroupJoin(
+                  Context.Ratings,
                   picture => picture.Id,
                   rating => rating.PictureId,
                   (picture, ratings) => new { Picture = picture, Ratings = ratings })
@@ -88,25 +89,31 @@ namespace SinStim.Services {
                 (pictureAndRatings, rating) => new {
                     Picture = pictureAndRatings.Picture,
                     Rating = rating
-            }).GroupBy(
+                })
+            .GroupBy(
                 par => par.Picture.FileName,
                 (fileName, pictureAndRating) => new {
-                        FileName = fileName,
-                        NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
-                        Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
-                }).ToListAsync();
+                    FileName = fileName,
+                    NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
+                    Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
+                })
+            .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) => new {
+                Category = category,
+                TotalPictures = pictureInfoList.Count(),
+                PicturesWithEnoughRatings = pictureInfoList.Count(pi => pi.NumOfRatings >= 25)
+            }).ToListAsync();
 
             return qry.Select(pictureAndRating => {
                 var jObject = new JObject();
-                jObject.Add("category", pictureAndRating.Category);
-                jObject.Add("picture", pictureAndRating.FileName);
-                jObject.Add("ratingCount", pictureAndRating.NumOfRatings);
+                jObject.Add("Category", pictureAndRating.Category);
+                jObject.Add("TotalPictures", pictureAndRating.TotalPictures);
+                jObject.Add("PicturesWithEnoughRatings", pictureAndRating.PicturesWithEnoughRatings);
                 return jObject;
             }).ToList();
         }
 
         private IQueryable<User> getEligibilitySurveyCompleteUsers() {
-            return context.Users.Where(u =>
+            return Context.Users.Where(u =>
                 u.EligibilityCompletionCode != null
                 && u.EligibilityStartTime != null
                 && u.EligibilityEndTime != null);

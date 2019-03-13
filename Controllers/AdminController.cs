@@ -7,30 +7,30 @@ namespace SinStim.Controllers {
     [Route("api/[controller]")]
     public class AdminController : Controller {
 
-        private readonly IReportService reportService;
+        private readonly IReportService ReportService;
 
         public AdminController(IReportService reportService) {
-            this.reportService = reportService;
+            this.ReportService = reportService;
         }
 
         [HttpGet("Eligibility")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetEligibilityData() {
-            var eligibilityData = await reportService.GetEligibilityData();
+            var eligibilityData = await ReportService.GetEligibilityData();
             return Ok(eligibilityData);
         }
 
         [HttpGet("Completion")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetCompletionData(string id) {
-           var completionData = await reportService.GetCompletionData();
+           var completionData = await ReportService.GetCompletionData();
             return Ok(completionData);
         }
 
         [HttpGet("Status")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetStatus(string id) {
-            var statusData = await reportService.GetStatusData();
+            var statusData = await ReportService.GetStatusData();
             return Ok(statusData);
         }
     }

@@ -9,16 +9,16 @@ namespace SinStim.Controllers {
     [Route("api/[controller]")]
     public class UserController : Controller {
 
-        private readonly IUserService userService;
+        private readonly IUserService UserService;
 
         public UserController(IUserService userService) {
-            this.userService = userService;
+            this.UserService = userService;
         }
 
         [HttpPost("Save")]
         public async Task<IActionResult> SaveUser([FromBody] JObject newUser) {
             var newUserId = newUser.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var successful = await userService.SaveAsync(newUserId, false);
+            var successful = await UserService.SaveAsync(newUserId, false);
             if (!successful) {
                 return BadRequest("Failed to save user.");
             }
@@ -28,7 +28,7 @@ namespace SinStim.Controllers {
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser(string id) {
-            var user = await userService.GetUser(id);
+            var user = await UserService.GetUser(id);
             if (user == null) {
                 return StatusCode(404);
             }

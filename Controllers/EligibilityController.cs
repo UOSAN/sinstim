@@ -9,23 +9,23 @@ namespace SinStim.Controllers {
     [Route("api/[controller]")]
     public class EligibilityController : Controller {
 
-        private readonly IUserService userService;
+        private readonly IUserService UserService;
 
         public EligibilityController(IUserService userService) {
-            this.userService = userService;
+            this.UserService = userService;
         }
 
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await userService.GetUser(userId);
+            var userToUpdate = await UserService.GetUser(userId);
             if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityCompletionCode = Guid.NewGuid().ToString();
             userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
 
-            var successful = await userService.UpdateAsync(userToUpdate);
+            var successful = await UserService.UpdateAsync(userToUpdate);
             if (!successful) {
                 return BadRequest("Failed to start eligibility survey.");
             }
@@ -39,13 +39,13 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await userService.GetUser(userId);
+            var userToUpdate = await UserService.GetUser(userId);
             if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
             userToUpdate.Eligibility = getEligibility(userJson);
 
-            var successful = await userService.UpdateAsync(userToUpdate);
+            var successful = await UserService.UpdateAsync(userToUpdate);
             if (!successful) {
                 return BadRequest("Failed to end eligibility survey.");
             }

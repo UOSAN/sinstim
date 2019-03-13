@@ -1,15 +1,23 @@
 {
-	"FormattingOptions": {
-		"NewLinesForBracesInLambdaExpressionBody": false,
-		"NewLinesForBracesInAnonymousMethods": false,
-		"NewLinesForBracesInAnonymousTypes": false,
-		"NewLinesForBracesInControlBlocks": false,
-		"NewLinesForBracesInTypes": false,
-		"NewLinesForBracesInMethods": false,
+    "FormattingOptions": {
+        "NewLinesForBracesInLambdaExpressionBody": false,
+        "NewLinesForBracesInAnonymousMethods": false,
+        "NewLinesForBracesInAnonymousTypes": false,
+        "NewLinesForBracesInControlBlocks": false,
+        "NewLinesForBracesInTypes": false,
+        "NewLinesForBracesInMethods": false,
         "NewLinesForBracesInProperties": false,
         "NewLinesForBracesInAccessors": false,
-		"NewLineForElse": false,
-		"NewLineForCatch": false,
-		"NewLineForFinally": false
-	}
+        "NewLineForElse": false,
+        "NewLineForCatch": false,
+        "NewLineForFinally": false
+    },
+    "fileOptions": {
+        "systemExcludeSearchPatterns": [
+            "**/node_modules/**/*",
+            "**/bin/**/*",
+            "**/obj/**/*"
+        ],
+        "userExcludeSearchPatterns": []
+    }
 }

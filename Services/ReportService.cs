@@ -77,8 +77,32 @@ namespace SinStim.Services {
                 }).ToList();
         }
 
-        public Task<List<JObject>> GetStatusData() {
-            throw new System.NotImplementedException();
+        public async Task<List<JObject>> GetStatusData() {
+            var qry = await context.Pictures.GroupJoin(
+                  context.Ratings,
+                  picture => picture.Id,
+                  rating => rating.PictureId,
+                  (picture, ratings) => new { Picture = picture, Ratings = ratings })
+            .SelectMany(
+                pictureAndRatings => pictureAndRatings.Ratings.DefaultIfEmpty(),
+                (pictureAndRatings, rating) => new {
+                    Picture = pictureAndRatings.Picture,
+                    Rating = rating
+            }).GroupBy(
+                par => par.Picture.FileName,
+                (fileName, pictureAndRating) => new {
+                        FileName = fileName,
+                        NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
+                        Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
+                }).ToListAsync();
+
+            return qry.Select(pictureAndRating => {
+                var jObject = new JObject();
+                jObject.Add("category", pictureAndRating.Category);
+                jObject.Add("picture", pictureAndRating.FileName);
+                jObject.Add("ratingCount", pictureAndRating.NumOfRatings);
+                return jObject;
+            }).ToList();
         }
 
         private IQueryable<User> getEligibilitySurveyCompleteUsers() {

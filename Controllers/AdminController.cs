@@ -30,7 +30,7 @@ namespace SinStim.Controllers {
         [HttpGet("Status")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetStatus(string id) {
-           var statusData = await reportService.GetStatusData();
+            var statusData = await reportService.GetStatusData();
             return Ok(statusData);
         }
     }

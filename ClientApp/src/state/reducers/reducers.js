@@ -3,6 +3,11 @@ import produce from 'immer';
 import Actions from '../actions/actions';
 import initialState from './initial-state';
 
+function setRequestComplete(draft) {
+    draft.requestInProgress = false;
+    draft.requestErrored = false;
+}
+
 function reducer(state = initialState, action) {
     /* eslint-disable complexity */
     return produce(state, (draft) => {
@@ -24,69 +29,61 @@ function reducer(state = initialState, action) {
                 break;
             // eligibility reducers
             case Actions.NEW_USER_SAVED:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 draft.id = action.id;
                 break;
 
             case Actions.START_ELIGIBILITY_SURVEY_SAVED:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 draft.eligibilityStartTime = new Date(action.eligibilityStartTime);
                 break;
 
             case Actions.END_ELIGIBILITY_SURVEY_SAVED:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
                 draft.eligibilityCompletionCode = action.eligibilityCompletionCode;
                 break;
             // survey reducers
             case Actions.GET_USER_COMPLETE:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 draft.eligibilityEndTime = new Date(action.eligibilityEndTime);
                 draft.eligibilityStartTime = new Date(action.eligibilityStartTime);
                 draft.id = action.id;
                 break;
 
             case Actions.START_SURVEY_SAVED:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 draft.surveyStartTime = new Date(action.surveyStartTime);
                 draft.assignedCategory = action.assignedCategory;
                 draft.surveyQuestionNumbers = action.surveyQuestionNumbers;
                 break;
 
             case Actions.RATE_PICTURE_SAVED:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 break;
 
             case Actions.END_SURVEY_SAVED:
-                draft.requestInProgress = false;
-                draft.requestErrored = false;
+                setRequestComplete(draft);
                 draft.surveyEndTime = new Date(action.surveyEndTime);
                 draft.surveyCompletionCode = action.surveyCompletionCode;
                 break;
             // admin panel reducers
-            case Actions.FETCHING_REPORT_DATA_ERRORED:
-                draft.isFetchingReportData = false;
-                draft.errorFetchingReportData = action.hasErrored;
-                break;
-            case Actions.FETCHING_REPORT_DATA_IN_PROGRESS:
-                draft.isFetchingReportData = action.isFetching;
+            case Actions.FETCHING_ELIGIBILITY_COMPLETION_REPORT_DATA_COMPLETE:
+                setRequestComplete(draft);
                 break;
 
-            case Actions.FETCHING_COMPLETION_REPORT_DATA_COMPLETE:
-                draft.isFetchingReportData = false;
-                draft.errorFetchingReportData = false;
+            case Actions.FETCHING_INVITATION_REPORT_DATA_COMPLETE:
+                setRequestComplete(draft);
                 break;
 
-            case Actions.FETCHING_ELIGIBILITY_REPORT_DATA_COMPLETE:
-                draft.isFetchingReportData = false;
-                draft.errorFetchingReportData = false;
+            case Actions.FETCHING_PROGRESS_REPORT_DATA_COMPLETE:
+                setRequestComplete(draft);
                 break;
+
+            case Actions.FETCHING_SURVEY_COMPLETION_REPORT_DATA_COMPLETE:
+                setRequestComplete(draft);
+                break;
+
 
             default:
                 return draft;

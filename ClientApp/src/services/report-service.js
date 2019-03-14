@@ -10,7 +10,7 @@
 //     { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
 // ];
 
-function processCompletionReportData(completionData) {
+function processEligibilityCompletionReportData(completionData) {
     return {
         data: completionData,
         headers: [{
@@ -23,9 +23,29 @@ function processCompletionReportData(completionData) {
     };
 }
 
-function processEligibilityReportData(eligibilityData) {
+function processInvitationReportData(invitationData) {
     return {
-        data: eligibilityData,
+        data: invitationData,
+        headers: [{
+            label: 'mTurk Id',
+            key: 'id'
+        }]
+    };
+}
+
+function processProgressReportData(progressData) {
+    return {
+        data: progressData,
+        headers: [{
+            label: 'mTurk Id',
+            key: 'id'
+        }]
+    };
+}
+
+function processSurveyCompletionReportData(completionData) {
+    return {
+        data: completionData,
         headers: [{
             label: 'mTurk Id',
             key: 'id'
@@ -34,6 +54,8 @@ function processEligibilityReportData(eligibilityData) {
 }
 
 export default {
-    processCompletionReportData,
-    processEligibilityReportData
+    processEligibilityCompletionReportData,
+    processInvitationReportData,
+    processProgressReportData,
+    processSurveyCompletionReportData
 };

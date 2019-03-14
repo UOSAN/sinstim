@@ -16,7 +16,7 @@ namespace SinStim.Services {
             this.ConfigService = configService;
         }
 
-        public async Task<List<JObject>>  GetCompletionData() {
+        public async Task<List<JObject>>  GetEligibilityCompletionData() {
             var completionData = await GetEligibilitySurveyCompleteUsers()
                 .Select(u => new {
                     Id = u.Id,
@@ -32,7 +32,7 @@ namespace SinStim.Services {
         }
 
         // TODO filter out people with categories that no longer need ratings
-        public async Task<List<JObject>> GetEligibilityData() {
+        public async Task<List<JObject>> GetInvitationData() {
             var finishedCategories = await GetDictionaryOfFinishedCategories();
             var completionData = await GetEligibilitySurveyCompleteUsers()
                 .Join(Context.Eligibilities,
@@ -94,36 +94,28 @@ namespace SinStim.Services {
         }
 
         public async Task<List<JObject>> GetStatusData() {
-            // TODO pull this qry into its own method!
-            var qry = await Context.Pictures.GroupJoin(
-                  Context.Ratings,
-                  picture => picture.Id,
-                  rating => rating.PictureId,
-                  (picture, ratings) => new { Picture = picture, Ratings = ratings })
-            .SelectMany(
-                pictureAndRatings => pictureAndRatings.Ratings.DefaultIfEmpty(),
-                (pictureAndRatings, rating) => new {
-                    Picture = pictureAndRatings.Picture,
-                    Rating = rating
-                })
-            .GroupBy(
-                par => par.Picture.FileName,
-                (fileName, pictureAndRating) => new {
-                    FileName = fileName,
-                    NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
-                    Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
-                })
-            .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) => new {
-                Category = category,
-                TotalPictures = pictureInfoList.Count(),
-                FinishedPictureCount = pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
-            }).ToListAsync();
+            var categoryCompleteInfo = await GetCategoryCompleteInfo();
 
-            return qry.Select(pictureAndRating => {
+            return categoryCompleteInfo.Select(cci => {
                 var jObject = new JObject();
-                jObject.Add(CONSTANTS.REQUEST.CATEGORY, pictureAndRating.Category);
-                jObject.Add(CONSTANTS.REQUEST.TOTAL_PICTURES, pictureAndRating.TotalPictures);
-                jObject.Add(CONSTANTS.REQUEST.FINISHED_PICTURE_COUNT, pictureAndRating.FinishedPictureCount);
+                jObject.Add(CONSTANTS.REQUEST.CATEGORY, cci.Category);
+                jObject.Add(CONSTANTS.REQUEST.TOTAL_PICTURES, cci.TotalPictures);
+                jObject.Add(CONSTANTS.REQUEST.FINISHED_PICTURE_COUNT, cci.FinishedPictureCount);
+                return jObject;
+            }).ToList();
+        }
+
+        public async Task<List<JObject>> GetSurveyCompletionData() {
+            var completionData = await GetSurveyCompleteUsers()
+                .Select(u => new {
+                    Id = u.Id,
+                    CompletionCode = u.SurveyCompletionCode
+                }).ToListAsync();
+
+            return completionData.Select(u => {
+                var jObject = new JObject();
+                jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
+                jObject.Add(CONSTANTS.REQUEST.SURVEY_COMPLETION_CODE, u.CompletionCode);
                 return jObject;
             }).ToList();
         }
@@ -135,9 +127,27 @@ namespace SinStim.Services {
                 && u.EligibilityEndTime != null);
         }
 
+        private IQueryable<User> GetSurveyCompleteUsers() {
+            return Context.Users.Where(u =>
+                u.EligibilityCompletionCode != null
+                && u.EligibilityStartTime != null
+                && u.EligibilityEndTime != null
+                && u.SurveyCompletionCode != null
+                && u.SurveyStartTime != null
+                && u.SurveyEndTime != null);
+        }
+
         private async Task<Dictionary<string, bool>> GetDictionaryOfFinishedCategories() {
-            // TODO pull this qry into its own method!
-            var qry = await Context.Pictures.GroupJoin(
+            var categoryCompleteInfo = await GetCategoryCompleteInfo();
+
+            return categoryCompleteInfo.Select(cci => new {
+                Category = cci.Category,
+                IsFinished = cci.FinishedPictureCount == cci.TotalPictures
+            }).ToDictionary(ci => ci.Category, ci => ci.IsFinished);
+        }
+
+        private async Task<List<CategoryInfo>> GetCategoryCompleteInfo() {
+            return await Context.Pictures.GroupJoin(
                   Context.Ratings,
                   picture => picture.Id,
                   rating => rating.PictureId,
@@ -155,16 +165,12 @@ namespace SinStim.Services {
                     NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
                     Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
                 })
-            .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) => new {
-                Category = category,
-                TotalPictures = pictureInfoList.Count(),
-                FinishedPictureCount = pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
-            }).ToListAsync();
-
-            return qry.Select(c => new {
-                Category = c.Category,
-                IsFinished = c.FinishedPictureCount == c.TotalPictures
-            }).ToDictionary(ci => ci.Category, ci => ci.IsFinished);
+            .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) =>
+                new CategoryInfo(category,
+                    pictureInfoList.Count(),
+                    pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
+                )
+            ).ToListAsync();
         }
     }
 }

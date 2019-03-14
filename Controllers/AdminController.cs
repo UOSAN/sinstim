@@ -13,25 +13,32 @@ namespace SinStim.Controllers {
             this.ReportService = reportService;
         }
 
-        [HttpGet("Eligibility")]
+        [HttpGet("Invitation")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetEligibilityData() {
-            var eligibilityData = await ReportService.GetEligibilityData();
-            return Ok(eligibilityData);
+        public async Task<IActionResult> GetInvitationData() {
+            var invitationData = await ReportService.GetInvitationData();
+            return Ok(invitationData);
         }
 
-        [HttpGet("Completion")]
+        [HttpGet("Eligibility/Completion")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetCompletionData(string id) {
-           var completionData = await ReportService.GetCompletionData();
+        public async Task<IActionResult> GetEligibilityCompletionData() {
+           var completionData = await ReportService.GetEligibilityCompletionData();
             return Ok(completionData);
         }
 
         [HttpGet("Status")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetStatus(string id) {
+        public async Task<IActionResult> GetStatus() {
             var statusData = await ReportService.GetStatusData();
             return Ok(statusData);
+        }
+
+        [HttpGet("Survey/Completion")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetSurveyCompletionData() {
+           var completionData = await ReportService.GetSurveyCompletionData();
+            return Ok(completionData);
         }
     }
 }

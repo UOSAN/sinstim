@@ -1,20 +1,17 @@
 import { connect } from 'react-redux';
 import {
-    onGenerateCompletionReport,
-    onGenerateEligibilityReport
+    onGenerateEligibilityCompletionReport,
+    onGenerateInvitationReport,
+    onGenerateProgressReport,
+    onGenerateSurveyCompletionReport
 } from '../../state/actions/admin-action-creators';
-
-// const mapStateToProps = (state) => {
-//     return {
-//         consentText: state.consentText,
-//         isConsented: state.isConsented
-//     };
-// };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGenerateCompletionReport: (credentials) => dispatch(onGenerateCompletionReport(credentials)),
-        onGenerateEligibilityReport: (credentials) => dispatch(onGenerateEligibilityReport(credentials))
+        onGenerateEligibilityCompletionReport: (credentials) => dispatch(onGenerateEligibilityCompletionReport(credentials)),
+        onGenerateInvitationReport: (credentials) => dispatch(onGenerateInvitationReport(credentials)),
+        onGenerateProgressReport: (credentials) => dispatch(onGenerateProgressReport(credentials)),
+        onGenerateSurveyCompletionReport: (credentials) => dispatch(onGenerateSurveyCompletionReport(credentials))
     };
 };
 

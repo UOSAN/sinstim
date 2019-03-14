@@ -23,10 +23,10 @@ const App = (props) => {
         });
     }
 
-    async function handleGenerateCompletionReport() {
+    async function handleGenerateEligibilityCompletionReport() {
         setReportData({});
         const { email, password } = credentials;
-        const { data, headers } = await props.onGenerateCompletionReport({ email, password });
+        const { data, headers } = await props.onGenerateEligibilityCompletionReport({ email, password });
 
         setReportData({
             data,
@@ -34,10 +34,32 @@ const App = (props) => {
         });
     }
 
-    async function handleGenerateEligibilityReport() {
+    async function handleGenerateInvitationReport() {
         setReportData({});
         const { email, password } = credentials;
-        const { data, headers } = await props.onGenerateEligibilityReport({ email, password });
+        const { data, headers } = await props.onGenerateInvitationReport({ email, password });
+
+        setReportData({
+            data,
+            headers
+        });
+    }
+
+    async function handleGenerateProgressReport() {
+        setReportData({});
+        const { email, password } = credentials;
+        const { data, headers } = await props.onGenerateProgressReport({ email, password });
+
+        setReportData({
+            data,
+            headers
+        });
+    }
+
+    async function handleGenerateSurveyCompletionReport() {
+        setReportData({});
+        const { email, password } = credentials;
+        const { data, headers } = await props.onGenerateSurveyCompletionReport({ email, password });
 
         setReportData({
             data,
@@ -96,20 +118,36 @@ const App = (props) => {
                     </div>
                     <div className="report-generation-buttons">
                         <button
-                            className="button is-primary is-outlined completion"
+                            className="button is-primary is-outlined eligibility-completion"
                             disabled={!credentials.email || !credentials.password}
-                            onClick={handleGenerateCompletionReport}
+                            onClick={handleGenerateEligibilityCompletionReport}
                             type="button"
                             >
-                    Generate Completion Report
+                            Generate Eligibility Completion Report
                         </button>
                         <button
-                            className="button is-primary is-outlined eligibility"
+                            className="button is-primary is-outlined invitation"
                             disabled={!credentials.email || !credentials.password}
-                            onClick={handleGenerateEligibilityReport}
+                            onClick={handleGenerateInvitationReport}
                             type="button"
                             >
-                    Generate Eligibility Report
+                            Generate Survey Invitation Report
+                        </button>
+                        <button
+                            className="button is-primary is-outlined progress-report"
+                            disabled={!credentials.email || !credentials.password}
+                            onClick={handleGenerateProgressReport}
+                            type="button"
+                            >
+                            Generate Survey Progress Report
+                        </button>
+                        <button
+                            className="button is-primary is-outlined survey-completion"
+                            disabled={!credentials.email || !credentials.password}
+                            onClick={handleGenerateSurveyCompletionReport}
+                            type="button"
+                            >
+                            Generate Survey Completion Report
                         </button>
                     </div>
                 </div>
@@ -121,8 +159,10 @@ const App = (props) => {
 };
 
 App.propTypes = {
-    onGenerateCompletionReport: PropTypes.func.isRequired,
-    onGenerateEligibilityReport: PropTypes.func.isRequired
+    onGenerateEligibilityCompletionReport: PropTypes.func.isRequired,
+    onGenerateInvitationReport: PropTypes.func.isRequired,
+    onGenerateProgressReport: PropTypes.func.isRequired,
+    onGenerateSurveyCompletionReport: PropTypes.func.isRequired
 };
 
 export default App;

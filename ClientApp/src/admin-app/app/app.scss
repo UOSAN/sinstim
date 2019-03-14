@@ -22,12 +22,8 @@
             flex-direction: column;
             margin: 25px;
 
-            .eligibility {
-                width: 235px;
-                margin-top: 20px;
-            }
-            .completion {
-                width: 235px;
+            .eligibility-completion, .invitation, .progress-report, .survey-completion {
+                width: 300px;
                 margin-top: 20px;
             }
         }

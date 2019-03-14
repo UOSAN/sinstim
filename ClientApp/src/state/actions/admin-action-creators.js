@@ -3,54 +3,83 @@ import axios from 'axios';
 import reportService from './../../services/report-service';
 
 import actions from './actions';
+import {
+    requestErrored,
+    requestInProgress
+} from './common-action-creators';
 
-const fetchingReportDataErrored = (bool) => {
+const generateEligibilityCompletionReportComplete = () => {
     return {
-        type: actions.FETCHING_REPORT_DATA_ERRORED,
-        hasErrored: bool
+        type: actions.FETCHING_ELIGIBILITY_COMPLETION_REPORT_DATA_COMPLETE
     };
 };
 
-const fetchingReportDataInProgress = (bool) => {
-    return {
-        type: actions.FETCHING_REPORT_DATA_IN_PROGRESS,
-        isFetching: bool
-    };
-};
-
-const generateCompletionReportComplete = () => {
-    return {
-        type: actions.FETCHING_COMPLETION_REPORT_DATA_COMPLETE
-    };
-};
-
-export const onGenerateCompletionReport = () => {
+export const onGenerateEligibilityCompletionReport = () => {
     return (dispatch) => {
-        dispatch(fetchingReportDataInProgress(true));
+        dispatch(requestInProgress(true));
 
-        return axios.get('/api/Admin/Completion')
+        return axios.get('/api/Admin/Eligibility/Completion')
             .then((response) => {
-                dispatch(generateCompletionReportComplete());
-                return reportService.processCompletionReportData(response.data);
+                dispatch(generateEligibilityCompletionReportComplete());
+                return reportService.processEligibilityCompletionReportData(response.data);
             })
-            .catch(() => dispatch(fetchingReportDataErrored(true)));
+            .catch(() => dispatch(requestErrored(true)));
     };
 };
-const generateEligibilityReportComplete = () => {
+
+const generateInvitationReportComplete = () => {
     return {
-        type: actions.FETCHING_ELIGIBILITY_REPORT_DATA_COMPLETE
+        type: actions.FETCHING_INVITATION_REPORT_DATA_COMPLETE
     };
 };
 
-export const onGenerateEligibilityReport = () => {
+export const onGenerateInvitationReport = () => {
     return (dispatch) => {
-        dispatch(fetchingReportDataInProgress(true));
+        dispatch(requestInProgress(true));
 
-        return axios.get('/api/Admin/Eligibility')
+        return axios.get('/api/Admin/Invitation')
             .then((response) => {
-                dispatch(generateEligibilityReportComplete());
-                return reportService.processEligibilityReportData(response.data);
+                dispatch(generateInvitationReportComplete());
+                return reportService.processInvitationReportData(response.data);
             })
-            .catch(() => dispatch(fetchingReportDataErrored(true)));
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};
+
+const generateProgressReportComplete = () => {
+    return {
+        type: actions.FETCHING_PROGRESS_REPORT_DATA_COMPLETE
+    };
+};
+
+export const onGenerateProgressReport = () => {
+    return (dispatch) => {
+        dispatch(requestInProgress(true));
+
+        return axios.get('/api/Admin/Status')
+            .then((response) => {
+                dispatch(generateProgressReportComplete());
+                return reportService.processProgressReportData(response.data);
+            })
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};
+
+const generateSurveyCompletionReportComplete = () => {
+    return {
+        type: actions.FETCHING_SURVEY_COMPLETION_REPORT_DATA_COMPLETE
+    };
+};
+
+export const onGenerateSurveyCompletionReport = () => {
+    return (dispatch) => {
+        dispatch(requestInProgress(true));
+
+        return axios.get('/api/Admin/Survey/Completion')
+            .then((response) => {
+                dispatch(generateSurveyCompletionReportComplete());
+                return reportService.processSurveyCompletionReportData(response.data);
+            })
+            .catch(() => dispatch(requestErrored(true)));
     };
 };

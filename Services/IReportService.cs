@@ -4,8 +4,9 @@ using Newtonsoft.Json.Linq;
 
 namespace SinStim.Services {
     public interface IReportService {
-        Task<List<JObject>> GetEligibilityData();
-        Task<List<JObject>> GetCompletionData();
+        Task<List<JObject>> GetInvitationData();
+        Task<List<JObject>> GetEligibilityCompletionData();
         Task<List<JObject>> GetStatusData();
+        Task<List<JObject>> GetSurveyCompletionData();
     }
 }

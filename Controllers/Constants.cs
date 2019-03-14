@@ -15,6 +15,9 @@ namespace SinStim.Controllers {
             public const string FILE_NAME = "fileName";
             public const string DESIRABILITY = "desirability";
             public const string RECOGNIZABILITY = "recognizability";
+            public const string CATEGORY = "category";
+            public const string TOTAL_PICTURES = "totalPictures";
+            public const string FINISHED_PICTURE_COUNT = "finishedPictureCount";
         }
 
         public static class ELIGIBILITY {
@@ -55,6 +58,8 @@ namespace SinStim.Controllers {
 
         public static class CONFIG {
             public const string NUMBER_OF_PICTURES_TO_RATE = "numberOfPicturesToRate";
+            public const string NUMBER_OF_RATINGS_TO_FINISH_PICTURE = "numberOfRatingsToFinishPicture";
+            public const string DEFAULT_CONNECTION = "DefaultConnection";
         }
     }
 }

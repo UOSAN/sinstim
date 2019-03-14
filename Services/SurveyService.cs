@@ -11,16 +11,16 @@ namespace SinStim.Services {
     public class SurveyService : ISurveyService {
 
         private readonly SinStimContext Context;
-        private readonly IConfiguration Configuration;
+        private readonly IConfigService ConfigService;
 
-        public SurveyService(SinStimContext context, IConfiguration configuration) {
+        public SurveyService(SinStimContext context, IConfigService configService) {
             this.Context = context;
-            this.Configuration = configuration;
+            this.ConfigService = configService;
         }
 
         public async Task<Array> GetSurveyQuestionNumbers(string category) {
             int numberOfPicturesInCategory = await Context.Pictures.CountAsync(p => p.Category == category);
-            int numberOfPicturesToRate = Configuration.GetValue<int>(CONSTANTS.CONFIG.NUMBER_OF_PICTURES_TO_RATE);
+            int numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
             int numberOfPicturesToTake = numberOfPicturesToRate >= numberOfPicturesInCategory
                 ? numberOfPicturesInCategory
                 : numberOfPicturesToRate;

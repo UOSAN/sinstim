@@ -4,17 +4,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SinStim.Services;
 using SinStim.Models;
+using Microsoft.Extensions.Configuration;
+using SinStim.Controllers;
 
 namespace SinStim {
     public class Startup {
         private readonly IConfiguration Configuration;
 
         public Startup(IConfiguration configuration) {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
@@ -35,14 +36,14 @@ namespace SinStim {
             });
 
             services.AddDbContext<SinStimContext>(options => {
-                var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
+                var defaultConnectionString = Configuration.GetConnectionString(CONSTANTS.CONFIG.DEFAULT_CONNECTION);
                 options.UseSqlite(defaultConnectionString);
             });
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IReportService, ReportService>();
-            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<ISurveyService, SurveyService>();
+            services.AddScoped<IConfigService, ConfigService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

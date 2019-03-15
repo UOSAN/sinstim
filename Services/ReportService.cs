@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,21 +75,21 @@ namespace SinStim.Services {
 
                 return completionData.Select(u => {
                     var jObject = new JObject();
-                    jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
-                    jObject.Add(CONSTANTS.CATEGORY.ALCOHOL, u.Alcohol);
-                    jObject.Add(CONSTANTS.CATEGORY.CHOCOLATE, u.Chocolate);
-                    jObject.Add(CONSTANTS.CATEGORY.COCAINE, u.Cocaine);
-                    jObject.Add(CONSTANTS.CATEGORY.COOKIES, u.Cookies);
-                    jObject.Add(CONSTANTS.CATEGORY.DONUTS, u.Donuts);
-                    jObject.Add(CONSTANTS.CATEGORY.FRIES, u.Fries);
-                    jObject.Add(CONSTANTS.CATEGORY.HEROIN, u.Heroin);
-                    jObject.Add(CONSTANTS.CATEGORY.ICECREAM, u.IceCream);
-                    jObject.Add(CONSTANTS.CATEGORY.MARIJUANA, u.Marijuana);
-                    jObject.Add(CONSTANTS.CATEGORY.METHAMPHETAMINE, u.Methamphetamine);
-                    jObject.Add(CONSTANTS.CATEGORY.PASTA, u.Pasta);
-                    jObject.Add(CONSTANTS.CATEGORY.PILLS, u.Pills);
-                    jObject.Add(CONSTANTS.CATEGORY.PIZZA, u.Pizza);
-                    jObject.Add(CONSTANTS.CATEGORY.TOBACCO, u.Tobacco);
+                    jObject.Add(CONSTANTS.REQUEST.ID, u.Id.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.ALCOHOL, u.Alcohol.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.CHOCOLATE, u.Chocolate.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.COCAINE, u.Cocaine.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.COOKIES, u.Cookies.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.DONUTS, u.Donuts.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.FRIES, u.Fries.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.HEROIN, u.Heroin.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.ICECREAM, u.IceCream.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.MARIJUANA, u.Marijuana.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.METHAMPHETAMINE, u.Methamphetamine.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.PASTA, u.Pasta.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.PILLS, u.Pills.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.PIZZA, u.Pizza.ToString());
+                    jObject.Add(CONSTANTS.CATEGORY.TOBACCO, u.Tobacco.ToString());
                     return jObject;
                 }).ToList();
         }
@@ -101,6 +102,7 @@ namespace SinStim.Services {
                 jObject.Add(CONSTANTS.REQUEST.CATEGORY, cci.Category);
                 jObject.Add(CONSTANTS.REQUEST.TOTAL_PICTURES, cci.TotalPictures);
                 jObject.Add(CONSTANTS.REQUEST.FINISHED_PICTURE_COUNT, cci.FinishedPictureCount);
+                jObject.Add(CONSTANTS.REQUEST.PERCENT_COMPLETE, (Math.Round(cci.PercentComplete*100, 2)) + "%");
                 return jObject;
             }).ToList();
         }

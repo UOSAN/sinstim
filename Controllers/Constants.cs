@@ -18,6 +18,7 @@ namespace SinStim.Controllers {
             public const string CATEGORY = "category";
             public const string TOTAL_PICTURES = "totalPictures";
             public const string FINISHED_PICTURE_COUNT = "finishedPictureCount";
+            public const string PERCENT_COMPLETE = "percentComplete";
         }
 
         public static class ELIGIBILITY {

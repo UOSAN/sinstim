@@ -10,7 +10,7 @@ namespace SinStim.Services {
             this.Category = category;
             this.TotalPictures = totalPictures;
             this.FinishedPictureCount = finishedPictureCount;
-            this.PercentComplete = this.FinishedPictureCount / this.TotalPictures;
+            this.PercentComplete = (double)this.FinishedPictureCount / (double)this.TotalPictures;
         }
     }
 }

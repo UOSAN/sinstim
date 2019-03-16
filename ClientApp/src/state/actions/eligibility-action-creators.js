@@ -20,7 +20,7 @@ export const onSaveUser = (id) => {
 
         const saveUserBody = { id };
 
-        return axios.post('/api/User/Save', saveUserBody)
+        return axios.post('/api/Eligibility/User/Save', saveUserBody)
             .then(() => dispatch(newUserSaved(id)))
             .catch(() => dispatch(requestErrored(true)));
     };

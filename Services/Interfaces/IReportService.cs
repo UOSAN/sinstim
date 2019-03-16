@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace SinStim.Services {
+namespace SinStim.Services.Interfaces {
     public interface IReportService {
         Task<List<JObject>> GetInvitationData();
         Task<List<JObject>> GetEligibilityCompletionData();

@@ -4,17 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using SinStim.Controllers;
+using SinStim.Constants;
 using SinStim.Models;
+using SinStim.Services.Interfaces;
 
 namespace SinStim.Services {
     public class ReportService : IReportService {
         private readonly SinStimContext Context;
         private readonly IConfigService ConfigService;
+        private readonly ICategoryService CategoryService;
 
-        public ReportService(SinStimContext context, IConfigService configService) {
+        public ReportService(SinStimContext context, IConfigService configService, ICategoryService categoryService) {
             this.Context = context;
             this.ConfigService = configService;
+            this.CategoryService = categoryService;
         }
 
         public async Task<List<JObject>>  GetEligibilityCompletionData() {
@@ -32,10 +35,13 @@ namespace SinStim.Services {
             }).ToList();
         }
 
-        // TODO filter out people with categories that no longer need ratings
         public async Task<List<JObject>> GetInvitationData() {
             var finishedCategories = await GetDictionaryOfFinishedCategories();
-            var completionData = await GetEligibilitySurveyCompleteUsers()
+            var completionData = await Context.Users.Where(u =>
+                    u.EligibilityCompletionCode != null
+                    && u.EligibilityStartTime != null
+                    && u.EligibilityEndTime != null
+                    && u.SurveyStartTime == null)
                 .Join(Context.Eligibilities,
                     u => u.Id,
                     e => e.UserId,
@@ -57,20 +63,20 @@ namespace SinStim.Services {
                     Pasta = results.Eligibility.Pasta,
                     Pizza = results.Eligibility.Pizza
                 }).Where(cd =>
-                        (cd.Alcohol != false && !finishedCategories[CONSTANTS.CATEGORY.ALCOHOL])
-                        || (cd.Tobacco != false && !finishedCategories[CONSTANTS.CATEGORY.TOBACCO])
-                        || (cd.Cocaine != false && !finishedCategories[CONSTANTS.CATEGORY.COCAINE])
-                        || (cd.Heroin != false && !finishedCategories[CONSTANTS.CATEGORY.HEROIN])
-                        || (cd.Marijuana != false && !finishedCategories[CONSTANTS.CATEGORY.MARIJUANA])
-                        || (cd.Methamphetamine != false && !finishedCategories[CONSTANTS.CATEGORY.METHAMPHETAMINE])
-                        || (cd.Pills != false && !finishedCategories[CONSTANTS.CATEGORY.PILLS])
-                        || (cd.Chocolate != false && !finishedCategories[CONSTANTS.CATEGORY.CHOCOLATE])
-                        || (cd.Cookies != false && !finishedCategories[CONSTANTS.CATEGORY.COOKIES])
-                        || (cd.Donuts != false && !finishedCategories[CONSTANTS.CATEGORY.DONUTS])
-                        || (cd.Fries != false && !finishedCategories[CONSTANTS.CATEGORY.FRIES])
-                        || (cd.IceCream != false && !finishedCategories[CONSTANTS.CATEGORY.ICECREAM])
-                        || (cd.Pasta != false && !finishedCategories[CONSTANTS.CATEGORY.PASTA])
-                        || (cd.Pizza != false && !finishedCategories[CONSTANTS.CATEGORY.PIZZA])
+                    (cd.Alcohol != false && !finishedCategories[CONSTANTS.CATEGORY.ALCOHOL])
+                    || (cd.Tobacco != false && !finishedCategories[CONSTANTS.CATEGORY.TOBACCO])
+                    || (cd.Cocaine != false && !finishedCategories[CONSTANTS.CATEGORY.COCAINE])
+                    || (cd.Heroin != false && !finishedCategories[CONSTANTS.CATEGORY.HEROIN])
+                    || (cd.Marijuana != false && !finishedCategories[CONSTANTS.CATEGORY.MARIJUANA])
+                    || (cd.Methamphetamine != false && !finishedCategories[CONSTANTS.CATEGORY.METHAMPHETAMINE])
+                    || (cd.Pills != false && !finishedCategories[CONSTANTS.CATEGORY.PILLS])
+                    || (cd.Chocolate != false && !finishedCategories[CONSTANTS.CATEGORY.CHOCOLATE])
+                    || (cd.Cookies != false && !finishedCategories[CONSTANTS.CATEGORY.COOKIES])
+                    || (cd.Donuts != false && !finishedCategories[CONSTANTS.CATEGORY.DONUTS])
+                    || (cd.Fries != false && !finishedCategories[CONSTANTS.CATEGORY.FRIES])
+                    || (cd.IceCream != false && !finishedCategories[CONSTANTS.CATEGORY.ICECREAM])
+                    || (cd.Pasta != false && !finishedCategories[CONSTANTS.CATEGORY.PASTA])
+                    || (cd.Pizza != false && !finishedCategories[CONSTANTS.CATEGORY.PIZZA])
                 ).ToListAsync();
 
                 return completionData.Select(u => {
@@ -95,7 +101,7 @@ namespace SinStim.Services {
         }
 
         public async Task<List<JObject>> GetStatusData() {
-            var categoryCompleteInfo = await GetCategoryCompleteInfo();
+            var categoryCompleteInfo = await CategoryService.GetCategoryCompleteInfoAsync();
 
             return categoryCompleteInfo.Select(cci => {
                 var jObject = new JObject();
@@ -128,7 +134,6 @@ namespace SinStim.Services {
                 && u.EligibilityStartTime != null
                 && u.EligibilityEndTime != null);
         }
-
         private IQueryable<User> GetSurveyCompleteUsers() {
             return Context.Users.Where(u =>
                 u.EligibilityCompletionCode != null
@@ -140,39 +145,12 @@ namespace SinStim.Services {
         }
 
         private async Task<Dictionary<string, bool>> GetDictionaryOfFinishedCategories() {
-            var categoryCompleteInfo = await GetCategoryCompleteInfo();
+            var categoryCompleteInfo = await CategoryService.GetCategoryCompleteInfoAsync();
 
             return categoryCompleteInfo.Select(cci => new {
                 Category = cci.Category,
                 IsFinished = cci.FinishedPictureCount == cci.TotalPictures
             }).ToDictionary(ci => ci.Category, ci => ci.IsFinished);
-        }
-
-        private async Task<List<CategoryInfo>> GetCategoryCompleteInfo() {
-            return await Context.Pictures.GroupJoin(
-                  Context.Ratings,
-                  picture => picture.Id,
-                  rating => rating.PictureId,
-                  (picture, ratings) => new { Picture = picture, Ratings = ratings })
-            .SelectMany(
-                pictureAndRatings => pictureAndRatings.Ratings.DefaultIfEmpty(),
-                (pictureAndRatings, rating) => new {
-                    Picture = pictureAndRatings.Picture,
-                    Rating = rating
-                })
-            .GroupBy(
-                par => par.Picture.FileName,
-                (fileName, pictureAndRating) => new {
-                    FileName = fileName,
-                    NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
-                    Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
-                })
-            .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) =>
-                new CategoryInfo(category,
-                    pictureInfoList.Count(),
-                    pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
-                )
-            ).ToListAsync();
         }
     }
 }

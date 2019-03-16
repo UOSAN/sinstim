@@ -20,7 +20,7 @@ export const onGetUser = (id) => {
     return (dispatch) => {
         dispatch(requestInProgress(true));
 
-        return axios.get(`/api/User/${id}`)
+        return axios.get(`/api/Survey/User/${id}`)
             .then((response) => dispatch(getUserComplete(response.data)))
             .catch(() => dispatch(requestErrored(true)));
     };

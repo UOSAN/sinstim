@@ -1,4 +1,4 @@
-namespace SinStim.Controllers {
+namespace SinStim.Constants {
     public static class CONSTANTS {
         public static class REQUEST {
             public const string ID = "id";

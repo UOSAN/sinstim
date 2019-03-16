@@ -1,4 +1,4 @@
-namespace SinStim.Services {
+namespace SinStim.Services.Poco {
     public class CategoryInfo {
 
         public readonly string Category;

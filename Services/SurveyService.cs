@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SinStim.Controllers;
+using SinStim.Constants;
 using SinStim.Models;
+using SinStim.Services.Interfaces;
 
 namespace SinStim.Services {
     public class SurveyService : ISurveyService {
@@ -32,30 +33,6 @@ namespace SinStim.Services {
             var idx = GetRandomAssignedCategoryIndex(potentialCategories.Count-1);
 
             return potentialCategories.ElementAt(idx);
-        }
-
-        public async Task<bool> RatePicture(string userId, int desirability, int recognizability, string fileName) {
-            var picture = await Context.Pictures.FirstOrDefaultAsync(p => p.FileName == fileName);
-            var rating = new Rating();
-            rating.Id = Guid.NewGuid().ToString();
-            rating.UserId = userId;
-            rating.PictureId = picture.Id;
-            rating.Recognizability = recognizability;
-            rating.Desirability = desirability;
-
-            return await SaveAsync(rating);
-        }
-
-        private async Task<bool> SaveAsync(Rating rating) {
-            Context.Ratings.Add(rating);
-
-            var saveResult = 0;
-            try {
-                saveResult = await Context.SaveChangesAsync();
-            } catch(Exception e) {
-                System.Diagnostics.Debug.WriteLine(e);
-            }
-            return saveResult == 1;
         }
 
         private List<string> GetPotentialCategories(Eligibility eligibility) {

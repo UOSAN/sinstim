@@ -2,17 +2,17 @@ using System;
 using System.Threading.Tasks;
 using SinStim.Models;
 
-namespace SinStim.Services {
+namespace SinStim.Services.Entity {
     public partial class UserService : IUserService {
         private readonly SinStimContext Context;
         public UserService(SinStimContext context) {
             this.Context = context;
         }
 
-        public async Task<bool> SaveAsync(string id, bool isRejected) {
+        public async Task<bool> SaveAsync(string id) {
             var newUser = new User();
             newUser.Id = id;
-            newUser.IsRejected = isRejected;
+            newUser.IsRejected = false;
             Context.Users.Add(newUser);
 
             var saveResult = 0;
@@ -35,8 +35,8 @@ namespace SinStim.Services {
             return saveResult >= 1;
         }
 
-        public async Task<User> GetUser(string userId) {
-            return await Context.FindAsync<User>(userId);
+        public async Task<User> GetAsync(string id) {
+            return await Context.FindAsync<User>(id);
         }
     }
 }

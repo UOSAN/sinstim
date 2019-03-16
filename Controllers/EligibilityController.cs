@@ -2,8 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using SinStim.Constants;
 using SinStim.Models;
-using SinStim.Services;
+using SinStim.Services.Entity;
 
 namespace SinStim.Controllers {
     [Route("api/[controller]")]
@@ -15,11 +16,22 @@ namespace SinStim.Controllers {
             this.UserService = userService;
         }
 
+        [HttpPost("User/Save")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> SaveUser([FromBody] JObject newUser) {
+            var newUserId = newUser.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+            var successful = await UserService.SaveAsync(newUserId);
+            if (!successful) {
+                return BadRequest("Failed to save user.");
+            }
+            return Ok();
+        }
+
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetUser(userId);
+            var userToUpdate = await UserService.GetAsync(userId);
             if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityCompletionCode = Guid.NewGuid().ToString();
@@ -39,7 +51,7 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetUser(userId);
+            var userToUpdate = await UserService.GetAsync(userId);
             if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);

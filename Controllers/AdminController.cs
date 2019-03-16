@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SinStim.Services;
+using SinStim.Services.Interfaces;
 
 namespace SinStim.Controllers {
     [Route("api/[controller]")]

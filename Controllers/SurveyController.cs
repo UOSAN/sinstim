@@ -1,9 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using SinStim.Constants;
 using SinStim.Models;
-using SinStim.Services;
+using SinStim.Services.Entity;
+using SinStim.Services.Interfaces;
 
 namespace SinStim.Controllers {
     [Route("api/[controller]")]
@@ -11,17 +14,33 @@ namespace SinStim.Controllers {
 
         private readonly IUserService UserService;
         private readonly ISurveyService SurveyService;
+        private readonly IRatingService RatingService;
 
-        public SurveyController(IUserService userService, ISurveyService surveyService) {
+        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService) {
             this.UserService = userService;
             this.SurveyService = surveyService;
+            this.RatingService = ratingService;
+        }
+
+        [HttpGet("User/{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUser(string id) {
+            var user = await UserService.GetAsync(id);
+            if (user == null) {
+                return StatusCode(404);
+            }
+            var response = new JObject();
+            response.Add(CONSTANTS.REQUEST.ID, user.Id);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_END_TIME, user.EligibilityEndTime);
+            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, user.EligibilityStartTime);
+            return Ok(response);
         }
 
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartPictureSurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetUser(userId);
+            var userToUpdate = await UserService.GetAsync(userId);
             if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.SurveyCompletionCode = Guid.NewGuid().ToString();
@@ -44,14 +63,14 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> RatePicture([FromBody] JObject requestBody) {
             var userId = requestBody.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetUser(userId);
+            var userToUpdate = await UserService.GetAsync(userId);
             if(!IsAllowedToRatePicture(userToUpdate)) { return StatusCode(401); }
 
             var recognizability = requestBody.GetValue(CONSTANTS.REQUEST.RECOGNIZABILITY).Value<int>();
             var desirability = requestBody.GetValue(CONSTANTS.REQUEST.DESIRABILITY).Value<int>();
             var fileName = requestBody.GetValue(CONSTANTS.REQUEST.FILE_NAME).Value<string>();
 
-            var successful = await SurveyService.RatePicture(userToUpdate.Id, desirability, recognizability, fileName);
+            var successful = await RatingService.SaveAsync(userToUpdate.Id, desirability, recognizability, fileName);
             if (!successful) {
                 return BadRequest("Failed to rate picture.");
             }
@@ -62,7 +81,7 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndPictureSurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetUser(userId);
+            var userToUpdate = await UserService.GetAsync(userId);
             if(!IsAllowedToEndPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.SurveyEndTime = new DateTimeOffset(DateTime.Now);

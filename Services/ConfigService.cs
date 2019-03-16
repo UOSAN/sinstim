@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
-using SinStim.Controllers;
+using SinStim.Constants;
+using SinStim.Services.Interfaces;
 
 namespace SinStim.Services {
     public class ConfigService : IConfigService {

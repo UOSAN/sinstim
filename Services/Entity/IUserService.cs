@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using SinStim.Models;
 
-namespace SinStim.Services {
+namespace SinStim.Services.Entity {
     public interface IUserService {
-        Task<bool> SaveAsync(string id, bool isRejected);
+        Task<bool> SaveAsync(string id);
         Task<bool> UpdateAsync(User user);
-        Task<User> GetUser(string userId);
+        Task<User> GetAsync(string id);
     }
 }

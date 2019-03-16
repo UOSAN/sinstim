@@ -8,7 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using SinStim.Services;
 using SinStim.Models;
 using Microsoft.Extensions.Configuration;
-using SinStim.Controllers;
+using SinStim.Services.Entity;
+using SinStim.Services.Interfaces;
+using SinStim.Constants;
 
 namespace SinStim {
     public class Startup {
@@ -44,6 +46,8 @@ namespace SinStim {
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<ISurveyService, SurveyService>();
             services.AddScoped<IConfigService, ConfigService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IRatingService, RatingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

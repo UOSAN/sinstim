@@ -14,8 +14,14 @@ namespace SinStim.Services {
             this.Context = context;
             this.ConfigService = configService;
         }
-        public async Task<List<CategoryInfo>> GetCategoryCompleteInfoAsync() {
+        public async Task<List<CategoryInfo>> GetCategoryInfoAsync() {
             return await GetCategoryInfoQuery().ToListAsync();
+        }
+
+        public async Task<List<CategoryInfo>> GetListOfIncompleteCategoriesAsync() {
+            return await GetCategoryInfoQuery()
+                .Where(ci => ci.FinishedPictureCount < ci.TotalPictures)
+                .ToListAsync();
         }
 
         public async Task<bool> IsCategoryCompleteAsync(string category) {

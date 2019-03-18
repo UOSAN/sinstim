@@ -12,10 +12,12 @@ namespace SinStim.Services {
 
         private readonly SinStimContext Context;
         private readonly IConfigService ConfigService;
+        private readonly ICategoryService CategoryService;
 
-        public SurveyService(SinStimContext context, IConfigService configService) {
+        public SurveyService(SinStimContext context, IConfigService configService, ICategoryService categoryService) {
             this.Context = context;
             this.ConfigService = configService;
+            this.CategoryService = categoryService;
         }
 
         public async Task<Array> GetSurveyQuestionNumbers(string category) {
@@ -29,10 +31,15 @@ namespace SinStim.Services {
 
         public async Task<string> GetAssignedCategory(string userId) {
             var eligibility = await Context.Eligibilities.FirstOrDefaultAsync(e => e.UserId == userId);
-            var potentialCategories = GetPotentialCategories(eligibility);
-            var idx = GetRandomAssignedCategoryIndex(potentialCategories.Count-1);
 
-            return potentialCategories.ElementAt(idx);
+            var potentialCategories = GetPotentialCategories(eligibility);
+            var incompleteCategories = await CategoryService.GetListOfIncompleteCategoriesAsync();
+
+            var eligibleCategories = potentialCategories.Intersect(incompleteCategories.Select(ci => ci.Category)).ToList();
+
+            var idx = GetRandomAssignedCategoryIndex(eligibleCategories.Count);
+
+            return eligibleCategories.ElementAt(idx);
         }
 
         private List<string> GetPotentialCategories(Eligibility eligibility) {
@@ -51,6 +58,7 @@ namespace SinStim.Services {
             if (eligibility.Pills == true) potentialCategories.Add(CONSTANTS.CATEGORY.PILLS);
             if (eligibility.Pizza == true) potentialCategories.Add(CONSTANTS.CATEGORY.PIZZA);
             if (eligibility.Tobacco == true) potentialCategories.Add(CONSTANTS.CATEGORY.TOBACCO);
+            potentialCategories.Add(CONSTANTS.CATEGORY.NEUTRAL);
             return potentialCategories;
         }
 

@@ -101,7 +101,7 @@ namespace SinStim.Services {
         }
 
         public async Task<List<JObject>> GetStatusData() {
-            var categoryCompleteInfo = await CategoryService.GetCategoryCompleteInfoAsync();
+            var categoryCompleteInfo = await CategoryService.GetCategoryInfoAsync();
 
             return categoryCompleteInfo.Select(cci => {
                 var jObject = new JObject();
@@ -145,7 +145,7 @@ namespace SinStim.Services {
         }
 
         private async Task<Dictionary<string, bool>> GetDictionaryOfFinishedCategories() {
-            var categoryCompleteInfo = await CategoryService.GetCategoryCompleteInfoAsync();
+            var categoryCompleteInfo = await CategoryService.GetCategoryInfoAsync();
 
             return categoryCompleteInfo.Select(cci => new {
                 Category = cci.Category,

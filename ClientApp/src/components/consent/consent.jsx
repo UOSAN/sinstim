@@ -10,7 +10,10 @@ const Consent = (props) => {
         const declinedConsentMessage = 'Thank you. Please go back to mTurk and decline this HIT.';
 
         return (
-            <div className="consent-declined-text">{declinedConsentMessage}</div>
+            <>
+                <div className="consent-header card-header card-header-title is-centered">Consent Declined</div>
+                <div className="consent-declined-text card-content">{declinedConsentMessage}</div>
+            </>
         );
     }
 

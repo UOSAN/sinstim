@@ -47,7 +47,14 @@ const Consent = (props) => {
                         <button className="button is-dark is-outlined" onClick={onConsentDecline} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
-                        <button className="button is-primary is-outlined" disabled={isAcceptDisabled} onClick={onConsentAccept} type="button">Accept</button>
+                        <button
+                            className="button is-primary is-outlined"
+                            disabled={isAcceptDisabled}
+                            onClick={onConsentAccept}
+                            type="button"
+                            >
+                            Accept
+                        </button>
                     </span>
                 </div>
             </>

@@ -19,7 +19,7 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                System.Diagnostics.Debug.WriteLine(e);
+                System.Diagnostics.Trace.TraceError(e.Message);
             }
             return saveResult == 1;
         }

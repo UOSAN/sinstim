@@ -8,7 +8,7 @@ const EligibilityInstructions = (props) => {
     return (
         <div className="eligibility-instructions card">
             <div className="instructions-header card-header card-header-title is-centered">Instructions</div>
-            <div className="instructions-text card-content">{placeHolderText}</div>
+            <pre className="instructions-text card-content">{placeHolderText}</pre>
             <div className="instructions-buttons card-footer">
                 <span className="instructions-accept">
                     <button className="button is-primary is-outlined" onClick={props.onStartEligibilitySurvey} type="button">OK</button>

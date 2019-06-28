@@ -48,7 +48,7 @@ const SurveyEnd = (props) => {
         <div className="survey-end card">
             <div className="card-header">
                 <div className="card-header-title is-centered">
-                    Survey Code:
+                    Thanks for your participation! Paste this code in the mTurk window.
                 </div>
             </div>
             <div className="card-content" id="survey-code">

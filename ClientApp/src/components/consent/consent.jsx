@@ -25,11 +25,12 @@ const Consent = (props) => {
     }
 
     function renderDeclinedConsent() {
-        const declinedConsentMessage = 'Thank you. Please go back to mTurk and decline this HIT.';
+        // eslint-disable-next-line max-len
+        const declinedConsentMessage = 'You have indicated that you want to decline this HIT. Please go back to mTurk and decline the survey there, also.';
 
         return (
             <>
-                <div className="consent-header card-header card-header-title is-centered">Consent Declined</div>
+                <div className="consent-header card-header card-header-title is-centered">Survey Declined</div>
                 <div className="consent-declined-text card-content">{declinedConsentMessage}</div>
             </>
         );

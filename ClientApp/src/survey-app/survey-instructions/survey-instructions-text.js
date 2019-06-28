@@ -1,3 +1,7 @@
 /* eslint-disable max-len */
 export default
-'Survey Nulla nisi elit, lobortis et sagittis quis, pulvinar vel nisi. Nam dictum, nulla vel malesuada bibendum, neque nisl aliquet dolor, non rhoncus felis neque ut arcu. Sed suscipit iaculis ex ac fringilla. Nulla tincidunt magna vel nibh aliquam ornare. Curabitur tempus sem enim, at dapibus enim viverra nec. Mauris non porta lorem. Sed id est non lorem sagittis dignissim vel at est. Etiam orci tellus, dapibus elementum eros quis, pulvinar mattis arcu. Aliquam sollicitudin massa eu ipsum luctus, vitae eleifend purus vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed lacinia erat at ligula facilisis, eu accumsan turpis luctus. Donec sollicitudin odio sit amet eros tempor, sit amet ullamcorper elit venenatis.';
+`In this survey, you will see a series of photos. You will be asked to rate the recognizability and desirability of each photo.
+
+For recognizability, please rate how easy it is to recognize the object in the photo. For example, if you are rating photos of pizza, please rate how easy it is to recognize the object in the photo as pizza.
+
+For desirability, please rate how desirable the object in the photo looks. For example, if you are rating photos of pizza, please rate how attractive, delicious, or appealing you find that pizza.`;

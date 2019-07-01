@@ -29,7 +29,9 @@
     "production": "webpack --config ./config/webpack/webpack.config.js --env.production",
     "lint": "eslint --ext js,jsx src/",
     "copy-pictures": "ncp ./../SamplePictures/ ./../wwwroot/pictures/",
-    "generate-picture-sql-script": "node ./populatePictureTable.js"
+    "generate-picture-sql-script": "node ./populatePictureTable.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "devDependencies": {
     "@babel/core": "7.3.4",
@@ -37,6 +39,7 @@
     "@babel/plugin-transform-runtime": "7.3.4",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
+    "@storybook/react": "5.1.9",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",

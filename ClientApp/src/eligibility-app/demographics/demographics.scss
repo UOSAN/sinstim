@@ -1,0 +1,19 @@
+.demographics {
+    display: flex;
+    flex-direction: column;
+    width: 512px;
+
+    .answer {
+        margin-top: 15px;
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+    }
+
+    .navigation-buttons {
+        padding: 15px;
+        justify-content: space-around;
+        align-items: center;
+    }
+}

@@ -62,7 +62,7 @@ export default class Demographics extends React.Component {
         });
     }
 
-    handleOnAnswerChanged = (evt) => {
+    handleOnRadioChanged = (evt) => {
         const { id: answerId } = evt.target;
 
         this.setState((previousState) => {
@@ -74,15 +74,66 @@ export default class Demographics extends React.Component {
         });
     }
 
+    handleOnCheckboxChanged = (evt) => {
+        const { id: answerId, checked: newCheckedState } = evt.target;
+
+        this.setState((previousState) => {
+            return produce(previousState, (draftState) => {
+                draftState.questions[draftState.currentQuestionIndex].answers.forEach((answer) => {
+                    if (answer.id === answerId) {
+                        answer.checked = newCheckedState;
+                    }
+                });
+            });
+        });
+    }
+
+    handleOnNumberChanged = (evt) => {
+        const { valueAsNumber: value } = evt.target;
+
+        this.setState((previousState) => {
+            return produce(previousState, (draftState) => {
+                draftState.questions[draftState.currentQuestionIndex].answers.forEach((answer) => {
+                    answer.value = value;
+                });
+            });
+        });
+    }
+
     isNextButtonDisabled() {
-        const { answers } = this.state.questions[this.state.currentQuestionIndex];
-        const isQuestionAnswered = _some(answers, (answer) => answer.checked);
+        const { answers, type } = this.state.questions[this.state.currentQuestionIndex];
+        let isQuestionAnswered = false;
+
+        if (type === 'radio' || type === 'checkbox') {
+            isQuestionAnswered = _some(answers, (answer) => answer.checked);
+        } else if (type === 'number') {
+            isQuestionAnswered = _some(answers, (answer) => answer.value);
+        }
 
         return !isQuestionAnswered;
     }
 
     isBackButtonDisabled() {
         return this.state.currentQuestionIndex === 0;
+    }
+
+    renderNumberInput(type, answer) {
+        return (
+            <div className="answer" key={answer.id}>
+                <span className="label-text">{answer.text}:</span>
+                <input
+                    checked={Boolean(answer.checked)}
+                    className="input"
+                    id={answer.id}
+                    max="110"
+                    min="18"
+                    name="demographics"
+                    onChange={this.handleOnNumberChanged}
+                    type={type}
+                    value={answer.value}
+                    />
+            </div>
+        );
     }
 
     renderQuestion = () => {
@@ -95,6 +146,9 @@ export default class Demographics extends React.Component {
                 </div>
                 <div className="card-content">
                     {answers.map((answer) => {
+                        if (type === 'number') {
+                            return this.renderNumberInput(type, answer);
+                        }
                         return (
                             <div className="answer" key={answer.id} >
                                 <input
@@ -102,7 +156,7 @@ export default class Demographics extends React.Component {
                                     className="radio"
                                     id={answer.id}
                                     name="demographics"
-                                    onChange={this.handleOnAnswerChanged}
+                                    onChange={type === 'radio' ? this.handleOnRadioChanged : this.handleOnCheckboxChanged}
                                     type={type}
                                     value={answer.value}
                                     />

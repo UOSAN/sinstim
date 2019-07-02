@@ -4,10 +4,25 @@
     width: 512px;
 
     .answer {
-        margin-top: 15px;
+        margin-top: 5px;
+        display: flex;
+        flex-direction: row;
+
+        .label-text {
+            align-self: center;
+        }
 
         input[type="radio"] {
             margin-right: 5px;
+            align-self: center;
+        }
+        input[type="number"] {
+            margin-left: 5px;
+            width: 60px;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+            align-self: center;
         }
     }
 

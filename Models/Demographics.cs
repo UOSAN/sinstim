@@ -9,7 +9,14 @@ namespace SinStim.Models {
 
         public string Gender { get; set; }
 
-        public string Race { get; set; }
+        public string Race_Arab { get; set; }
+        public string Race_Asian_PacificIslander { get; set; }
+        public string Race_Black_AfricanAmerican { get; set; }
+        public string Race_Hispanic_Latino { get; set; }
+        public string Race_Indigenous_Aboriginal { get; set; }
+        public string Race_White_Caucasian { get; set; }
+        public string Race_Other { get; set; }
+        public string Race_NoReponse { get; set; }
 
         public string Education { get; set; }
 

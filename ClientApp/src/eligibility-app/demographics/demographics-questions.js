@@ -33,34 +33,42 @@ export default [{
     text: 'How would you classify yourself? Check all that apply.',
     type: 'checkbox',
     answers: [{
+        checked: false,
         id: 'arab',
         value: 'Arab',
         text: 'Arab'
     }, {
+        checked: false,
         id: 'asian_pacfici_islander',
         value: 'Asian/Pacific Islander',
         text: 'Asian/Pacific Islander'
     }, {
+        checked: false,
         id: 'black_or_african_american',
         value: 'Black or African American',
         text: 'Black or African American'
     }, {
+        checked: false,
         id: 'hispanic_or_latino',
         value: 'Hispanic or Latino',
         text: 'Hispanic or Latino'
     }, {
+        checked: false,
         id: 'indigenous_or_aboriginal',
         value: 'Indigenous or Aboriginal',
         text: 'Indigenous or Aboriginal'
     }, {
+        checked: false,
         id: 'white_caucasian',
         value: 'White/Caucasian',
         text: 'White/Caucasian'
     }, {
+        checked: false,
         id: 'other',
         value: 'other',
         text: 'Other'
     }, {
+        checked: false,
         id: 'no_response',
         value: 'no_response',
         text: 'Prefer not to respond'

@@ -68,15 +68,86 @@ namespace SinStim.Controllers {
             return Ok(response);
         }
 
+        [HttpPost("Demographics/Start")]
+        [ProducesResponseType(200, Type = typeof(JObject))]
+        public async Task<IActionResult> StartDemographicsSurvey([FromBody] JObject demographicsJson) {
+            var userId = demographicsJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+            var userToUpdate = await UserService.GetAsync(userId);
+            if(!isAllowedToStartDemographicsSurvey(userToUpdate)) { return StatusCode(401); }
+
+            var demographics = new Demographics();
+            demographics.Id = Guid.NewGuid().ToString();
+            demographics.UserId = userId;
+            demographics.StartTime = new DateTimeOffset(DateTime.Now);
+            userToUpdate.Demographics = demographics;
+
+            var successful = await UserService.UpdateAsync(userToUpdate);
+            if (!successful) {
+                return BadRequest("Failed to start demographics survey.");
+            }
+
+            var response = new JObject();
+            response.Add(CONSTANTS.REQUEST.DEMOGRAPHICS_START_TIME, userToUpdate.Demographics.StartTime);
+            return Ok(response);
+        }
+
+        [HttpPost("Demographics/End")]
+        [ProducesResponseType(200, Type = typeof(JObject))]
+        public async Task<IActionResult> EndDemographicsSurvey([FromBody] JObject demographicsJson) {
+            var userId = demographicsJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+            var userToUpdate = await UserService.GetAsync(userId);
+            if(!isAllowedToEndDemographicsSurvey(userToUpdate)) { return StatusCode(401); }
+
+            updateDemographicsWithAnswers(userToUpdate.Demographics, demographicsJson);
+
+            var successful = await UserService.UpdateAsync(userToUpdate);
+            if (!successful) {
+                return BadRequest("Failed to end demographics survey.");
+            }
+
+            var response = new JObject();
+            response.Add(CONSTANTS.REQUEST.DEMOGRAPHICS_END_TIME, userToUpdate.Demographics.EndTime);
+            return Ok(response);
+        }
+
+        private bool isAllowedToStartDemographicsSurvey(User user) {
+            return user != null && user.Demographics == null;
+        }
+
+        private bool isAllowedToEndDemographicsSurvey(User user) {
+            return user != null
+            && user.Demographics.StartTime != null
+            && user.Demographics.EndTime == null;
+        }
         private bool isAllowedToStartEligibilitySurvey(User user) {
-            return user != null && user.EligibilityStartTime == null;
+            return user != null
+                && user.EligibilityStartTime == null
+                && user.Demographics.StartTime != null
+                && user.Demographics.EndTime != null;
         }
 
         private bool isAllowedToEndEligibilitySurvey(User user) {
             return user != null
                 && user.EligibilityStartTime != null
                 && user.EligibilityCompletionCode != null
-                && user.EligibilityEndTime == null;;
+                && user.EligibilityEndTime == null;
+        }
+
+        private void updateDemographicsWithAnswers(Demographics demographics, JObject requestBody) {
+            demographics.EndTime = new DateTimeOffset(DateTime.Now);
+            var answers = requestBody.GetValue(CONSTANTS.DEMOGRAPHICS.ANSWERS).Value<JObject>();
+            demographics.Age = answers.GetValue(CONSTANTS.DEMOGRAPHICS.AGE).Value<int>();
+            demographics.Gender = answers.GetValue(CONSTANTS.DEMOGRAPHICS.GENDER).Value<string>();
+            demographics.Race_Arab = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_ARAB).Value<string>();
+            demographics.Race_Asian_PacificIslander = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_ASIAN_PACIFIC_ISLANDER).Value<string>();
+            demographics.Race_Black_AfricanAmerican = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_BLACK_AFRICAN_AMERICAN).Value<string>();
+            demographics.Race_Hispanic_Latino = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_HISPANIC_LATINO).Value<string>();
+            demographics.Race_Indigenous_Aboriginal = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_INDIGENOUS_ABORIGINAL).Value<string>();
+            demographics.Race_White_Caucasian = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_WHITE_CAUCASION).Value<string>();
+            demographics.Race_Other = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_OTHER).Value<string>();
+            demographics.Race_NoReponse = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_NO_RESPONSE).Value<string>();
+            demographics.Education = answers.GetValue(CONSTANTS.DEMOGRAPHICS.EDUCATION).Value<string>();
+            demographics.MartialStatus = answers.GetValue(CONSTANTS.DEMOGRAPHICS.MARTIAL_STATUS).Value<string>();
         }
 
         private Eligibility getEligibility(JObject requestBody) {

@@ -12,7 +12,8 @@ import './demographics.scss';
 
 export default class Demographics extends React.Component {
     static propTypes = {
-        onEndDemographicsSurvey: PropTypes.func.isRequired
+        onEndDemographicsSurvey: PropTypes.func.isRequired,
+        onStartEligibilitySurvey: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -47,7 +48,7 @@ export default class Demographics extends React.Component {
 
     handleOnNextClick = async () => {
         const { questions } = this.state;
-        const { onEndDemographicsSurvey } = this.props;
+        const { onEndDemographicsSurvey, onStartEligibilitySurvey } = this.props;
 
         const nextQuestionIndex = this.state.currentQuestionIndex + 1;
 
@@ -55,6 +56,7 @@ export default class Demographics extends React.Component {
             const answersData = this.getAnswersData();
 
             await onEndDemographicsSurvey(answersData);
+            await onStartEligibilitySurvey();
         } else {
             this.setState(() => {
                 return {

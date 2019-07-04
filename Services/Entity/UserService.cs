@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SinStim.Models;
 
 namespace SinStim.Services.Entity {
@@ -36,7 +37,7 @@ namespace SinStim.Services.Entity {
         }
 
         public async Task<User> GetAsync(string id) {
-            return await Context.FindAsync<User>(id);
+            return await Context.Users.Include(u => u.Demographics).FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

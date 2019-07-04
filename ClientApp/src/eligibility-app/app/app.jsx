@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 import Consent from '../../components/consent';
 import Instructions from '../eligibility-instructions';
+import Demographics from '../demographics';
 import EligibilitySurvey from '../eligibility-survey';
 import SurveyEnd from '../../components/survey-end';
 import consentText from '../consent-text';
@@ -15,6 +16,8 @@ import './app.scss';
 
 export default class App extends React.Component {
     static propTypes = {
+        demographicsEndTime: PropTypes.instanceOf(Date),
+        demographicsStartTime: PropTypes.instanceOf(Date),
         eligibilityCompletionCode: PropTypes.string,
         eligibilityEndTime: PropTypes.instanceOf(Date),
         eligibilityStartTime: PropTypes.instanceOf(Date),
@@ -41,19 +44,43 @@ export default class App extends React.Component {
     }
 
     shouldSeeConsent = () => {
-        return !this.props.isConsented && !this.props.eligibilityStartTime && !this.props.eligibilityEndTime;
+        return !this.props.isConsented
+            && !this.props.demographicsStartTime
+            && !this.props.demographicsEndTime
+            && !this.props.eligibilityStartTime
+            && !this.props.eligibilityEndTime;
     }
 
     shouldSeeInstructions = () => {
-        return this.props.isConsented && !this.props.eligibilityStartTime && !this.props.eligibilityEndTime;
+        return this.props.isConsented
+            && !this.props.demographicsStartTime
+            && !this.props.demographicsEndTime
+            && !this.props.eligibilityStartTime
+            && !this.props.eligibilityEndTime;
+    }
+
+    shouldSeeDemographics = () => {
+        return this.props.isConsented
+            && this.props.demographicsStartTime
+            && !this.props.demographicsEndTime
+            && !this.props.eligibilityStartTime
+            && !this.props.eligibilityEndTime;
     }
 
     shouldSeeEligibilitySurvey = () => {
-        return this.props.isConsented && this.props.eligibilityStartTime && !this.props.eligibilityEndTime;
+        return this.props.isConsented
+            && this.props.demographicsStartTime
+            && this.props.demographicsEndTime
+            && this.props.eligibilityStartTime
+            && !this.props.eligibilityEndTime;
     }
 
     shouldSeeEligibilitySurveyEnd = () => {
-        return this.props.isConsented && this.props.eligibilityStartTime && this.props.eligibilityEndTime;
+        return this.props.isConsented
+            && this.props.demographicsStartTime
+            && this.props.demographicsEndTime
+            && this.props.eligibilityStartTime
+            && this.props.eligibilityEndTime;
     }
 
     render() {
@@ -63,6 +90,7 @@ export default class App extends React.Component {
                     <div className="eligibility-app container is-fluid">
                         {this.shouldSeeConsent() && <Consent text={consentText} />}
                         {this.shouldSeeInstructions() && <Instructions />}
+                        {this.shouldSeeDemographics() && <Demographics />}
                         {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}
                         {this.shouldSeeEligibilitySurveyEnd() && <SurveyEnd completionCode={this.props.eligibilityCompletionCode} />}
                     </div>

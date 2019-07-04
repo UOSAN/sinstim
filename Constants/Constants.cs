@@ -2,6 +2,9 @@ namespace SinStim.Constants {
     public static class CONSTANTS {
         public static class REQUEST {
             public const string ID = "id";
+
+            public const string DEMOGRAPHICS_START_TIME = "demographicsStartTime";
+            public const string DEMOGRAPHICS_END_TIME = "demographicsEndTime";
             public const string ELIGIBILITY_START_TIME = "eligibilityStartTime";
             public const string ELIGIBILITY_END_TIME = "eligibilityEndTime";
             public const string ELIGIBILITY_COMPLETION_CODE = "eligibilityCompletionCode";
@@ -19,6 +22,22 @@ namespace SinStim.Constants {
             public const string TOTAL_PICTURES = "totalPictures";
             public const string FINISHED_PICTURE_COUNT = "finishedPictureCount";
             public const string PERCENT_COMPLETE = "percentComplete";
+        }
+
+        public static class DEMOGRAPHICS {
+            public const string ANSWERS = "answers";
+            public const string AGE = "d_age";
+            public const string GENDER = "d_gender";
+            public const string RACE_ARAB = "d_race_arab";
+            public const string RACE_ASIAN_PACIFIC_ISLANDER = "d_race_asian_pacfic_islander";
+            public const string RACE_BLACK_AFRICAN_AMERICAN = "d_race_black_or_african_american";
+            public const string RACE_HISPANIC_LATINO = "d_race_hispanic_or_latino";
+            public const string RACE_INDIGENOUS_ABORIGINAL = "d_race_indigenous_or_aboriginal";
+            public const string RACE_WHITE_CAUCASION = "d_race_white_caucasian";
+            public const string RACE_OTHER = "d_race_other";
+            public const string RACE_NO_RESPONSE = "d_race_no_response";
+            public const string EDUCATION = "d_education";
+            public const string MARTIAL_STATUS = "d_marital_status";
         }
 
         public static class ELIGIBILITY {

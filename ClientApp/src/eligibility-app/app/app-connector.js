@@ -3,6 +3,8 @@ import { onSaveUser } from '../../state/actions/eligibility-action-creators';
 
 const mapStateToProps = (state) => {
     return {
+        demographicsEndTime: state.demographicsEndTime,
+        demographicsStartTime: state.demographicsStartTime,
         eligibilityCompletionCode: state.eligibilityCompletionCode,
         eligibilityEndTime: state.eligibilityEndTime,
         eligibilityStartTime: state.eligibilityStartTime,

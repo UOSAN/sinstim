@@ -71,3 +71,49 @@ export const onEndEligibilitySurvey = (answers) => {
             .catch(() => dispatch(requestErrored(true)));
     };
 };
+
+const startDemographicsSurveySaved = (demographicsStartTime) => {
+    return {
+        type: actions.START_DEMOGRAPHICS_SURVEY_SAVED,
+        demographicsStartTime
+    };
+};
+
+export const onStartDemographicsSurvey = () => {
+    return (dispatch, getState) => {
+        const { id } = getState();
+
+        dispatch(requestInProgress(true));
+
+        const startDemographicsSurveyBody = { id };
+
+        return axios.post('/api/Eligibility/Demographics/Start', startDemographicsSurveyBody)
+            .then((response) => dispatch(startDemographicsSurveySaved(response.data.demographicsStartTime)))
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};
+
+const endDemographicsSurveySaved = ({ demographicsEndTime }) => {
+    return {
+        type: actions.END_DEMOGRAPHICS_SURVEY_SAVED,
+        demographicsEndTime
+    };
+};
+
+export const onEndDemographicsSurvey = (answers) => {
+    return (dispatch, getState) => {
+        const { id } = getState();
+
+        dispatch(requestInProgress(true));
+
+        const endDemographicsSurveyBody = {
+            id,
+            answers
+        };
+
+        return axios.post('/api/Eligibility/Demographics/End', endDemographicsSurveyBody)
+            .then((response) => dispatch(endDemographicsSurveySaved(response.data)))
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};
+

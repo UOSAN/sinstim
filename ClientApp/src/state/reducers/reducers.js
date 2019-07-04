@@ -27,6 +27,16 @@ function reducer(state = initialState, action) {
             case Actions.REQUEST_IN_PROGRESS:
                 draft.requestInProgress = action.requestInProgress;
                 break;
+            // demographics reducers
+            case Actions.START_DEMOGRAPHICS_SURVEY_SAVED:
+                setRequestComplete(draft);
+                draft.demographicsStartTime = new Date(action.demographicsStartTime);
+                break;
+
+            case Actions.END_DEMOGRAPHICS_SURVEY_SAVED:
+                setRequestComplete(draft);
+                draft.demographicsEndTime = new Date(action.demographicsEndTime);
+                break;
             // eligibility reducers
             case Actions.NEW_USER_SAVED:
                 setRequestComplete(draft);

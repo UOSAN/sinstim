@@ -39,7 +39,7 @@ export default [{
         text: 'Arab'
     }, {
         checked: false,
-        id: 'asian_pacfici_islander',
+        id: 'asian_pacfic_islander',
         value: 'Asian/Pacific Islander',
         text: 'Asian/Pacific Islander'
     }, {

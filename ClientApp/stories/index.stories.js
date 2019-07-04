@@ -5,7 +5,11 @@ import Demographics from '../src/eligibility-app/demographics/demographics';
 
 import 'bulma/css/bulma.min.css/';
 
+const onEndDemographicsSurvey = (answersData) => {
+    console.log(answersData);
+};
+
 storiesOf('Demographics', module)
     .add('with 5 questions', () => {
-        return <Demographics />;
+        return <Demographics onEndDemographicsSurvey={onEndDemographicsSurvey} />;
     });

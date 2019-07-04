@@ -21,6 +21,9 @@ namespace SinStim.Models {
         public string Education { get; set; }
 
         public string MartialStatus { get; set; }
+
+        public DateTimeOffset? StartTime { get; set; }
+        public DateTimeOffset? EndTime { get; set; }
         public User User { get; set; }
     }
 }

@@ -28,9 +28,19 @@ export default class Demographics extends React.Component {
         const { questions } = this.state;
 
         return _reduce(questions, (result, question) => {
-            result[question.id] = _find(question.answers, (answer) => {
-                return answer.checked;
-            }).value;
+            if (question.type === 'number') {
+                result[question.id] = question.answers[0].value;
+            } else if (question.type === 'radio') {
+                result[question.id] = _find(question.answers, (answer) => {
+                    return answer.checked;
+                }).value;
+            } else if (question.type === 'checkbox') {
+                question.answers.forEach((answer) => {
+                    const id = `${question.id}_${answer.id}`;
+
+                    result[id] = answer.checked;
+                });
+            }
             return result;
         }, {});
     }

@@ -18,5 +18,6 @@ namespace SinStim.Models {
         public string AssignedCategory { get; set; }
         public Eligibility Eligibility { get; set; }
         public ICollection<Rating> Ratings { get; set; }
+        public Demographics Demographics { get; set; }
     }
 }

@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 import './rating.scss';
 
 const RADIO_BUTTONS = [{
-    label: '1',
+    label: 'not at all',
     value: 1,
     key: 'one'
 }, {
-    label: '2',
+    label: 'a little',
     value: 2,
     key: 'two'
 }, {
-    label: '3',
+    label: 'moderately',
     value: 3,
     key: 'three'
 }, {
-    label: '4',
+    label: 'very',
     value: 4,
     key: 'four'
 }, {
-    label: '5',
+    label: 'extremely',
     value: 5,
     key: 'five'
 }];

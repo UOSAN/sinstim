@@ -1,8 +1,20 @@
 /* eslint-disable max-len */
 export const attentionCheckTextOne = `
-Attention check one! please respond the best you can.
+You are about a one third of the way done. Are you tempted to respond randomly to get this over with?
+
+Please don't! Your answers really matter to us.
+
+Please do your best to keep answering carefully.
+
+Thanks!
 `;
 
 export const attentionCheckTextTwo = `
-Attention check two! please respond the best you can.
+You are about a two thirds of the way done. Are you tempted to respond randomly to get this over with?
+
+Please don't! Your answers really matter to us.
+
+Please do your best to keep answering carefully.
+
+Thanks!
 `;

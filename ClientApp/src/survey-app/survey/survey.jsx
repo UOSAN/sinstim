@@ -141,7 +141,7 @@ const Survey = (props) => {
         return (
             <>
                 <div className="attention-check">
-                    <pre>{attentionText}</pre>
+                    <pre className="text">{attentionText}</pre>
                 </div>
                 <div className="navigation-buttons card-footer">
                     <span className="question-next">

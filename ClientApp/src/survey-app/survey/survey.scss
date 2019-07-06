@@ -9,6 +9,9 @@
         display: flex;
         padding: 15px;
         justify-content: space-between;
+        .text {
+            margin-right: 5px;
+        }
     }
 
     .navigation-buttons {

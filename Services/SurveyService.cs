@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SinStim.Constants;
 using SinStim.Models;
 using SinStim.Services.Interfaces;
+using SinStim.Services.Poco;
 
 namespace SinStim.Services {
     public class SurveyService : ISurveyService {
@@ -20,13 +21,15 @@ namespace SinStim.Services {
             this.CategoryService = categoryService;
         }
 
-        public async Task<Array> GetSurveyQuestionNumbers(string category) {
-            int numberOfPicturesInCategory = await Context.Pictures.CountAsync(p => p.Category == category);
-            int numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
-            int numberOfPicturesToTake = numberOfPicturesToRate >= numberOfPicturesInCategory
-                ? numberOfPicturesInCategory
-                : numberOfPicturesToRate;
-            return Enumerable.Range(1, numberOfPicturesInCategory).OrderBy(g => Guid.NewGuid()).Take(numberOfPicturesToTake).ToArray();
+        public async Task<List<PictureToRate>> GetPicturesToRate(string category) {
+            var numberOfPicturesToTake = await GetNumberOfPicturesToRate(category);
+            return await Context.Pictures
+                .Include(p => p.Ratings)
+                .Where(p => p.Category == category && p.Ratings.Count < 25)
+                .OrderBy(c => Guid.NewGuid())
+                .Take(numberOfPicturesToTake)
+                .Select(p => new PictureToRate(p.Path, p.FileName, p.Category))
+                .ToListAsync();
         }
 
         public async Task<string> GetAssignedCategory(string userId) {
@@ -64,6 +67,14 @@ namespace SinStim.Services {
 
         private int GetRandomAssignedCategoryIndex(int maxValue) {
             return new Random().Next(maxValue);
+        }
+
+        private async Task<int> GetNumberOfPicturesToRate(string category) {
+            int numberOfPicturesInCategory = await Context.Pictures.CountAsync(p => p.Category == category);
+            var numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
+            return numberOfPicturesToRate >= numberOfPicturesInCategory
+                ? numberOfPicturesInCategory
+                : numberOfPicturesToRate;
         }
     }
 }

@@ -49,7 +49,9 @@ getDirectories(picturesAbsolutePath, (err, filePaths) => {
         _.forEach(filePaths, (filePath) => {
             if (!isDirectory(filePath)) {
                 const pictureFileName = path.basename(filePath);
-                const pictureFullFilePath = filePath.substring(filePath.indexOf(`SamplePictures${path.sep}`) + `SamplePictures${path.sep}`.length);
+                const pictureFullFilePath = filePath.substring(
+                    filePath.indexOf(`SamplePictures${path.sep}`) + `SamplePictures${path.sep}`.length
+                );
                 const pictureFilePath = pictureFullFilePath.substring(0, _.lastIndexOf(pictureFullFilePath, path.sep));
 
                 const category = categoryDictionary[pictureFileName.split('_')[0]];

@@ -4,7 +4,7 @@ import { onEndSurvey, onRatePicture } from '../../state/actions/survey-action-cr
 const mapStateToProps = (state) => {
     return {
         assignedCategory: state.assignedCategory,
-        surveyQuestionNumbers: state.surveyQuestionNumbers
+        picturesToRate: state.picturesToRate
     };
 };
 

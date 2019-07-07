@@ -11,7 +11,7 @@ const Survey = (props) => {
         assignedCategory,
         onEndSurvey,
         onRatePicture,
-        surveyQuestionNumbers,
+        picturesToRate,
     } = props;
     const [state, setState] = useState({
         currentPictureIndex: 0
@@ -19,10 +19,10 @@ const Survey = (props) => {
     const [shouldShowAttentionCheckOne, setShouldShowAttentionCheckOne] = useState(false);
     const [shouldShowAttentionCheckTwo, setShouldShowAttentionCheckTwo] = useState(false);
     const [attentionCheckOneIndex] = useState(() => {
-        return parseInt(surveyQuestionNumbers.length / 3);
+        return parseInt(picturesToRate.length / 3);
     });
     const [attentionCheckTwoIndex] = useState(() => {
-        return parseInt((surveyQuestionNumbers.length / 3) + (surveyQuestionNumbers.length / 3));
+        return parseInt((picturesToRate.length / 3) + (picturesToRate.length / 3));
     });
 
     function onRecognizabilityChange(value) {
@@ -44,14 +44,16 @@ const Survey = (props) => {
     }
 
     async function handleOnNextClick() {
+        const pictureToRate = picturesToRate[state.currentPictureIndex];
+
         await onRatePicture({
-            fileName: getCurrentPictureFileName(),
+            fileName: pictureToRate.FileName,
             desirability: state.desirability,
             recognizability: state.recognizability
         });
         const nextPictureIndex = state.currentPictureIndex + 1;
 
-        if (nextPictureIndex >= surveyQuestionNumbers.length) {
+        if (nextPictureIndex >= picturesToRate.length) {
             await onEndSurvey();
         } else {
             if (nextPictureIndex === attentionCheckOneIndex) {
@@ -73,13 +75,13 @@ const Survey = (props) => {
     }
 
     function getCurrentPictureFileName() {
-        const pictureNumber = surveyQuestionNumbers[state.currentPictureIndex];
+        const pictureToRate = picturesToRate[state.currentPictureIndex];
 
-        return `${assignedCategory}_${pictureNumber}.jpg`;
+        return `${pictureToRate.Path}/${pictureToRate.FileName}`;
     }
 
     function renderPicture(currentPictureFileName) {
-        const src = `/pictures/${assignedCategory}/${currentPictureFileName}`;
+        const src = `/pictures/${currentPictureFileName}`;
 
         return (
             <figure className="picture image is-square">
@@ -171,7 +173,11 @@ Survey.propTypes = {
     assignedCategory: PropTypes.string.isRequired,
     onEndSurvey: PropTypes.func.isRequired,
     onRatePicture: PropTypes.func.isRequired,
-    surveyQuestionNumbers: PropTypes.array.isRequired
+    picturesToRate: PropTypes.arrayOf(PropTypes.shape({
+        Path: PropTypes.string.isRequired,
+        FileName: PropTypes.string.isRequired,
+        Category: PropTypes.string.isRequired
+    }))
 };
 
 export default Survey;

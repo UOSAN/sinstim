@@ -35,9 +35,8 @@ const Rating = (props) => {
     function renderRadioButtons() {
         const buttonsElements = RADIO_BUTTONS.map((button) => {
             return (
-                <label className="radio" key={currentPictureFileName + button.key}>
+                <label key={currentPictureFileName + button.key}>
                     <input
-                        className="radio"
                         id={`radio-${button.key}`}
                         name={ratingName}
                         onChange={handleOnChange}

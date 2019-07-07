@@ -1,4 +1,14 @@
 .rating {
+    .control {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    label {
+        margin-top: 5px;
+    }
+
     input[type="radio"] {
         margin-right: 5px;
     }

@@ -84,9 +84,9 @@ const Survey = (props) => {
         const src = `/pictures/${currentPictureFileName}`;
 
         return (
-            <figure className="picture image is-square">
+            <div className="picture">
                 <img alt={getSubCategory()} src={src} />
-            </figure>
+            </div>
         );
     }
 
@@ -111,21 +111,23 @@ const Survey = (props) => {
             <>
                 <div className="question">
                     {renderPicture(currentPictureFileName)}
-                    <div className="recognizability">
-                        <span className="text">{getRecognizabilityText()}</span>
-                        <Rating
-                            currentPictureFileName={currentPictureFileName}
-                            onRatingChange={onRecognizabilityChange}
-                            ratingName="recognizability"
-                            />
-                    </div>
-                    <div className="desirability">
-                        <span className="text">{getDesirabilityText()}</span>
-                        <Rating
-                            currentPictureFileName={currentPictureFileName}
-                            onRatingChange={onDesirabilityChange}
-                            ratingName="desirability"
-                            />
+                    <div className="answer-wrapper">
+                        <div className="recognizability">
+                            <span className="text">{getRecognizabilityText()}</span>
+                            <Rating
+                                currentPictureFileName={currentPictureFileName}
+                                onRatingChange={onRecognizabilityChange}
+                                ratingName="recognizability"
+                                />
+                        </div>
+                        <div className="desirability">
+                            <span className="text">{getDesirabilityText()}</span>
+                            <Rating
+                                currentPictureFileName={currentPictureFileName}
+                                onRatingChange={onDesirabilityChange}
+                                ratingName="desirability"
+                                />
+                        </div>
                     </div>
                 </div>
                 <div className="navigation-buttons card-footer">

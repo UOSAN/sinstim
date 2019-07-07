@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import Rating from '../rating';
 import { attentionCheckTextOne, attentionCheckTextTwo } from './attention-check-text';
+import { RECOGNIZABILITY, DESIRABILITY } from './question-category-map';
 
 import './survey.scss';
 
 const Survey = (props) => {
     const {
-        assignedCategory,
         onEndSurvey,
         onRatePicture,
         picturesToRate,
@@ -85,9 +85,23 @@ const Survey = (props) => {
 
         return (
             <figure className="picture image is-square">
-                <img alt={assignedCategory} src={src} />
+                <img alt={getSubCategory()} src={src} />
             </figure>
         );
+    }
+
+    function getSubCategory() {
+        const { FileName } = picturesToRate[state.currentPictureIndex];
+
+        return FileName.substring(0, FileName.indexOf('_'));
+    }
+
+    function getRecognizabilityText() {
+        return `How recognizable is this ${RECOGNIZABILITY[getSubCategory()]}`;
+    }
+
+    function getDesirabilityText() {
+        return `How desirable is this ${DESIRABILITY[getSubCategory()]}`;
     }
 
     function renderQuestion() {
@@ -98,7 +112,7 @@ const Survey = (props) => {
                 <div className="question">
                     {renderPicture(currentPictureFileName)}
                     <div className="recognizability">
-                        <span className="text">Recognizability:</span>
+                        <span className="text">{getRecognizabilityText()}</span>
                         <Rating
                             currentPictureFileName={currentPictureFileName}
                             onRatingChange={onRecognizabilityChange}
@@ -106,7 +120,7 @@ const Survey = (props) => {
                             />
                     </div>
                     <div className="desirability">
-                        <span className="text">Desirability:</span>
+                        <span className="text">{getDesirabilityText()}</span>
                         <Rating
                             currentPictureFileName={currentPictureFileName}
                             onRatingChange={onDesirabilityChange}
@@ -170,7 +184,6 @@ const Survey = (props) => {
 };
 
 Survey.propTypes = {
-    assignedCategory: PropTypes.string.isRequired,
     onEndSurvey: PropTypes.func.isRequired,
     onRatePicture: PropTypes.func.isRequired,
     picturesToRate: PropTypes.arrayOf(PropTypes.shape({

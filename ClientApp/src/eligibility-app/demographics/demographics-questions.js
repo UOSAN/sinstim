@@ -4,7 +4,7 @@ export default [{
     type: 'number',
     answers: [{
         id: 'age',
-        value: 18,
+        value: '',
         text: 'age'
     }]
 }, {

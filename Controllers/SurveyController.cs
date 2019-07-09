@@ -15,11 +15,13 @@ namespace SinStim.Controllers {
         private readonly IUserService UserService;
         private readonly ISurveyService SurveyService;
         private readonly IRatingService RatingService;
+        private readonly IConfigService ConfigService;
 
-        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService) {
+        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService, IConfigService configService) {
             this.UserService = userService;
             this.SurveyService = surveyService;
             this.RatingService = ratingService;
+            this.ConfigService = configService;
         }
 
         [HttpGet("User/{id}")]
@@ -56,6 +58,7 @@ namespace SinStim.Controllers {
             response.Add(CONSTANTS.REQUEST.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
             response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);
             response.Add(CONSTANTS.REQUEST.SURVEY_PICTURES_TO_RATE, JArray.FromObject(picturesToRate));
+            response.Add(CONSTANTS.REQUEST.PICTURE_HOST, ConfigService.GetPictureHost());
             return Ok(response);
         }
 

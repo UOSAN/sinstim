@@ -234,7 +234,6 @@ _Pvt_Extensions
 .vscode/
 
 ClientApp/insertPictureData.sql
-ClientApp/public/pictures/
 
 wwwroot/js
 wwwroot/pictures

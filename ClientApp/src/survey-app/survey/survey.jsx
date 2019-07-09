@@ -11,7 +11,8 @@ const Survey = (props) => {
     const {
         onEndSurvey,
         onRatePicture,
-        picturesToRate,
+        pictureHost,
+        picturesToRate
     } = props;
     const [state, setState] = useState({
         currentPictureIndex: 0
@@ -81,7 +82,7 @@ const Survey = (props) => {
     }
 
     function renderPicture(currentPictureFileName) {
-        const src = `/pictures/${currentPictureFileName}`;
+        const src = `${pictureHost}/pictures/${currentPictureFileName}`;
 
         return (
             <div className="picture">
@@ -188,6 +189,7 @@ const Survey = (props) => {
 Survey.propTypes = {
     onEndSurvey: PropTypes.func.isRequired,
     onRatePicture: PropTypes.func.isRequired,
+    pictureHost: PropTypes.string.isRequired,
     picturesToRate: PropTypes.arrayOf(PropTypes.shape({
         Path: PropTypes.string.isRequired,
         FileName: PropTypes.string.isRequired,

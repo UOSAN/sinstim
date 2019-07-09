@@ -11,12 +11,10 @@ using SinStim.Services.Interfaces;
 namespace SinStim.Services {
     public class ReportService : IReportService {
         private readonly SinStimContext Context;
-        private readonly IConfigService ConfigService;
         private readonly ICategoryService CategoryService;
 
-        public ReportService(SinStimContext context, IConfigService configService, ICategoryService categoryService) {
+        public ReportService(SinStimContext context, ICategoryService categoryService) {
             this.Context = context;
-            this.ConfigService = configService;
             this.CategoryService = categoryService;
         }
 

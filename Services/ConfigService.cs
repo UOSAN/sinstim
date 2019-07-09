@@ -17,5 +17,9 @@ namespace SinStim.Services {
         public int GetNumberOfRatingsToFinishPicture() {
             return Configuration.GetValue<int>(CONSTANTS.CONFIG.NUMBER_OF_RATINGS_TO_FINISH_PICTURE);
         }
+
+        public string GetPictureHost() {
+            return Configuration.GetValue<string>(CONSTANTS.CONFIG.PICTURE_HOST);
+        }
     }
 }

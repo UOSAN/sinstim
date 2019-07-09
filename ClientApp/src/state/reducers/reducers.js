@@ -66,6 +66,7 @@ function reducer(state = initialState, action) {
                 draft.surveyStartTime = new Date(action.surveyStartTime);
                 draft.assignedCategory = action.assignedCategory;
                 draft.picturesToRate = action.picturesToRate;
+                draft.pictureHost = action.pictureHost;
                 break;
 
             case Actions.RATE_PICTURE_SAVED:

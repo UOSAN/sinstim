@@ -18,6 +18,10 @@ namespace SinStim.Services {
             return Configuration.GetValue<int>(CONSTANTS.CONFIG.NUMBER_OF_RATINGS_TO_FINISH_PICTURE);
         }
 
+        public int GetNumberOfRatingsToFinishNeutralPicture() {
+            return Configuration.GetValue<int>(CONSTANTS.CONFIG.NUMBER_OF_RATINGS_TO_FINISH_NEUTRAL_PICTURE);
+        }
+
         public string GetPictureHost() {
             return Configuration.GetValue<string>(CONSTANTS.CONFIG.PICTURE_HOST);
         }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SinStim.Constants;
 using SinStim.Models;
 using SinStim.Services.Interfaces;
 using SinStim.Services.Poco;
@@ -15,23 +16,57 @@ namespace SinStim.Services {
             this.ConfigService = configService;
         }
         public async Task<List<CategoryInfo>> GetCategoryInfoAsync() {
-            return await GetCategoryInfoQuery().ToListAsync();
+            var nonNeutralCategoryInfo = await GetNonNeutralCategoryInfoQuery().ToListAsync();
+            var neutralCategoryInfo = await GetNeutralCategoryInfoQuery().ToListAsync();
+
+            return nonNeutralCategoryInfo.Concat(neutralCategoryInfo).ToList();
         }
 
         public async Task<List<CategoryInfo>> GetListOfIncompleteCategoriesAsync() {
-            return await GetCategoryInfoQuery()
+            var nonNeutralCategoryInfo = await GetNonNeutralCategoryInfoQuery()
                 .Where(ci => ci.FinishedPictureCount < ci.TotalPictures)
                 .ToListAsync();
+
+            var neutralCategoryInfo = await GetNeutralCategoryInfoQuery()
+                .Where(ci => ci.FinishedPictureCount < ci.TotalPictures)
+                .ToListAsync();
+
+            return nonNeutralCategoryInfo.Concat(neutralCategoryInfo).ToList();
         }
 
         public async Task<bool> IsCategoryCompleteAsync(string category) {
-            return await GetCategoryInfoQuery()
-            .Where(ci => ci.Category == category)
-            .Select(ci => ci.FinishedPictureCount == ci.TotalPictures)
-            .FirstOrDefaultAsync();
+            if(category == CONSTANTS.CATEGORY.NEUTRAL) {
+                return await GetNeutralCategoryInfoQuery()
+                    .Select(ci => ci.FinishedPictureCount == ci.TotalPictures)
+                    .FirstOrDefaultAsync();
+            }
+            return await GetNonNeutralCategoryInfoQuery()
+                .Where(ci => ci.Category == category)
+                .Select(ci => ci.FinishedPictureCount == ci.TotalPictures)
+                .FirstOrDefaultAsync();
         }
 
-        private IQueryable<CategoryInfo> GetCategoryInfoQuery() {
+        private IQueryable<CategoryInfo> GetNonNeutralCategoryInfoQuery() {
+            return GetPictureInfo()
+                .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) =>
+                    new CategoryInfo(category,
+                        pictureInfoList.Count(),
+                        pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
+                    ))
+                .Where(ci => ci.Category != CONSTANTS.CATEGORY.NEUTRAL);;
+        }
+
+        private IQueryable<CategoryInfo> GetNeutralCategoryInfoQuery() {
+            return GetPictureInfo()
+                .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) =>
+                    new CategoryInfo(category,
+                        pictureInfoList.Count(),
+                        pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishNeutralPicture())
+                ))
+                .Where(ci => ci.Category == CONSTANTS.CATEGORY.NEUTRAL);
+        }
+
+        private IQueryable<PictureInfo> GetPictureInfo() {
             return Context.Pictures.GroupJoin(
                   Context.Ratings,
                   picture => picture.Id,
@@ -45,16 +80,20 @@ namespace SinStim.Services {
                 })
             .GroupBy(
                 par => par.Picture.FileName,
-                (fileName, pictureAndRating) => new {
-                    FileName = fileName,
-                    NumOfRatings = pictureAndRating.Count(par => par.Rating != null),
-                    Category = pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category
-                })
-            .GroupBy(pictureInfo => pictureInfo.Category, (category, pictureInfoList) =>
-                new CategoryInfo(category,
-                    pictureInfoList.Count(),
-                    pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
+                (fileName, pictureAndRating) => new PictureInfo(
+                    pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category,
+                    pictureAndRating.Count(par => par.Rating != null)
                 ));
+        }
+
+        private class PictureInfo {
+            public readonly string Category;
+            public readonly int NumOfRatings;
+
+            public PictureInfo(string category, int numOfRatings) {
+                this.Category = category;
+                this.NumOfRatings = numOfRatings;
+            }
         }
     }
 }

@@ -4,5 +4,7 @@ namespace SinStim.Services.Interfaces {
         int GetNumberOfRatingsToFinishPicture();
         int GetNumberOfRatingsToFinishNeutralPicture();
         string GetPictureHost();
+        string GetAdminUser();
+        string GetAdminPassword();
     }
 }

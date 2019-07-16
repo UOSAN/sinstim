@@ -14,11 +14,11 @@ const generateEligibilityCompletionReportComplete = () => {
     };
 };
 
-export const onGenerateEligibilityCompletionReport = () => {
+export const onGenerateEligibilityCompletionReport = ({ user, password }) => {
     return (dispatch) => {
         dispatch(requestInProgress(true));
 
-        return axios.get('/api/Admin/Eligibility/Completion')
+        return axios.post('/api/Admin/Eligibility/Completion', { user, password })
             .then((response) => {
                 dispatch(generateEligibilityCompletionReportComplete());
                 return reportService.processEligibilityCompletionReportData(response.data);
@@ -33,11 +33,11 @@ const generateInvitationReportComplete = () => {
     };
 };
 
-export const onGenerateInvitationReport = () => {
+export const onGenerateInvitationReport = ({ user, password }) => {
     return (dispatch) => {
         dispatch(requestInProgress(true));
 
-        return axios.get('/api/Admin/Invitation')
+        return axios.post('/api/Admin/Invitation', { user, password })
             .then((response) => {
                 dispatch(generateInvitationReportComplete());
                 return reportService.processInvitationReportData(response.data);
@@ -52,11 +52,11 @@ const generateProgressReportComplete = () => {
     };
 };
 
-export const onGenerateProgressReport = () => {
+export const onGenerateProgressReport = ({ user, password }) => {
     return (dispatch) => {
         dispatch(requestInProgress(true));
 
-        return axios.get('/api/Admin/Status')
+        return axios.post('/api/Admin/Status', { user, password })
             .then((response) => {
                 dispatch(generateProgressReportComplete());
                 return reportService.processProgressReportData(response.data);
@@ -71,11 +71,11 @@ const generateSurveyCompletionReportComplete = () => {
     };
 };
 
-export const onGenerateSurveyCompletionReport = () => {
+export const onGenerateSurveyCompletionReport = ({ user, password }) => {
     return (dispatch) => {
         dispatch(requestInProgress(true));
 
-        return axios.get('/api/Admin/Survey/Completion')
+        return axios.post('/api/Admin/Survey/Completion', { user, password })
             .then((response) => {
                 dispatch(generateSurveyCompletionReportComplete());
                 return reportService.processSurveyCompletionReportData(response.data);

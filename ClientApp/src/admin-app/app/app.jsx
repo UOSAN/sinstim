@@ -25,8 +25,8 @@ const App = (props) => {
 
     async function handleGenerateEligibilityCompletionReport() {
         setReportData({});
-        const { email, password } = credentials;
-        const { data, headers } = await props.onGenerateEligibilityCompletionReport({ email, password });
+        const { email: user, password } = credentials;
+        const { data, headers } = await props.onGenerateEligibilityCompletionReport({ user, password });
 
         setReportData({
             data,
@@ -36,8 +36,8 @@ const App = (props) => {
 
     async function handleGenerateInvitationReport() {
         setReportData({});
-        const { email, password } = credentials;
-        const { data, headers } = await props.onGenerateInvitationReport({ email, password });
+        const { email: user, password } = credentials;
+        const { data, headers } = await props.onGenerateInvitationReport({ user, password });
 
         setReportData({
             data,
@@ -47,8 +47,8 @@ const App = (props) => {
 
     async function handleGenerateProgressReport() {
         setReportData({});
-        const { email, password } = credentials;
-        const { data, headers } = await props.onGenerateProgressReport({ email, password });
+        const { email: user, password } = credentials;
+        const { data, headers } = await props.onGenerateProgressReport({ user, password });
 
         setReportData({
             data,
@@ -58,8 +58,8 @@ const App = (props) => {
 
     async function handleGenerateSurveyCompletionReport() {
         setReportData({});
-        const { email, password } = credentials;
-        const { data, headers } = await props.onGenerateSurveyCompletionReport({ email, password });
+        const { email: user, password } = credentials;
+        const { data, headers } = await props.onGenerateSurveyCompletionReport({ user, password });
 
         setReportData({
             data,

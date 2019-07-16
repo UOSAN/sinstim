@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using SinStim.Services.Interfaces;
 
 namespace SinStim.Controllers {
@@ -8,37 +9,52 @@ namespace SinStim.Controllers {
     public class AdminController : Controller {
 
         private readonly IReportService ReportService;
+        private readonly IConfigService ConfigService;
 
-        public AdminController(IReportService reportService) {
+        private const string USER = "user";
+        private const string PASSWORD = "password";
+
+        public AdminController(IReportService reportService, IConfigService configService) {
             this.ReportService = reportService;
+            this.ConfigService = configService;
         }
 
-        [HttpGet("Invitation")]
+        [HttpPost("Invitation")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetInvitationData() {
+        public async Task<IActionResult> GetInvitationData([FromBody] JObject requestBody) {
+            if(!IsAuthorized(requestBody)) { return StatusCode(401); }
             var invitationData = await ReportService.GetInvitationData();
             return Ok(invitationData);
         }
 
-        [HttpGet("Eligibility/Completion")]
+        [HttpPost("Eligibility/Completion")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetEligibilityCompletionData() {
-           var completionData = await ReportService.GetEligibilityCompletionData();
+        public async Task<IActionResult> GetEligibilityCompletionData([FromBody] JObject requestBody) {
+            if(!IsAuthorized(requestBody)) { return StatusCode(401); }
+            var completionData = await ReportService.GetEligibilityCompletionData();
             return Ok(completionData);
         }
 
-        [HttpGet("Status")]
+        [HttpPost("Status")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetStatus() {
+        public async Task<IActionResult> GetStatus([FromBody] JObject requestBody) {
+            if(!IsAuthorized(requestBody)) { return StatusCode(401); }
             var statusData = await ReportService.GetStatusData();
             return Ok(statusData);
         }
 
-        [HttpGet("Survey/Completion")]
+        [HttpPost("Survey/Completion")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetSurveyCompletionData() {
-           var completionData = await ReportService.GetSurveyCompletionData();
+        public async Task<IActionResult> GetSurveyCompletionData([FromBody] JObject requestBody) {
+            if(!IsAuthorized(requestBody)) { return StatusCode(401); }
+            var completionData = await ReportService.GetSurveyCompletionData();
             return Ok(completionData);
+        }
+
+        private bool IsAuthorized(JObject requestBody) {
+            var passedInUser = requestBody.GetValue(USER).Value<string>();
+            var passedInPassword = requestBody.GetValue(PASSWORD).Value<string>();
+            return passedInUser == ConfigService.GetAdminUser() && passedInPassword == ConfigService.GetAdminPassword();
         }
     }
 }

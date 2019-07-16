@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using SinStim.Constants;
 using SinStim.Services.Interfaces;
@@ -24,6 +25,14 @@ namespace SinStim.Services {
 
         public string GetPictureHost() {
             return Configuration.GetValue<string>(CONSTANTS.CONFIG.PICTURE_HOST);
+        }
+
+        public string GetAdminUser() {
+            return Environment.GetEnvironmentVariable("ADMIN_USER");
+        }
+
+        public string GetAdminPassword() {
+            return Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
         }
     }
 }

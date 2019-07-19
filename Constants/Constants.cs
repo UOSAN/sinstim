@@ -84,6 +84,8 @@ namespace SinStim.Constants {
             public const string NUMBER_OF_RATINGS_TO_FINISH_NEUTRAL_PICTURE = "numberOfRatingsToFinishNeutralPicture";
             public const string DEFAULT_CONNECTION = "DefaultConnection";
             public const string PICTURE_HOST = "pictureHost";
+            public const string ADMIN_USER = "ADMIN_USER";
+            public const string ADMIN_PASSWORD = "ADMIN_PASSWORD";
         }
     }
 }

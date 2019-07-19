@@ -237,6 +237,6 @@ ClientApp/insertPictureData.sql
 
 wwwroot/js
 wwwroot/pictures
-SamplePictures
+sample-pictures-prod
 
 *.css

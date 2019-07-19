@@ -28,11 +28,11 @@ namespace SinStim.Services {
         }
 
         public string GetAdminUser() {
-            return Environment.GetEnvironmentVariable("ADMIN_USER");
+            return Environment.GetEnvironmentVariable(CONSTANTS.CONFIG.ADMIN_USER);
         }
 
         public string GetAdminPassword() {
-            return Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
+            return Environment.GetEnvironmentVariable(CONSTANTS.CONFIG.ADMIN_PASSWORD);
         }
     }
 }

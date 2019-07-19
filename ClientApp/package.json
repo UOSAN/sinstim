@@ -28,8 +28,9 @@
     "watch": "webpack --config ./config/webpack/webpack.config.js --progress --profile --watch",
     "production": "webpack --config ./config/webpack/webpack.config.js --env.production",
     "lint": "eslint --ext js,jsx src/",
-    "copy-pictures": "ncp ./../SamplePictures/ ./../wwwroot/pictures/",
-    "generate-picture-sql-script": "node ./populatePictureTable.js",
+    "copy-pictures-prod": "ncp ./../sample-pictures-prod/ ./../wwwroot/pictures/",
+    "copy-pictures-local": "ncp ./../sample-pictures-local/ ./../wwwroot/pictures/",
+    "generate-sql-script": "node ./populatePictureTable.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

@@ -40,6 +40,10 @@ namespace SinStim.Services {
 
             var eligibleCategories = potentialCategories.Intersect(incompleteCategories.Select(ci => ci.Category)).ToList();
 
+            if(eligibleCategories.Count > 1 && eligibleCategories.Contains(CONSTANTS.CATEGORY.NEUTRAL)) {
+                eligibleCategories.Remove(CONSTANTS.CATEGORY.NEUTRAL);
+            }
+
             var idx = GetRandomAssignedCategoryIndex(eligibleCategories.Count);
 
             return eligibleCategories.ElementAt(idx);

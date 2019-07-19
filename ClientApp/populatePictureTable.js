@@ -19,14 +19,14 @@ const categoryDictionary = {
     fans: 'neutral',
     fries: 'fries',
     heroin: 'heroin',
-    iceCream: 'iceCream',
+    iceCream: 'icecream',
     lights: 'neutral',
     marijuana: 'marijuana',
-    meth: 'meth',
+    meth: 'methamphetamine',
     pasta: 'pasta',
     pens: 'neutral',
     phones: 'neutral',
-    pills: 'pill',
+    pills: 'pills',
     pizza: 'pizza',
     radios: 'neutral',
     teapots: 'neutral',
@@ -35,7 +35,10 @@ const categoryDictionary = {
     umbrellas: 'neutral'
 };
 
-const picturesAbsolutePath = path.join(__dirname, '..', 'SamplePictures');
+const pictureFolder = 'sample-pictures-local';
+// const pictureFolder = 'sample-pictures-prod';
+
+const picturesAbsolutePath = path.join(__dirname, '..', pictureFolder);
 const isDirectory = (filePath) => fs.statSync(filePath).isDirectory();
 const getDirectories = (src, callback) => {
     glob(`${src}/**/*`, callback);
@@ -50,7 +53,7 @@ getDirectories(picturesAbsolutePath, (err, filePaths) => {
             if (!isDirectory(filePath)) {
                 const pictureFileName = path.basename(filePath);
                 const pictureFullFilePath = filePath.substring(
-                    filePath.indexOf(`SamplePictures${path.sep}`) + `SamplePictures${path.sep}`.length
+                    filePath.indexOf(`${pictureFolder}${path.sep}`) + `${pictureFolder}${path.sep}`.length
                 );
                 const pictureFilePath = pictureFullFilePath.substring(0, _.lastIndexOf(pictureFullFilePath, path.sep));
 

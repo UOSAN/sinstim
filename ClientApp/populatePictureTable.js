@@ -35,8 +35,8 @@ const categoryDictionary = {
     umbrellas: 'neutral'
 };
 
-const pictureFolder = 'sample-pictures-local';
-// const pictureFolder = 'sample-pictures-prod';
+// const pictureFolder = 'sample-pictures-local';
+const pictureFolder = 'sample-pictures-prod';
 
 const picturesAbsolutePath = path.join(__dirname, '..', pictureFolder);
 const isDirectory = (filePath) => fs.statSync(filePath).isDirectory();

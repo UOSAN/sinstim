@@ -26,7 +26,7 @@ const RADIO_BUTTONS = [{
 }];
 
 const Rating = (props) => {
-    const { ratingName, currentPictureFileName } = props;
+    const { currentPictureFileName, ratingName, requestInProgress } = props;
 
     function handleOnChange(evt) {
         props.onRatingChange(evt.target.value);
@@ -37,6 +37,7 @@ const Rating = (props) => {
             return (
                 <label key={currentPictureFileName + button.key}>
                     <input
+                        disabled={requestInProgress}
                         id={`radio-${button.key}`}
                         name={ratingName}
                         onChange={handleOnChange}
@@ -65,7 +66,8 @@ const Rating = (props) => {
 Rating.propTypes = {
     currentPictureFileName: PropTypes.string.isRequired,
     onRatingChange: PropTypes.func.isRequired,
-    ratingName: PropTypes.string.isRequired
+    ratingName: PropTypes.string.isRequired,
+    requestInProgress: PropTypes.bool.isRequired
 };
 
 export default Rating;

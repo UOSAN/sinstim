@@ -167,6 +167,28 @@ storiesOf('Picture Survey', module)
             onRatePicture={onRatePicture}
             picturesToRate={threePicturesToRate}
             />);
+    })
+    .add('request in progress', () => {
+        const threePicturesToRate = [{
+            Path: '',
+            FileName: 'alcohol_0001.jpg',
+            Category: ''
+        }, {
+            Path: '',
+            FileName: 'cocaine_0001.jpg',
+            Category: ''
+        }, {
+            Path: '',
+            FileName: 'heroin_0001.jpg',
+            Category: ''
+        }];
+
+        return (<Survey
+            onEndSurvey={onEndSurvey}
+            onRatePicture={onRatePicture}
+            picturesToRate={threePicturesToRate}
+            requestInProgress={true}
+            />);
     });
 
 

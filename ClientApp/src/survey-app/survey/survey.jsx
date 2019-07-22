@@ -14,7 +14,8 @@ const Survey = (props) => {
         onEndSurvey,
         onRatePicture,
         pictureHost,
-        picturesToRate
+        picturesToRate,
+        requestInProgress
     } = props;
     const [state, setState] = useState({
         currentPictureIndex: 0
@@ -121,6 +122,7 @@ const Survey = (props) => {
                                 currentPictureFileName={currentPictureFileName}
                                 onRatingChange={onRecognizabilityChange}
                                 ratingName="recognizability"
+                                requestInProgress={requestInProgress}
                                 />
                         </div>
                         <div className="desirability">
@@ -129,6 +131,7 @@ const Survey = (props) => {
                                 currentPictureFileName={currentPictureFileName}
                                 onRatingChange={onDesirabilityChange}
                                 ratingName="desirability"
+                                requestInProgress={requestInProgress}
                                 />
                         </div>
                     </div>
@@ -137,7 +140,7 @@ const Survey = (props) => {
                     <span className="question-next">
                         <button
                             className="button is-primary is-outlined"
-                            disabled={!state.desirability || !state.recognizability}
+                            disabled={!state.desirability || !state.recognizability || requestInProgress}
                             onClick={handleOnNextClick}
                             type="button"
                             >
@@ -197,7 +200,8 @@ Survey.propTypes = {
         Path: PropTypes.string.isRequired,
         FileName: PropTypes.string.isRequired,
         Category: PropTypes.string.isRequired
-    }))
+    })),
+    requestInProgress: PropTypes.bool.isRequired
 };
 
 export default Survey;

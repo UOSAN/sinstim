@@ -5,7 +5,8 @@ const mapStateToProps = (state) => {
     return {
         assignedCategory: state.assignedCategory,
         picturesToRate: state.picturesToRate,
-        pictureHost: state.pictureHost
+        pictureHost: state.pictureHost,
+        requestInProgress: state.requestInProgress
     };
 };
 

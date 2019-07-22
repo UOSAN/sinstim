@@ -36,10 +36,18 @@ const startSurveySaved = ({ surveyStartTime, assignedCategory, picturesToRate, p
     };
 };
 
+export const isLoadingSurvey = (bool) => {
+    return {
+        type: actions.IS_LOADING_SURVEY,
+        isLoadingSurvey: bool
+    };
+};
+
 export const onStartSurvey = () => {
     return (dispatch, getState) => {
         const { id } = getState();
 
+        dispatch(isLoadingSurvey(true));
         dispatch(requestInProgress(true));
 
         const startSurveyBody = { id };

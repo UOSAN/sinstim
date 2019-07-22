@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import Demographics from '../src/eligibility-app/demographics/demographics';
 import Survey from '../src/survey-app/survey/survey';
+import SurveyLoadingBar from '../src/survey-app/survey-loading-bar/survey-loading-bar';
 
 import 'bulma/css/bulma.min.css/';
 
@@ -166,4 +167,10 @@ storiesOf('Picture Survey', module)
             onRatePicture={onRatePicture}
             picturesToRate={threePicturesToRate}
             />);
+    });
+
+
+storiesOf('Picture Survey Loading Bar', module)
+    .add('example', () => {
+        return (<SurveyLoadingBar />);
     });

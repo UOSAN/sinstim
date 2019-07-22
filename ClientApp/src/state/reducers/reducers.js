@@ -61,8 +61,13 @@ function reducer(state = initialState, action) {
                 draft.id = action.id;
                 break;
 
+            case Actions.IS_LOADING_SURVEY:
+                draft.isLoadingSurvey = true;
+                break;
+
             case Actions.START_SURVEY_SAVED:
                 setRequestComplete(draft);
+                draft.isLoadingSurvey = false;
                 draft.surveyStartTime = new Date(action.surveyStartTime);
                 draft.assignedCategory = action.assignedCategory;
                 draft.picturesToRate = action.picturesToRate;

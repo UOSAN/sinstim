@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
         errorStartingSurvey: state.errorStartingSurvey,
         id: state.id,
         isConsented: state.isConsented,
+        isLoadingSurvey: state.isLoadingSurvey,
         surveyEndTime: state.surveyEndTime,
         surveyStartTime: state.surveyStartTime,
     };

@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import consentText from '../consent-text';
 import Consent from '../../components/consent';
 import Instructions from '../survey-instructions';
+import SurveyLoadingBar from '../survey-loading-bar';
 import Survey from '../survey';
 import SurveyEnd from '../../components/survey-end';
 
@@ -21,6 +22,7 @@ export default class App extends React.Component {
         errorStartingSurvey: PropTypes.bool,
         id: PropTypes.string,
         isConsented: PropTypes.bool,
+        isLoadingSurvey: PropTypes.bool,
         onGetUser: PropTypes.func.isRequired,
         surveyEndTime: PropTypes.instanceOf(Date),
         surveyStartTime: PropTypes.instanceOf(Date),
@@ -69,13 +71,18 @@ export default class App extends React.Component {
             && this.props.surveyEndTime;
     }
 
+    isLoadingSurvey = () => {
+        return this.props.isLoadingSurvey;
+    }
+
     render() {
         return (
             <>
                 {this.isValidUser() && (
                     <div className="survey-app container is-fluid">
                         {this.shouldSeeConsent() && <Consent text={consentText} />}
-                        {this.shouldSeeInstructions() && <Instructions />}
+                        {this.shouldSeeInstructions() && !this.isLoadingSurvey() && <Instructions />}
+                        {this.isLoadingSurvey() && <SurveyLoadingBar />}
                         {this.shouldSeeSurvey() && <Survey />}
                         {this.shouldSeeSurveyEnd() && <SurveyEnd completionCode={this.props.completionCode} />}
                     </div>

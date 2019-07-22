@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Rating from '../rating';
 import { attentionCheckTextOne, attentionCheckTextTwo } from './attention-check-text';
 import { RECOGNIZABILITY, DESIRABILITY } from './question-category-map';
+import monkeyPleaseGifSrc from '../../images/monkey-please.gif';
+import lionKingPleaseGifSrc from '../../images/lion-king-please.gif';
 
 import './survey.scss';
 
@@ -156,11 +158,12 @@ const Survey = (props) => {
         }
     }
 
-    function renderAttentionCheck(attentionText) {
+    function renderAttentionCheck(attentionText, gifSrc) {
         return (
             <>
                 <div className="attention-check">
                     <pre className="text">{attentionText}</pre>
+                    <img className="attention-image" src={gifSrc} />
                 </div>
                 <div className="navigation-buttons card-footer">
                     <span className="question-next">
@@ -179,8 +182,8 @@ const Survey = (props) => {
 
     return (
         <div className="picture-survey card">
-            {shouldShowAttentionCheckOne && renderAttentionCheck(attentionCheckTextOne)}
-            {shouldShowAttentionCheckTwo && renderAttentionCheck(attentionCheckTextTwo)}
+            {shouldShowAttentionCheckOne && renderAttentionCheck(attentionCheckTextOne, monkeyPleaseGifSrc)}
+            {shouldShowAttentionCheckTwo && renderAttentionCheck(attentionCheckTextTwo, lionKingPleaseGifSrc)}
             {!shouldShowAttentionCheckOne && !shouldShowAttentionCheckTwo ? renderQuestion() : null}
         </div>
     );

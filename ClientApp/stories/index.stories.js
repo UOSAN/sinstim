@@ -145,4 +145,25 @@ storiesOf('Picture Survey', module)
             onRatePicture={onRatePicture}
             picturesToRate={picturesToRate}
             />);
+    })
+    .add('3 questions', () => {
+        const threePicturesToRate = [{
+            Path: '',
+            FileName: 'alcohol_0001.jpg',
+            Category: ''
+        }, {
+            Path: '',
+            FileName: 'cocaine_0001.jpg',
+            Category: ''
+        }, {
+            Path: '',
+            FileName: 'heroin_0001.jpg',
+            Category: ''
+        }];
+
+        return (<Survey
+            onEndSurvey={onEndSurvey}
+            onRatePicture={onRatePicture}
+            picturesToRate={threePicturesToRate}
+            />);
     });

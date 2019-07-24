@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 export const attentionCheckTextOne = `
-You are about a one third of the way done. Are you tempted to respond randomly to get this over with?
+You are about one third of the way done. Are you tempted to respond randomly to get this over with?
 
 Please don't! Your answers really matter to us.
 
@@ -10,7 +10,7 @@ Thanks!
 `;
 
 export const attentionCheckTextTwo = `
-You are about a two thirds of the way done. Are you tempted to respond randomly to get this over with?
+You are about two thirds of the way done. Are you tempted to respond randomly to get this over with?
 
 Please don't! Your answers really matter to us.
 

@@ -19,7 +19,8 @@ module.exports = (webpackEnv) => {
         },
         output: {
             path: paths.outputPath,
-            filename: '[name].bundle.js'
+            filename: '[name].bundle.js',
+            publicPath: '/js'
         },
         module: {
             rules: [{
@@ -31,7 +32,7 @@ module.exports = (webpackEnv) => {
                 loaders: ['style-loader', 'css-loader', 'sass-loader']
             }, {
                 test: /\.(eot|ttf|svg|gif|png|jpg|ico)(\?-5joh1s)?$/,
-                loader: 'file-loader'
+                loader: 'file-loader?name=/[name].[ext]'
             }]
         },
         plugins: [

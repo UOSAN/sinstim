@@ -24,6 +24,8 @@ namespace SinStim.Constants {
             public const string PERCENT_COMPLETE = "percentComplete";
 
             public const string PICTURE_HOST = "pictureHost";
+
+            public const string FileName = "fileName";
         }
 
         public static class DEMOGRAPHICS {

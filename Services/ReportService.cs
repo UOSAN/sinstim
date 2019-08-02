@@ -18,7 +18,7 @@ namespace SinStim.Services {
             this.CategoryService = categoryService;
         }
 
-        public async Task<List<JObject>>  GetEligibilityCompletionData() {
+        public async Task<List<JObject>> GetEligibilityCompletionData() {
             var completionData = await GetEligibilitySurveyCompleteUsers()
                 .Select(u => new {
                     Id = u.Id,
@@ -77,25 +77,25 @@ namespace SinStim.Services {
                     || (cd.Pizza != false && !finishedCategories[CONSTANTS.CATEGORY.PIZZA])
                 ).ToListAsync();
 
-                return completionData.Select(u => {
-                    var jObject = new JObject();
-                    jObject.Add(CONSTANTS.REQUEST.ID, u.Id.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.ALCOHOL, u.Alcohol.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.CHOCOLATE, u.Chocolate.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.COCAINE, u.Cocaine.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.COOKIES, u.Cookies.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.DONUTS, u.Donuts.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.FRIES, u.Fries.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.HEROIN, u.Heroin.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.ICECREAM, u.IceCream.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.MARIJUANA, u.Marijuana.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.METHAMPHETAMINE, u.Methamphetamine.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.PASTA, u.Pasta.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.PILLS, u.Pills.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.PIZZA, u.Pizza.ToString());
-                    jObject.Add(CONSTANTS.CATEGORY.TOBACCO, u.Tobacco.ToString());
-                    return jObject;
-                }).ToList();
+            return completionData.Select(u => {
+                var jObject = new JObject();
+                jObject.Add(CONSTANTS.REQUEST.ID, u.Id.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.ALCOHOL, u.Alcohol.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.CHOCOLATE, u.Chocolate.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.COCAINE, u.Cocaine.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.COOKIES, u.Cookies.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.DONUTS, u.Donuts.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.FRIES, u.Fries.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.HEROIN, u.Heroin.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.ICECREAM, u.IceCream.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.MARIJUANA, u.Marijuana.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.METHAMPHETAMINE, u.Methamphetamine.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.PASTA, u.Pasta.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.PILLS, u.Pills.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.PIZZA, u.Pizza.ToString());
+                jObject.Add(CONSTANTS.CATEGORY.TOBACCO, u.Tobacco.ToString());
+                return jObject;
+            }).ToList();
         }
 
         public async Task<List<JObject>> GetStatusData() {
@@ -106,7 +106,7 @@ namespace SinStim.Services {
                 jObject.Add(CONSTANTS.REQUEST.CATEGORY, cci.Category);
                 jObject.Add(CONSTANTS.REQUEST.TOTAL_PICTURES, cci.TotalPictures);
                 jObject.Add(CONSTANTS.REQUEST.FINISHED_PICTURE_COUNT, cci.FinishedPictureCount);
-                jObject.Add(CONSTANTS.REQUEST.PERCENT_COMPLETE, (Math.Round(cci.PercentComplete*100, 2)) + "%");
+                jObject.Add(CONSTANTS.REQUEST.PERCENT_COMPLETE, (Math.Round(cci.PercentComplete * 100, 2)) + "%");
                 return jObject;
             }).ToList();
         }
@@ -122,6 +122,40 @@ namespace SinStim.Services {
                 var jObject = new JObject();
                 jObject.Add(CONSTANTS.REQUEST.ID, u.Id);
                 jObject.Add(CONSTANTS.REQUEST.SURVEY_COMPLETION_CODE, u.CompletionCode);
+                return jObject;
+            }).ToList();
+        }
+
+        public async Task<List<JObject>> GetDesirabilityData() {
+            var desirabilityData = await Context.Pictures
+                .Join(Context.Ratings,
+                    p => p.Id,
+                    r => r.PictureId,
+                    (p, r) => new { Picture = p, Rating = r })
+                .Select(pr => new { FileName = pr.Picture.FileName, Desirability = pr.Rating.Desirability })
+                .ToListAsync();
+
+            return desirabilityData.Select(d => {
+                var jObject = new JObject();
+                jObject.Add(CONSTANTS.REQUEST.FILE_NAME, d.FileName);
+                jObject.Add(CONSTANTS.REQUEST.DESIRABILITY, d.Desirability);
+                return jObject;
+            }).ToList();
+        }
+
+        public async Task<List<JObject>> GetRecognizabilityData() {
+            var recognizabilityData = await Context.Pictures
+                .Join(Context.Ratings,
+                    p => p.Id,
+                    r => r.PictureId,
+                    (p, r) => new { Picture = p, Rating = r })
+                .Select(pr => new { FileName = pr.Picture.FileName, Recognizability = pr.Rating.Recognizability })
+                .ToListAsync();
+
+            return recognizabilityData.Select(r => {
+                var jObject = new JObject();
+                jObject.Add(CONSTANTS.REQUEST.FILE_NAME, r.FileName);
+                jObject.Add(CONSTANTS.REQUEST.RECOGNIZABILITY, r.Recognizability);
                 return jObject;
             }).ToList();
         }

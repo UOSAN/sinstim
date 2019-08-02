@@ -10,6 +10,20 @@
 //     { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
 // ];
 
+function processDesirabilityReportData(desirabilityData) {
+    return {
+        data: desirabilityData,
+        headers: []
+    };
+}
+
+function processRecognizabilityReportData(recognizabilityData) {
+    return {
+        data: recognizabilityData,
+        headers: []
+    };
+}
+
 function processEligibilityCompletionReportData(completionData) {
     return {
         data: completionData,
@@ -108,8 +122,10 @@ function processSurveyCompletionReportData(completionData) {
 }
 
 export default {
+    processDesirabilityReportData,
     processEligibilityCompletionReportData,
     processInvitationReportData,
     processProgressReportData,
+    processRecognizabilityReportData,
     processSurveyCompletionReportData
 };

@@ -8,5 +8,7 @@ namespace SinStim.Services.Interfaces {
         Task<List<JObject>> GetEligibilityCompletionData();
         Task<List<JObject>> GetStatusData();
         Task<List<JObject>> GetSurveyCompletionData();
+        Task<List<JObject>> GetDesirabilityData();
+        Task<List<JObject>> GetRecognizabilityData();
     }
 }

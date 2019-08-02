@@ -100,6 +100,13 @@ function reducer(state = initialState, action) {
                 setRequestComplete(draft);
                 break;
 
+            case Actions.FETCHING_DESIRABILITY_REPORT_DATA_COMPLETE:
+                setRequestComplete(draft);
+                break;
+
+            case Actions.FETCHING_RECOGNIZABILITY_REPORT_DATA_COMPLETE:
+                setRequestComplete(draft);
+                break;
 
             default:
                 return draft;

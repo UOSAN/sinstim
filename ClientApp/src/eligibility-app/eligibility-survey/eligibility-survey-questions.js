@@ -104,7 +104,7 @@ export default [{
     }]
 }, {
     id: 'e_marijuana',
-    text: 'Do you smoke marijuana?',
+    text: 'Do you use marijuana products?',
     type: 'radio',
     answers: [{
         id: 'yes',
@@ -143,7 +143,7 @@ export default [{
     }]
 }, {
     id: 'e_pills',
-    text: 'Do you like pills?',
+    text: 'Have you used prescription pills recreationally?',
     type: 'radio',
     answers: [{
         id: 'yes',

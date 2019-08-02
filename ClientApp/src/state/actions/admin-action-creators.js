@@ -83,3 +83,41 @@ export const onGenerateSurveyCompletionReport = ({ user, password }) => {
             .catch(() => dispatch(requestErrored(true)));
     };
 };
+
+const generateDesirabilityReportComplete = () => {
+    return {
+        type: actions.FETCHING_DESIRABILITY_REPORT_DATA_COMPLETE
+    };
+};
+
+export const onGenerateDesirabilityReport = ({ user, password }) => {
+    return (dispatch) => {
+        dispatch(requestInProgress(true));
+
+        return axios.post('/api/Admin/Survey/Desirability', { user, password })
+            .then((response) => {
+                dispatch(generateDesirabilityReportComplete());
+                return reportService.processDesirabilityReportData(response.data);
+            })
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};
+
+const generateRecognizabilityReportComplete = () => {
+    return {
+        type: actions.FETCHING_RECOGNIZABILITY_REPORT_DATA_COMPLETE
+    };
+};
+
+export const onGenerateRecognizabilityReport = ({ user, password }) => {
+    return (dispatch) => {
+        dispatch(requestInProgress(true));
+
+        return axios.post('/api/Admin/Survey/Recognizability', { user, password })
+            .then((response) => {
+                dispatch(generateRecognizabilityReportComplete());
+                return reportService.processRecognizabilityReportData(response.data);
+            })
+            .catch(() => dispatch(requestErrored(true)));
+    };
+};

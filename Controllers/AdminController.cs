@@ -51,6 +51,22 @@ namespace SinStim.Controllers {
             return Ok(completionData);
         }
 
+        [HttpPost("Survey/Desirability")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetDesirabilityData([FromBody] JObject requestBody) {
+            if(!IsAuthorized(requestBody)) { return StatusCode(401); }
+            var desirabilityData = await ReportService.GetDesirabilityData();
+            return Ok(desirabilityData);
+        }
+
+        [HttpPost("Survey/Recognizability")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetRecognizabilityData([FromBody] JObject requestBody) {
+            if(!IsAuthorized(requestBody)) { return StatusCode(401); }
+            var recognizabilityData = await ReportService.GetRecognizabilityData();
+            return Ok(recognizabilityData);
+        }
+
         private bool IsAuthorized(JObject requestBody) {
             var passedInUser = requestBody.GetValue(USER).Value<string>();
             var passedInPassword = requestBody.GetValue(PASSWORD).Value<string>();

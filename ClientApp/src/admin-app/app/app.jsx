@@ -67,6 +67,28 @@ const App = (props) => {
         });
     }
 
+    async function handleGenerateDesirabilityReport() {
+        setReportData({});
+        const { email: user, password } = credentials;
+        const { data, headers } = await props.onGenerateDesirabilityReport({ user, password });
+
+        setReportData({
+            data,
+            headers
+        });
+    }
+
+    async function handleGenerateRecognizabilityReport() {
+        setReportData({});
+        const { email: user, password } = credentials;
+        const { data, headers } = await props.onGenerateRecognizabilityReport({ user, password });
+
+        setReportData({
+            data,
+            headers
+        });
+    }
+
     function renderReport() {
         const { data, headers } = reportData;
 
@@ -149,6 +171,22 @@ const App = (props) => {
                             >
                             Generate Survey Completion Report
                         </button>
+                        <button
+                            className="button is-primary is-outlined desirability"
+                            disabled={!credentials.email || !credentials.password}
+                            onClick={handleGenerateDesirabilityReport}
+                            type="button"
+                            >
+                            Generate Desirability Report
+                        </button>
+                        <button
+                            className="button is-primary is-outlined recognizability"
+                            disabled={!credentials.email || !credentials.password}
+                            onClick={handleGenerateRecognizabilityReport}
+                            type="button"
+                            >
+                            Generate Recognizability Report
+                        </button>
                     </div>
                 </div>
             </div>
@@ -159,9 +197,11 @@ const App = (props) => {
 };
 
 App.propTypes = {
+    onGenerateDesirabilityReport: PropTypes.func.isRequired,
     onGenerateEligibilityCompletionReport: PropTypes.func.isRequired,
     onGenerateInvitationReport: PropTypes.func.isRequired,
     onGenerateProgressReport: PropTypes.func.isRequired,
+    onGenerateRecognizabilityReport: PropTypes.func.isRequired,
     onGenerateSurveyCompletionReport: PropTypes.func.isRequired
 };
 

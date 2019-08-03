@@ -1,3 +1,4 @@
+import _reduce from 'lodash/reduce';
 // headers = [
 //     { label: "First Name", key: "firstname" },
 //     { label: "Last Name", key: "lastname" },
@@ -10,18 +11,49 @@
 //     { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
 // ];
 
-function processDesirabilityReportData(desirabilityData) {
+function getMainReportData(data, headerName) {
+    const tempReportData = data.reduce((desirabilityReportData, value) => {
+        if (!desirabilityReportData[value.fileName]) {
+            desirabilityReportData[value.fileName] = [];
+        }
+        desirabilityReportData[value.fileName].push(value[headerName]);
+        return desirabilityReportData;
+    }, {});
+
+    const mostRatingsNumber = _reduce(tempReportData, (result, ratingsArray) => {
+        if (ratingsArray.length >= result) {
+            return ratingsArray.length;
+        }
+        return result;
+    }, 0);
+
+    const reportData = _reduce(tempReportData, (results, ratings, fileName) => {
+        const temp = {};
+
+        temp.fileName = fileName;
+        ratings.forEach((rating, desireIndex) => {
+            temp[`${headerName}-${desireIndex}`] = rating;
+        });
+        results.push(temp);
+        return results;
+    }, []);
+
+    const fileNameHeader = ['fileName'];
+    const desireHeaders = Array(mostRatingsNumber).fill(0).map((value, index) => `${headerName}-${index}`);
+    const headers = fileNameHeader.concat(desireHeaders);
+
     return {
-        data: desirabilityData,
-        headers: []
+        data: reportData,
+        headers
     };
 }
 
+function processDesirabilityReportData(desirabilityData) {
+    return getMainReportData(desirabilityData, 'desirability');
+}
+
 function processRecognizabilityReportData(recognizabilityData) {
-    return {
-        data: recognizabilityData,
-        headers: []
-    };
+    return getMainReportData(recognizabilityData, 'recognizability');
 }
 
 function processEligibilityCompletionReportData(completionData) {

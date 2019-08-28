@@ -48,6 +48,7 @@ namespace SinStim {
             services.AddScoped<IConfigService, ConfigService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IRatingService, RatingService>();
+            services.AddScoped<IBlobStorageClient, BlobStorageClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -29,6 +29,7 @@ namespace SinStim.Services {
                 .OrderBy(c => Guid.NewGuid())
                 .Take(numberOfPicturesToTake)
                 .Select(p => new PictureToRate(p.Path, p.FileName, p.Category))
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -74,7 +75,7 @@ namespace SinStim.Services {
         }
 
         private async Task<int> GetNumberOfPicturesToRate(string category) {
-            int numberOfPicturesInCategory = await Context.Pictures.CountAsync(p => p.Category == category);
+            int numberOfPicturesInCategory = await Context.Pictures.AsNoTracking().CountAsync(p => p.Category == category);
             var numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
             return numberOfPicturesToRate >= numberOfPicturesInCategory
                 ? numberOfPicturesInCategory

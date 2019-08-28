@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SinStim.Constants;
 using SinStim.Models;
+using SinStim.Services;
 using SinStim.Services.Entity;
 using SinStim.Services.Interfaces;
 
@@ -17,11 +18,14 @@ namespace SinStim.Controllers {
         private readonly IRatingService RatingService;
         private readonly IConfigService ConfigService;
 
-        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService, IConfigService configService) {
+        private readonly IBlobStorageClient BlobStorageClient;
+
+        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService, IConfigService configService, IBlobStorageClient blobStorageClient) {
             this.UserService = userService;
             this.SurveyService = surveyService;
             this.RatingService = ratingService;
             this.ConfigService = configService;
+            this.BlobStorageClient = blobStorageClient;
         }
 
         [HttpGet("User/{id}")]
@@ -54,6 +58,7 @@ namespace SinStim.Controllers {
                 return BadRequest("Failed to start picture survey.");
             }
             var picturesToRate = await SurveyService.GetPicturesToRate(userToUpdate.AssignedCategory);
+            BlobStorageClient.GetImages(picturesToRate);
             var response = new JObject();
             response.Add(CONSTANTS.REQUEST.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
             response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);

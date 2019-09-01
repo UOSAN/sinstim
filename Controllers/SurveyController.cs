@@ -70,11 +70,11 @@ namespace SinStim.Controllers {
             var userNotTracked = await UserService.GetWithNoDemographicsAsync(userId);
             if(!IsAllowedToRatePicture(userNotTracked)) { return StatusCode(401); }
 
-            var recognizability = requestBody.GetValue(CONSTANTS.REQUEST.RECOGNIZABILITY).Value<int>();
             var desirability = requestBody.GetValue(CONSTANTS.REQUEST.DESIRABILITY).Value<int>();
-            var fileName = requestBody.GetValue(CONSTANTS.REQUEST.FILE_NAME).Value<string>();
+            var pictureId = requestBody.GetValue(CONSTANTS.REQUEST.PICTURE_ID).Value<string>();
+            var recognizability = requestBody.GetValue(CONSTANTS.REQUEST.RECOGNIZABILITY).Value<int>();
 
-            var successful = await RatingService.SaveAsync(userNotTracked.Id, desirability, recognizability, fileName);
+            var successful = await RatingService.SaveAsync(userNotTracked.Id, pictureId, desirability, recognizability);
             if (!successful) {
                 return BadRequest("Failed to rate picture.");
             }

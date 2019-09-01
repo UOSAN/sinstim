@@ -64,7 +64,7 @@ const ratePictureSaved = () => {
     };
 };
 
-export const onRatePicture = ({ fileName, desirability, recognizability }) => {
+export const onRatePicture = ({ desirability, recognizability, pictureId }) => {
     return (dispatch, getState) => {
         const { id } = getState();
 
@@ -72,8 +72,8 @@ export const onRatePicture = ({ fileName, desirability, recognizability }) => {
 
         const ratePictureBody = {
             desirability,
-            fileName,
             id,
+            pictureId,
             recognizability
         };
 

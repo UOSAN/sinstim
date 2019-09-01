@@ -28,7 +28,7 @@ namespace SinStim.Services {
                 .Where(p => p.Category == category && p.Ratings.Count < 25)
                 .OrderBy(c => Guid.NewGuid())
                 .Take(numberOfPicturesToTake)
-                .Select(p => new PictureToRate(p.Path, p.FileName, p.Category))
+                .Select(p => new PictureToRate(p.Id, p.Path, p.FileName, p.Category))
                 .ToListAsync();
         }
 

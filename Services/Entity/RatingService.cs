@@ -10,12 +10,11 @@ namespace SinStim.Services.Entity {
         public RatingService(SinStimContext context) {
             this.Context = context;
         }
-        public async Task<bool> SaveAsync(string userId, int desirability, int recognizability, string fileName) {
-            var picture = await Context.Pictures.AsNoTracking().FirstOrDefaultAsync(p => p.FileName == fileName);
+        public async Task<bool> SaveAsync(string userId, string pictureId, int desirability, int recognizability) {
             var rating = new Rating();
             rating.Id = Guid.NewGuid().ToString();
             rating.UserId = userId;
-            rating.PictureId = picture.Id;
+            rating.PictureId = pictureId;
             rating.Recognizability = recognizability;
             rating.Desirability = desirability;
 

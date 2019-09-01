@@ -62,8 +62,8 @@ const Survey = (props) => {
         const pictureToRate = picturesToRate[state.currentPictureIndex];
 
         await onRatePicture({
-            fileName: pictureToRate.FileName,
             desirability: state.desirability,
+            pictureId: pictureToRate.Id,
             recognizability: state.recognizability
         });
         const nextPictureIndex = state.currentPictureIndex + 1;

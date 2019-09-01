@@ -67,14 +67,14 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> RatePicture([FromBody] JObject requestBody) {
             var userId = requestBody.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
-            if(!IsAllowedToRatePicture(userToUpdate)) { return StatusCode(401); }
+            var userNotTracked = await UserService.GetWithNoDemographicsAsync(userId);
+            if(!IsAllowedToRatePicture(userNotTracked)) { return StatusCode(401); }
 
             var recognizability = requestBody.GetValue(CONSTANTS.REQUEST.RECOGNIZABILITY).Value<int>();
             var desirability = requestBody.GetValue(CONSTANTS.REQUEST.DESIRABILITY).Value<int>();
             var fileName = requestBody.GetValue(CONSTANTS.REQUEST.FILE_NAME).Value<string>();
 
-            var successful = await RatingService.SaveAsync(userToUpdate.Id, desirability, recognizability, fileName);
+            var successful = await RatingService.SaveAsync(userNotTracked.Id, desirability, recognizability, fileName);
             if (!successful) {
                 return BadRequest("Failed to rate picture.");
             }

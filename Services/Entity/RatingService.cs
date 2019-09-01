@@ -11,7 +11,7 @@ namespace SinStim.Services.Entity {
             this.Context = context;
         }
         public async Task<bool> SaveAsync(string userId, int desirability, int recognizability, string fileName) {
-            var picture = await Context.Pictures.FirstOrDefaultAsync(p => p.FileName == fileName);
+            var picture = await Context.Pictures.AsNoTracking().FirstOrDefaultAsync(p => p.FileName == fileName);
             var rating = new Rating();
             rating.Id = Guid.NewGuid().ToString();
             rating.UserId = userId;

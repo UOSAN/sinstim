@@ -39,5 +39,9 @@ namespace SinStim.Services.Entity {
         public async Task<User> GetAsync(string id) {
             return await Context.Users.Include(u => u.Demographics).FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task<User> GetWithNoDemographicsAsync(string id) {
+            return await Context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+        }
     }
 }

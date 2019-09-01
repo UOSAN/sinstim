@@ -189,6 +189,21 @@ storiesOf('Picture Survey', module)
             picturesToRate={threePicturesToRate}
             requestInProgress={true}
             />);
+    })
+    .add('CORS', () => {
+        const threePicturesToRate = [{
+            Category: 'alcohol',
+            FileName: 'alcohol_0138.jpg',
+            Path: 'alcohol'
+        }];
+
+        return (<Survey
+            onEndSurvey={onEndSurvey}
+            onRatePicture={onRatePicture}
+            pictureHost={'https://still-star-1e7a.sinstim.workers.dev'}
+            picturesToRate={threePicturesToRate}
+            requestInProgress={false}
+            />);
     });
 
 

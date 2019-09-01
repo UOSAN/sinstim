@@ -23,18 +23,17 @@ namespace SinStim.Services {
 
         public async Task<List<PictureToRate>> GetPicturesToRate(string category) {
             var numberOfPicturesToTake = await GetNumberOfPicturesToRate(category);
-            return await Context.Pictures
+            return await Context.Pictures.AsNoTracking()
                 .Include(p => p.Ratings)
                 .Where(p => p.Category == category && p.Ratings.Count < 25)
                 .OrderBy(c => Guid.NewGuid())
                 .Take(numberOfPicturesToTake)
                 .Select(p => new PictureToRate(p.Path, p.FileName, p.Category))
-                .AsNoTracking()
                 .ToListAsync();
         }
 
         public async Task<string> GetAssignedCategory(string userId) {
-            var eligibility = await Context.Eligibilities.FirstOrDefaultAsync(e => e.UserId == userId);
+            var eligibility = await Context.Eligibilities.AsNoTracking().FirstOrDefaultAsync(e => e.UserId == userId);
 
             var potentialCategories = GetPotentialCategories(eligibility);
             var incompleteCategories = await CategoryService.GetListOfIncompleteCategoriesAsync();

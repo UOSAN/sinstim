@@ -28,7 +28,7 @@ namespace SinStim.Controllers {
         [HttpGet("User/{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser(string id) {
-            var user = await UserService.GetAsync(id);
+            var user = await UserService.GetWithNoDemographicsAsync(id);
             if (user == null) {
                 return StatusCode(404);
             }
@@ -43,14 +43,14 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartPictureSurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
+            var userToUpdate = await UserService.GetWithNoDemographicsAsync(userId);
             if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.SurveyCompletionCode = Guid.NewGuid().ToString();
             userToUpdate.SurveyStartTime = new DateTimeOffset(DateTime.Now);
             userToUpdate.AssignedCategory = await SurveyService.GetAssignedCategory(userId);
 
-            var successful = await UserService.UpdateAsync(userToUpdate);
+            var successful = await UserService.UpdateSurveyStartUserAsync(userToUpdate);
             if (!successful) {
                 return BadRequest("Failed to start picture survey.");
             }

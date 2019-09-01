@@ -36,6 +36,20 @@ namespace SinStim.Services.Entity {
             return saveResult >= 1;
         }
 
+        public async Task<bool> UpdateSurveyStartUserAsync(User user) {
+            Context.Users.Attach(user);
+            Context.Entry(user).Property(u => u.AssignedCategory).IsModified = true;
+            Context.Entry(user).Property(u => u.SurveyCompletionCode).IsModified = true;
+            Context.Entry(user).Property(u => u.SurveyStartTime).IsModified = true;
+            var saveResult = 0;
+            try {
+                saveResult = await Context.SaveChangesAsync();
+            } catch(Exception e) {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return saveResult >= 1;
+        }
+
         public async Task<User> GetAsync(string id) {
             return await Context.Users.Include(u => u.Demographics).FirstOrDefaultAsync(u => u.Id == id);
         }

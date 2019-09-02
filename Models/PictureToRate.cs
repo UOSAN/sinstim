@@ -1,9 +1,9 @@
-namespace SinStim.Services.Poco {
+namespace SinStim.Models {
     public class PictureToRate {
-        public readonly string Id;
-        public readonly string Path;
-        public readonly string FileName;
-        public readonly string Category;
+        public string Id {get; set; }
+        public string Path {get; set; }
+        public string FileName {get; set; }
+        public string Category {get; set; }
 
         public PictureToRate(string id, string path, string fileName, string category) {
             this.Id = id;

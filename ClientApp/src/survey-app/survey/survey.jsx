@@ -33,10 +33,12 @@ const Survey = (props) => {
         picturesToRate.forEach((pictureToRate) => {
             const pictureUri = getPictureUri(pictureToRate);
 
-            fetch(pictureUri, {
-                method: 'GET',
-                mode: 'no-cors'
-            });
+            setTimeout(() => {
+                fetch(pictureUri, {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+            }, 150);
         });
     }, []);
 

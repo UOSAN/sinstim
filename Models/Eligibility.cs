@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SinStim.Models {
+﻿namespace SinStim.Models {
     public class Eligibility {
         public string Id { get; set; }
         public string UserId { get; set; }

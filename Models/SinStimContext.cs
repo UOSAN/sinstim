@@ -9,5 +9,8 @@ namespace SinStim.Models {
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Demographics> Demographics { get; set; }
+
+        public DbQuery<IncompleteCategory> IncompleteCategoryQuery { get; set;}
+        public DbQuery<PictureToRate> PictureToRateQuery { get; set;}
     }
 }

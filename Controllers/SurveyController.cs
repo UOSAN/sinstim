@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SinStim.Constants;
 using SinStim.Models;
-using SinStim.Services;
 using SinStim.Services.Entity;
 using SinStim.Services.Interfaces;
 
@@ -54,7 +53,7 @@ namespace SinStim.Controllers {
             if (!successful) {
                 return BadRequest("Failed to start picture survey.");
             }
-            var picturesToRate = await SurveyService.GetPicturesToRate(userToUpdate.AssignedCategory);
+            var picturesToRate = await SurveyService.GetPicturesToRateRaw(userToUpdate.AssignedCategory);
             var response = new JObject();
             response.Add(CONSTANTS.REQUEST.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
             response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);
@@ -85,12 +84,12 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndPictureSurvey([FromBody] JObject userJson) {
             var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
+            var userToUpdate = await UserService.GetWithNoDemographicsAsync(userId);
             if(!IsAllowedToEndPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
             userToUpdate.SurveyEndTime = new DateTimeOffset(DateTime.Now);
 
-            var successful = await UserService.UpdateAsync(userToUpdate);
+            var successful = await UserService.UpdateSurveyEndUserAsync(userToUpdate);
             if (!successful) {
                 return BadRequest("Failed to end picture survey.");
             }

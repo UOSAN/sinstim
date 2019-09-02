@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using SinStim.Constants;
 using SinStim.Models;
 using SinStim.Services.Interfaces;
-using SinStim.Services.Poco;
 
 namespace SinStim.Services {
     public class SurveyService : ISurveyService {
@@ -21,15 +20,22 @@ namespace SinStim.Services {
             this.CategoryService = categoryService;
         }
 
-        public async Task<List<PictureToRate>> GetPicturesToRate(string category) {
-            var numberOfPicturesToTake = await GetNumberOfPicturesToRate(category);
-            return await Context.Pictures.AsNoTracking()
-                .Include(p => p.Ratings)
-                .Where(p => p.Category == category && p.Ratings.Count < 25)
-                .OrderBy(c => Guid.NewGuid())
-                .Take(numberOfPicturesToTake)
-                .Select(p => new PictureToRate(p.Id, p.Path, p.FileName, p.Category))
-                .ToListAsync();
+        public async Task<List<PictureToRate>> GetPicturesToRateRaw(string category) {
+            var numberOfRatings = ConfigService.GetNumberOfRatingsToFinishPicture();
+            if(category == CONSTANTS.CATEGORY.NEUTRAL) {
+                numberOfRatings = ConfigService.GetNumberOfRatingsToFinishNeutralPicture();
+            }
+            var numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
+
+            return await Context.PictureToRateQuery.FromSql(@"
+                SELECT * FROM PICTURES
+                WHERE (PICTURES.Category = {0}) AND ((
+                    SELECT COUNT(*)
+                    FROM RATINGS
+                    WHERE PICTURES.Id = RATINGS.PictureId
+                ) < {1})
+                ORDER BY RANDOM() LIMIT {2}", category, numberOfRatings, numberOfPicturesToRate
+            ).ToListAsync();
         }
 
         public async Task<string> GetAssignedCategory(string userId) {
@@ -38,7 +44,7 @@ namespace SinStim.Services {
             var potentialCategories = GetPotentialCategories(eligibility);
             var incompleteCategories = await CategoryService.GetListOfIncompleteCategoriesAsync();
 
-            var eligibleCategories = potentialCategories.Intersect(incompleteCategories.Select(ci => ci.Category)).ToList();
+            var eligibleCategories = potentialCategories.Intersect(incompleteCategories.Select(ic => ic.Category)).ToList();
 
             if(eligibleCategories.Count > 1 && eligibleCategories.Contains(CONSTANTS.CATEGORY.NEUTRAL)) {
                 eligibleCategories.Remove(CONSTANTS.CATEGORY.NEUTRAL);

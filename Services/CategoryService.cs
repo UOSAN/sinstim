@@ -22,28 +22,52 @@ namespace SinStim.Services {
             return nonNeutralCategoryInfo.Concat(neutralCategoryInfo).ToList();
         }
 
-        public async Task<List<CategoryInfo>> GetListOfIncompleteCategoriesAsync() {
-            var nonNeutralCategoryInfo = await GetNonNeutralCategoryInfoQuery()
-                .Where(ci => ci.FinishedPictureCount < ci.TotalPictures)
-                .ToListAsync();
+        public async Task<List<IncompleteCategory>> GetListOfIncompleteCategoriesAsync() {
+            var incompleteNonNeutralCategories = await GetIncompleteNonNeutralCategories();
 
-            var neutralCategoryInfo = await GetNeutralCategoryInfoQuery()
-                .Where(ci => ci.FinishedPictureCount < ci.TotalPictures)
-                .ToListAsync();
+            var incompleteNeutralCategories = await GetIncompleteNeutralCategories();
 
-            return nonNeutralCategoryInfo.Concat(neutralCategoryInfo).ToList();
+            return incompleteNonNeutralCategories.Concat(incompleteNeutralCategories).ToList();
         }
 
-        public async Task<bool> IsCategoryCompleteAsync(string category) {
-            if(category == CONSTANTS.CATEGORY.NEUTRAL) {
-                return await GetNeutralCategoryInfoQuery()
-                    .Select(ci => ci.FinishedPictureCount == ci.TotalPictures)
-                    .FirstOrDefaultAsync();
-            }
-            return await GetNonNeutralCategoryInfoQuery()
-                .Where(ci => ci.Category == category)
-                .Select(ci => ci.FinishedPictureCount == ci.TotalPictures)
-                .FirstOrDefaultAsync();
+        private async Task<List<IncompleteCategory>> GetIncompleteNonNeutralCategories() {
+            var incompleteCategories = await Context
+                .IncompleteCategoryQuery
+                .FromSql(@"
+                    SELECT Category
+                    FROM (
+                        SELECT Pictures.Id, Pictures.Category, Pictures.FileName, Pictures.Path, COUNT(Ratings.Id) AS NumberOfRatings
+                        FROM PICTURES
+                        LEFT OUTER JOIN RATINGS ON Pictures.Id = Ratings.PictureId
+                        WHERE Pictures.Category != {0}
+                        GROUP BY Pictures.Id
+                        HAVING NumberOfRatings < {1}
+                    )
+                    GROUP BY(Category)", CONSTANTS.CATEGORY.NEUTRAL, ConfigService.GetNumberOfRatingsToFinishPicture()
+                )
+                .ToListAsync();
+
+            return incompleteCategories;
+        }
+
+        private async Task<List<IncompleteCategory>> GetIncompleteNeutralCategories() {
+            var incompleteCategories = await Context
+                .IncompleteCategoryQuery
+                .FromSql(@"
+                    SELECT Category
+                    FROM (
+                        SELECT Pictures.Id, Pictures.Category, Pictures.FileName, Pictures.Path, COUNT(Ratings.Id) AS NumberOfRatings
+                        FROM PICTURES
+                        LEFT OUTER JOIN RATINGS ON Pictures.Id = Ratings.PictureId
+                        WHERE Pictures.Category = {0}
+                        GROUP BY Pictures.Id
+                        HAVING NumberOfRatings < {1}
+                    )
+                    GROUP BY(Category)", CONSTANTS.CATEGORY.NEUTRAL, ConfigService.GetNumberOfRatingsToFinishNeutralPicture()
+                )
+                .ToListAsync();
+
+            return incompleteCategories;
         }
 
         private IQueryable<CategoryInfo> GetNonNeutralCategoryInfoQuery() {
@@ -53,7 +77,7 @@ namespace SinStim.Services {
                         pictureInfoList.Count(),
                         pictureInfoList.Count(pi => pi.NumOfRatings >= ConfigService.GetNumberOfRatingsToFinishPicture())
                     ))
-                .Where(ci => ci.Category != CONSTANTS.CATEGORY.NEUTRAL);;
+                .Where(ci => ci.Category != CONSTANTS.CATEGORY.NEUTRAL);
         }
 
         private IQueryable<CategoryInfo> GetNeutralCategoryInfoQuery() {

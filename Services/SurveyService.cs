@@ -34,7 +34,7 @@ namespace SinStim.Services {
                     FROM RATINGS
                     WHERE PICTURES.Id = RATINGS.PictureId
                 ) < {1})
-                ORDER BY RANDOM() LIMIT {2}", category, numberOfRatings, numberOfPicturesToRate
+                ORDER BY RAND() LIMIT {2}", category, numberOfRatings, numberOfPicturesToRate
             ).ToListAsync();
             if(picturesToRate.Count > 0) {
                 return picturesToRate;
@@ -43,7 +43,7 @@ namespace SinStim.Services {
             return await Context.PictureToRateQuery.FromSql(@"
                 SELECT * FROM PICTURES
                 WHERE PICTURES.Category = {0}
-                ORDER BY RANDOM() LIMIT {1}", category, numberOfPicturesToRate
+                ORDER BY RAND() LIMIT {1}", category, numberOfPicturesToRate
             ).ToListAsync();
         }
 

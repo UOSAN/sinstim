@@ -38,7 +38,7 @@ const Survey = (props) => {
                     method: 'GET',
                     mode: 'no-cors'
                 });
-            }, index * 500);
+            }, index * 1000);
         });
     }, []);
 

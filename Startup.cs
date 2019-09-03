@@ -39,7 +39,7 @@ namespace SinStim {
 
             services.AddDbContext<SinStimContext>(options => {
                 var defaultConnectionString = Configuration.GetConnectionString(CONSTANTS.CONFIG.DEFAULT_CONNECTION);
-                options.UseSqlite(defaultConnectionString);
+                options.UseMySQL(defaultConnectionString);
             });
 
             services.AddScoped<IUserService, UserService>();

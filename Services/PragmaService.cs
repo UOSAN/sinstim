@@ -11,8 +11,8 @@ namespace SinStim.Services {
             this.Context = context;
         }
 
-        public async Task SetWalMode() {
-            await Context.Database.ExecuteSqlCommandAsync("PRAGMA journal_mode=WAL;");
+        public async Task SetSqliteOptimizations() {
+            await Context.Database.ExecuteSqlCommandAsync("PRAGMA journal_mode=WAL;PRAGMA temp_store = MEMORY;");
         }
     }
 }

@@ -27,7 +27,7 @@ namespace SinStim.Services {
             }
             var numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
 
-            return await Context.PictureToRateQuery.FromSql(@"
+            var picturesToRate = await Context.PictureToRateQuery.FromSql(@"
                 SELECT * FROM PICTURES
                 WHERE (PICTURES.Category = {0}) AND ((
                     SELECT COUNT(*)
@@ -35,6 +35,15 @@ namespace SinStim.Services {
                     WHERE PICTURES.Id = RATINGS.PictureId
                 ) < {1})
                 ORDER BY RANDOM() LIMIT {2}", category, numberOfRatings, numberOfPicturesToRate
+            ).ToListAsync();
+            if(picturesToRate.Count > 0) {
+                return picturesToRate;
+            }
+            // Unlucky timing we don't need any more ratings so here are 250 random ones anyway
+            return await Context.PictureToRateQuery.FromSql(@"
+                SELECT * FROM PICTURES
+                WHERE PICTURES.Category = {0}
+                ORDER BY RANDOM() LIMIT {1}", category, numberOfPicturesToRate
             ).ToListAsync();
         }
 
@@ -48,6 +57,8 @@ namespace SinStim.Services {
 
             if(eligibleCategories.Count > 1 && eligibleCategories.Contains(CONSTANTS.CATEGORY.NEUTRAL)) {
                 eligibleCategories.Remove(CONSTANTS.CATEGORY.NEUTRAL);
+            } else if(eligibleCategories.Count == 0) { // in theory we have collected all the ratings we need
+                return CONSTANTS.CATEGORY.NEUTRAL; // give the user neutral anyway?
             }
 
             var idx = GetRandomAssignedCategoryIndex(eligibleCategories.Count);

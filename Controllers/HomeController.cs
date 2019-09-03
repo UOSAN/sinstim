@@ -13,17 +13,17 @@ namespace SinStim.Controllers {
         }
 
         public async Task<IActionResult> Survey() {
-            await PragmaService.SetWalMode();
+            await PragmaService.SetSqliteOptimizations();
             return View();
         }
 
         public async Task<IActionResult> Eligibility() {
-            await PragmaService.SetWalMode();
+            await PragmaService.SetSqliteOptimizations();
             return View();
         }
 
         public async Task<IActionResult> Admin() {
-            await PragmaService.SetWalMode();
+            await PragmaService.SetSqliteOptimizations();
             return View();
         }
     }

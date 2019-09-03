@@ -30,7 +30,7 @@ const Survey = (props) => {
     });
 
     useEffect(() => {
-        picturesToRate.forEach((pictureToRate) => {
+        picturesToRate.forEach((pictureToRate, index) => {
             const pictureUri = getPictureUri(pictureToRate);
 
             setTimeout(() => {
@@ -38,7 +38,7 @@ const Survey = (props) => {
                     method: 'GET',
                     mode: 'no-cors'
                 });
-            }, 150);
+            }, index * 500);
         });
     }, []);
 

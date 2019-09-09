@@ -119,7 +119,7 @@ export default class Demographics extends React.Component {
         if (type === 'radio' || type === 'checkbox') {
             isQuestionAnswered = _some(answers, (answer) => answer.checked);
         } else if (type === 'number') {
-            isQuestionAnswered = _some(answers, (answer) => answer.value);
+            isQuestionAnswered = _some(answers, (answer) => answer.value >= 18);
         }
 
         return !isQuestionAnswered;

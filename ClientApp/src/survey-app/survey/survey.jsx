@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Rating from '../rating';
@@ -28,19 +28,6 @@ const Survey = (props) => {
     const [attentionCheckTwoIndex] = useState(() => {
         return parseInt((picturesToRate.length / 3) + (picturesToRate.length / 3));
     });
-
-    useEffect(() => {
-        picturesToRate.forEach((pictureToRate, index) => {
-            const pictureUri = getPictureUri(pictureToRate);
-
-            setTimeout(() => {
-                fetch(pictureUri, {
-                    method: 'GET',
-                    mode: 'no-cors'
-                });
-            }, index * 1000);
-        });
-    }, []);
 
     function onRecognizabilityChange(value) {
         setState((previousState) => {
@@ -95,10 +82,6 @@ const Survey = (props) => {
         const pictureToRate = picturesToRate[state.currentPictureIndex];
 
         return `${pictureToRate.Path}/${pictureToRate.FileName}`;
-    }
-
-    function getPictureUri(pictureToRate) {
-        return `${pictureHost}/pictures/${pictureToRate.Path}/${pictureToRate.FileName}`;
     }
 
     function renderPicture(currentPictureFileName) {

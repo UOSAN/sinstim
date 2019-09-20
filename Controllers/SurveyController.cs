@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using SinStim.Constants;
 using SinStim.Models;
@@ -16,12 +17,14 @@ namespace SinStim.Controllers {
         private readonly ISurveyService SurveyService;
         private readonly IRatingService RatingService;
         private readonly IConfigService ConfigService;
+        private readonly ILogger<SurveyController> Logger;
 
-        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService, IConfigService configService) {
+        public SurveyController(IUserService userService, ISurveyService surveyService, IRatingService ratingService, IConfigService configService, ILogger<SurveyController> logger) {
             this.UserService = userService;
             this.SurveyService = surveyService;
             this.RatingService = ratingService;
             this.ConfigService = configService;
+            this.Logger = logger;
         }
 
         [HttpGet("User/{id}")]
@@ -66,6 +69,8 @@ namespace SinStim.Controllers {
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> RatePicture([FromBody] JObject requestBody) {
             var userId = requestBody.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+            Logger.LogDebug("{0} Attempting To Rate a Picture", userId);
+
             var userNotTracked = await UserService.GetWithNoDemographicsAsync(userId);
             if(!IsAllowedToRatePicture(userNotTracked)) { return StatusCode(401); }
 

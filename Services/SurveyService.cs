@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SinStim.Constants;
 using SinStim.Models;
 using SinStim.Services.Interfaces;
@@ -13,11 +14,13 @@ namespace SinStim.Services {
         private readonly SinStimContext Context;
         private readonly IConfigService ConfigService;
         private readonly ICategoryService CategoryService;
+        private readonly ILogger<SurveyService> Logger;
 
-        public SurveyService(SinStimContext context, IConfigService configService, ICategoryService categoryService) {
+        public SurveyService(SinStimContext context, IConfigService configService, ICategoryService categoryService, ILogger<SurveyService> logger) {
             this.Context = context;
             this.ConfigService = configService;
             this.CategoryService = categoryService;
+            this.Logger = logger;
         }
 
         public async Task<List<PictureToRate>> GetPicturesToRateRaw(string category) {

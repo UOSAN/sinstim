@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using SinStim.Constants;
 using SinStim.Models;
@@ -11,9 +12,11 @@ namespace SinStim.Controllers {
     public class EligibilityController : Controller {
 
         private readonly IUserService UserService;
+        private readonly ILogger<UserService> Logger;
 
-        public EligibilityController(IUserService userService) {
+        public EligibilityController(IUserService userService, ILogger<UserService> logger) {
             this.UserService = userService;
+            this.Logger = logger;
         }
 
         [HttpPost("User/Save")]

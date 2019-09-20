@@ -1,13 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SinStim.Models;
 
 namespace SinStim.Services.Entity {
     public partial class UserService : IUserService {
         private readonly SinStimContext Context;
-        public UserService(SinStimContext context) {
+        private readonly ILogger<UserService> Logger;
+        public UserService(SinStimContext context, ILogger<UserService> logger) {
             this.Context = context;
+            this.Logger = logger;
         }
 
         public async Task<bool> SaveAsync(string id) {
@@ -20,6 +23,7 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
+                Logger.LogError(e, "Error SaveAsync: {0} at {1}", id, DateTime.UtcNow.ToLongTimeString());
                 System.Diagnostics.Trace.TraceError(e.Message);
             }
             return saveResult == 1;
@@ -31,7 +35,8 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                System.Diagnostics.Debug.WriteLine(e);
+                Logger.LogError(e, "Error UpdateAsync: {0} at {1}", user.Id, DateTime.UtcNow.ToLongTimeString());
+                System.Diagnostics.Trace.TraceError(e.Message);
             }
             return saveResult >= 1;
         }
@@ -45,7 +50,8 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                System.Diagnostics.Debug.WriteLine(e);
+                Logger.LogError(e, "Error UpdateSurveyStartUserAsync: {0} at {1}", user.Id, DateTime.UtcNow.ToLongTimeString());
+                System.Diagnostics.Trace.TraceError(e.Message);
             }
             return saveResult >= 1;
         }
@@ -57,17 +63,32 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                System.Diagnostics.Debug.WriteLine(e);
+                Logger.LogError(e, "Error UpdateSurveyEndUserAsync: {0} at {1}", user.Id, DateTime.UtcNow.ToLongTimeString());
+                System.Diagnostics.Trace.TraceError(e.Message);
             }
             return saveResult >= 1;
         }
 
         public async Task<User> GetAsync(string id) {
-            return await Context.Users.Include(u => u.Demographics).FirstOrDefaultAsync(u => u.Id == id);
+            User user = null;
+            try {
+                user = await Context.Users.Include(u => u.Demographics).FirstOrDefaultAsync(u => u.Id == id);
+            } catch(Exception e){
+                Logger.LogError(e, "Error GetAsync: {0} at {1}", id, DateTime.UtcNow.ToLongTimeString());
+                System.Diagnostics.Trace.TraceError(e.Message);
+            }
+            return user;
         }
 
         public async Task<User> GetWithNoDemographicsAsync(string id) {
-            return await Context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+            User user = null;
+            try {
+                user = await Context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+            } catch(Exception e) {
+                Logger.LogError(e, "Error GetWithNoDemographicsAsync: {0} at {1}", id, DateTime.UtcNow.ToLongTimeString());
+                System.Diagnostics.Trace.TraceError(e.Message);
+            }
+            return user;
         }
     }
 }

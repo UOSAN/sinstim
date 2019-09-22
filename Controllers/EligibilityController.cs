@@ -12,9 +12,9 @@ namespace SinStim.Controllers {
     public class EligibilityController : Controller {
 
         private readonly IUserService UserService;
-        private readonly ILogger<UserService> Logger;
+        private readonly ILogger<EligibilityController> Logger;
 
-        public EligibilityController(IUserService userService, ILogger<UserService> logger) {
+        public EligibilityController(IUserService userService, ILogger<EligibilityController> logger) {
             this.UserService = userService;
             this.Logger = logger;
         }
@@ -22,10 +22,14 @@ namespace SinStim.Controllers {
         [HttpPost("User/Save")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> SaveUser([FromBody] JObject newUser) {
-            var newUserId = newUser.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var successful = await UserService.SaveAsync(newUserId);
-            if (!successful) {
-                return BadRequest("Failed to save user.");
+            try {
+                var newUserId = newUser.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+                var successful = await UserService.SaveAsync(newUserId);
+                if (!successful) {
+                    return BadRequest("Failed to save user.");
+                }
+            } catch(Exception e) {
+                Logger.LogError(e, "{0} SaveUser call: {1} {2}", Environment.NewLine, newUser.ToString(), Environment.NewLine);
             }
             return Ok();
         }
@@ -33,83 +37,100 @@ namespace SinStim.Controllers {
         [HttpPost("Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartEligibilitySurvey([FromBody] JObject userJson) {
-            var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
-            if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
-
-            userToUpdate.EligibilityCompletionCode = Guid.NewGuid().ToString();
-            userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
-
-            var successful = await UserService.UpdateAsync(userToUpdate);
-            if (!successful) {
-                return BadRequest("Failed to start eligibility survey.");
-            }
-
             var response = new JObject();
-            response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
+            try {
+                var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+                var userToUpdate = await UserService.GetAsync(userId);
+                if(!isAllowedToStartEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
+
+                userToUpdate.EligibilityCompletionCode = Guid.NewGuid().ToString();
+                userToUpdate.EligibilityStartTime = new DateTimeOffset(DateTime.Now);
+
+                var successful = await UserService.UpdateAsync(userToUpdate);
+                if (!successful) {
+                    return BadRequest("Failed to start eligibility survey.");
+                }
+
+                response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, userToUpdate.EligibilityStartTime);
+            } catch(Exception e) {
+                Logger.LogError(e, "{0} StartEligibilitySurvey call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
+            }
             return Ok(response);
         }
 
         [HttpPost("End")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndEligibilitySurvey([FromBody] JObject userJson) {
-            var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
-            if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
-
-            userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
-            userToUpdate.Eligibility = getEligibility(userJson);
-
-            var successful = await UserService.UpdateAsync(userToUpdate);
-            if (!successful) {
-                return BadRequest("Failed to end eligibility survey.");
-            }
-
             var response = new JObject();
+            try {
+                var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+                var userToUpdate = await UserService.GetAsync(userId);
+                if(!isAllowedToEndEligibilitySurvey(userToUpdate)) { return StatusCode(401); }
+
+                userToUpdate.EligibilityEndTime = new DateTimeOffset(DateTime.Now);
+                userToUpdate.Eligibility = getEligibility(userJson);
+
+                var successful = await UserService.UpdateAsync(userToUpdate);
+                if (!successful) {
+                    return BadRequest("Failed to end eligibility survey.");
+                }
+
+
             response.Add(CONSTANTS.REQUEST.ELIGIBILITY_END_TIME, userToUpdate.EligibilityEndTime);
             response.Add(CONSTANTS.REQUEST.ELIGIBILITY_COMPLETION_CODE, userToUpdate.EligibilityCompletionCode);
+            } catch(Exception e) {
+                Logger.LogError(e, "{0} EndEligibilitySurvey call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
+            }
             return Ok(response);
         }
 
         [HttpPost("Demographics/Start")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> StartDemographicsSurvey([FromBody] JObject demographicsJson) {
-            var userId = demographicsJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
-            if(!isAllowedToStartDemographicsSurvey(userToUpdate)) { return StatusCode(401); }
-
-            var demographics = new Demographics();
-            demographics.Id = Guid.NewGuid().ToString();
-            demographics.UserId = userId;
-            demographics.StartTime = new DateTimeOffset(DateTime.Now);
-            userToUpdate.Demographics = demographics;
-
-            var successful = await UserService.UpdateAsync(userToUpdate);
-            if (!successful) {
-                return BadRequest("Failed to start demographics survey.");
-            }
-
             var response = new JObject();
-            response.Add(CONSTANTS.REQUEST.DEMOGRAPHICS_START_TIME, userToUpdate.Demographics.StartTime);
+            try {
+                var userId = demographicsJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+                var userToUpdate = await UserService.GetAsync(userId);
+                if(!isAllowedToStartDemographicsSurvey(userToUpdate)) { return StatusCode(401); }
+
+                var demographics = new Demographics();
+                demographics.Id = Guid.NewGuid().ToString();
+                demographics.UserId = userId;
+                demographics.StartTime = new DateTimeOffset(DateTime.Now);
+                userToUpdate.Demographics = demographics;
+
+                var successful = await UserService.UpdateAsync(userToUpdate);
+                if (!successful) {
+                    return BadRequest("Failed to start demographics survey.");
+                }
+
+                response.Add(CONSTANTS.REQUEST.DEMOGRAPHICS_START_TIME, userToUpdate.Demographics.StartTime);
+            } catch(Exception e) {
+                Logger.LogError(e, "{0} StartDemographicsSurvey call: {1} {2}", Environment.NewLine, demographicsJson.ToString(), Environment.NewLine);
+            }
             return Ok(response);
         }
 
         [HttpPost("Demographics/End")]
         [ProducesResponseType(200, Type = typeof(JObject))]
         public async Task<IActionResult> EndDemographicsSurvey([FromBody] JObject demographicsJson) {
-            var userId = demographicsJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
-            var userToUpdate = await UserService.GetAsync(userId);
-            if(!isAllowedToEndDemographicsSurvey(userToUpdate)) { return StatusCode(401); }
-
-            updateDemographicsWithAnswers(userToUpdate.Demographics, demographicsJson);
-
-            var successful = await UserService.UpdateAsync(userToUpdate);
-            if (!successful) {
-                return BadRequest("Failed to end demographics survey.");
-            }
-
             var response = new JObject();
-            response.Add(CONSTANTS.REQUEST.DEMOGRAPHICS_END_TIME, userToUpdate.Demographics.EndTime);
+            try {
+                var userId = demographicsJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
+                var userToUpdate = await UserService.GetAsync(userId);
+                if(!isAllowedToEndDemographicsSurvey(userToUpdate)) { return StatusCode(401); }
+
+                updateDemographicsWithAnswers(userToUpdate.Demographics, demographicsJson);
+
+                var successful = await UserService.UpdateAsync(userToUpdate);
+                if (!successful) {
+                    return BadRequest("Failed to end demographics survey.");
+                }
+
+                response.Add(CONSTANTS.REQUEST.DEMOGRAPHICS_END_TIME, userToUpdate.Demographics.EndTime);
+            } catch(Exception e) {
+                Logger.LogError(e, "{0} EndDemographicsSurvey call: {1} {2}", Environment.NewLine, demographicsJson.ToString(), Environment.NewLine);
+            }
             return Ok(response);
         }
 

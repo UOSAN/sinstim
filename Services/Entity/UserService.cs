@@ -23,8 +23,7 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                Logger.LogError(e, "Error SaveAsync: {0} at {1}", id, DateTime.UtcNow.ToString());
-                System.Diagnostics.Trace.TraceError(e.Message);
+                Logger.LogError(e, "Error SaveAsync: {0} at {1}{2}", id, DateTime.UtcNow.ToString(), Environment.NewLine);
             }
             return saveResult == 1;
         }
@@ -35,8 +34,7 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                Logger.LogError(e, "Error UpdateAsync: {0} at {1}", user.Id, DateTime.UtcNow.ToString());
-                System.Diagnostics.Trace.TraceError(e.Message);
+                Logger.LogError(e, "Error UpdateAsync: {0} at {1}{2}", user.Id, DateTime.UtcNow.ToString(), Environment.NewLine);
             }
             return saveResult >= 1;
         }
@@ -50,8 +48,7 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                Logger.LogError(e, "Error UpdateSurveyStartUserAsync: {0} at {1}", user.Id, DateTime.UtcNow.ToString());
-                System.Diagnostics.Trace.TraceError(e.Message);
+                Logger.LogError(e, "Error UpdateSurveyStartUserAsync: {0} at {1}{2}", user.Id, DateTime.UtcNow.ToString(), Environment.NewLine);
             }
             return saveResult >= 1;
         }
@@ -63,8 +60,7 @@ namespace SinStim.Services.Entity {
             try {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
-                Logger.LogError(e, "Error UpdateSurveyEndUserAsync: {0} at {1}", user.Id, DateTime.UtcNow.ToString());
-                System.Diagnostics.Trace.TraceError(e.Message);
+                Logger.LogError(e, "Error UpdateSurveyEndUserAsync: {0} at {1}{2}", user.Id, DateTime.UtcNow.ToString(), Environment.NewLine);
             }
             return saveResult >= 1;
         }
@@ -74,8 +70,7 @@ namespace SinStim.Services.Entity {
             try {
                 user = await Context.Users.Include(u => u.Demographics).FirstOrDefaultAsync(u => u.Id == id);
             } catch(Exception e){
-                Logger.LogError(e, "Error GetAsync: {0} at {1}", id, DateTime.UtcNow.ToString());
-                System.Diagnostics.Trace.TraceError(e.Message);
+                Logger.LogError(e, "Error GetAsync: {0} at {1}{2}", id, DateTime.UtcNow.ToString(), Environment.NewLine);
             }
             return user;
         }
@@ -85,8 +80,7 @@ namespace SinStim.Services.Entity {
             try {
                 user = await Context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
             } catch(Exception e) {
-                Logger.LogError(e, "Error GetWithNoDemographicsAsync: {0} at {1}", id, DateTime.UtcNow.ToString());
-                System.Diagnostics.Trace.TraceError(e.Message);
+                Logger.LogError(e, "Error GetWithNoDemographicsAsync: {0} at {1}{2}", id, DateTime.UtcNow.ToString(), Environment.NewLine);
             }
             return user;
         }

@@ -28,6 +28,7 @@ const Survey = (props) => {
     const [attentionCheckTwoIndex] = useState(() => {
         return parseInt((picturesToRate.length / 3) + (picturesToRate.length / 3));
     });
+    const [isLoadingImage, setIsLoadingImage] = useState(true);
 
     function onRecognizabilityChange(value) {
         setState((previousState) => {
@@ -75,6 +76,7 @@ const Survey = (props) => {
                     recognizability: null
                 };
             });
+            setIsLoadingImage(true);
         }
     }
 
@@ -84,12 +86,16 @@ const Survey = (props) => {
         return `${pictureToRate.Path}/${pictureToRate.FileName}`;
     }
 
+    function handleOnImgLoad() {
+        setIsLoadingImage(false);
+    }
+
     function renderPicture(currentPictureFileName) {
         const src = `${pictureHost}/pictures/${currentPictureFileName}`;
 
         return (
             <div className="picture">
-                <img alt={getSubCategory()} src={src} />
+                <img alt={getSubCategory()} onError={handleOnImgLoad} onLoad={handleOnImgLoad} src={src} />
             </div>
         );
     }
@@ -122,7 +128,7 @@ const Survey = (props) => {
                                 currentPictureFileName={currentPictureFileName}
                                 onRatingChange={onRecognizabilityChange}
                                 ratingName="recognizability"
-                                requestInProgress={requestInProgress}
+                                requestInProgress={requestInProgress || isLoadingImage}
                                 />
                         </div>
                         <div className="desirability">
@@ -131,7 +137,7 @@ const Survey = (props) => {
                                 currentPictureFileName={currentPictureFileName}
                                 onRatingChange={onDesirabilityChange}
                                 ratingName="desirability"
-                                requestInProgress={requestInProgress}
+                                requestInProgress={requestInProgress || isLoadingImage}
                                 />
                         </div>
                     </div>
@@ -140,7 +146,7 @@ const Survey = (props) => {
                     <span className="question-next">
                         <button
                             className="button is-primary is-outlined"
-                            disabled={!state.desirability || !state.recognizability || requestInProgress}
+                            disabled={!state.desirability || !state.recognizability || requestInProgress || isLoadingImage}
                             onClick={handleOnNextClick}
                             type="button"
                             >

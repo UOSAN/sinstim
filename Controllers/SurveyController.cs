@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,13 +35,16 @@ namespace SinStim.Controllers {
             try {
                 var user = await UserService.GetWithNoDemographicsAsync(id);
                 if (user == null) {
-                    return StatusCode(404);
+                    var retryResponse = new JObject();
+                    retryResponse.Add("shouldRetry", true);
+                    return StatusCode(404, retryResponse);
                 }
                 response.Add(CONSTANTS.REQUEST.ID, user.Id);
                 response.Add(CONSTANTS.REQUEST.ELIGIBILITY_END_TIME, user.EligibilityEndTime);
                 response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, user.EligibilityStartTime);
             } catch(Exception e) {
                 Logger.LogError(e, "{0} GetUser call: {1} {2}", Environment.NewLine, id, Environment.NewLine);
+                return StatusCode(500, "Failed to find the user.");
             }
             return Ok(response);
         }
@@ -60,9 +64,19 @@ namespace SinStim.Controllers {
 
                 var successful = await UserService.UpdateSurveyStartUserAsync(userToUpdate);
                 if (!successful) {
-                    return BadRequest("Failed to start picture survey.");
+                    var retryResponse = new JObject();
+                    retryResponse.Add("shouldRetry", true);
+                    retryResponse.Add("message", "Failed to update user while starting picture survey.");
+                    return StatusCode(500, retryResponse);
                 }
-                var picturesToRate = await SurveyService.GetPicturesToRateRaw(userToUpdate.AssignedCategory);
+
+                List<PictureToRate> picturesToRate = null;
+                try {
+                    picturesToRate = await SurveyService.GetPicturesToRateRaw(userToUpdate.AssignedCategory);
+                } catch (Exception e) {
+                    Logger.LogError(e, "{0} GetPicturesToRateRaw call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
+                    return StatusCode(500, "Failed to get pictures to rate.");
+                }
 
                 response.Add(CONSTANTS.REQUEST.SURVEY_START_TIME, userToUpdate.SurveyStartTime);
                 response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);
@@ -70,6 +84,7 @@ namespace SinStim.Controllers {
                 response.Add(CONSTANTS.REQUEST.PICTURE_HOST, ConfigService.GetPictureHost());
             } catch(Exception e) {
                 Logger.LogError(e, "{0} StartPictureSurvey call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
+                return StatusCode(500, "Failed to start picture survey.");
             }
             return Ok(response);
         }
@@ -91,10 +106,14 @@ namespace SinStim.Controllers {
 
                 var successful = await RatingService.SaveAsync(userNotTracked.Id, pictureId, desirability, recognizability);
                 if (!successful) {
-                    return BadRequest("Failed to rate picture.");
+                    var retryResponse = new JObject();
+                    retryResponse.Add("shouldRetry", true);
+                    retryResponse.Add("message", "Failed to save picture rating.");
+                    return StatusCode(500, retryResponse);
                 }
             } catch(Exception e) {
                 Logger.LogError(e, "{0} RatePicture call: {1} {2}", Environment.NewLine, requestBody.ToString(), Environment.NewLine);
+                return StatusCode(500, "Failed to rate picture.");
             }
             return Ok();
         }
@@ -112,13 +131,17 @@ namespace SinStim.Controllers {
 
                 var successful = await UserService.UpdateSurveyEndUserAsync(userToUpdate);
                 if (!successful) {
-                    return BadRequest("Failed to end picture survey.");
+                    var retryResponse = new JObject();
+                    retryResponse.Add("shouldRetry", true);
+                    retryResponse.Add("message", "Failed to end picture survey.");
+                    return StatusCode(500, retryResponse);
                 }
 
                 response.Add(CONSTANTS.REQUEST.SURVEY_END_TIME, userToUpdate.SurveyEndTime);
                 response.Add(CONSTANTS.REQUEST.SURVEY_COMPLETION_CODE, userToUpdate.SurveyCompletionCode);
             } catch(Exception e) {
                 Logger.LogError(e, "{0} EndPictureSurvey call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
+                return StatusCode(500, "Failed to end the picture survey.");
             }
             return Ok(response);
         }

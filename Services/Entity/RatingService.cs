@@ -28,7 +28,6 @@ namespace SinStim.Services.Entity {
                 saveResult = await Context.SaveChangesAsync();
             } catch(Exception e) {
                 Logger.LogError(e, "Error SaveAsync userId: {0} pictureId: {1} at {2}", userId, pictureId, DateTime.UtcNow.ToLongTimeString());
-                System.Diagnostics.Trace.TraceError(e.Message);
             }
             return saveResult == 1;
         }

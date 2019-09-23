@@ -1,5 +1,7 @@
 /* eslint-disable sort-keys */
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
+import _get from 'lodash/get';
 
 import actions from './actions';
 import {
@@ -20,9 +22,29 @@ export const onGetUser = (id) => {
     return (dispatch) => {
         dispatch(requestInProgress(true));
 
-        return axios.get(`/api/Survey/User/${id}`)
-            .then((response) => dispatch(getUserComplete(response.data)))
-            .catch(() => dispatch(requestErrored(true)));
+        const client = axios.create();
+
+        axiosRetry(client);
+
+        return client.get(`/api/Survey/User/${id}`, {
+            'axios-retry': {
+                retries: 3,
+                retryDelay: (retryCount) => {
+                    return retryCount * 1000;
+                },
+                retryCondition: (err) => {
+                    return _get(err, 'response.data.shouldRetry', false);
+                }
+            }
+        })
+        .then((response) => {
+            dispatch(getUserComplete(response.data));
+            return true;
+        })
+        .catch(() => {
+            dispatch(requestErrored(true));
+            return false;
+        });
     };
 };
 
@@ -52,9 +74,23 @@ export const onStartSurvey = () => {
 
         const startSurveyBody = { id };
 
-        return axios.post('/api/Survey/Start', startSurveyBody)
-            .then((response) => dispatch(startSurveySaved(response.data)))
-            .catch(() => dispatch(requestErrored(true)));
+        const client = axios.create();
+
+        axiosRetry(client);
+
+        return client.post('/api/Survey/Start', startSurveyBody, {
+            'axios-retry': {
+                retries: 3,
+                retryDelay: (retryCount) => {
+                    return retryCount * 1000;
+                },
+                retryCondition: (err) => {
+                    return _get(err, 'response.data.shouldRetry', false);
+                }
+            }
+        })
+        .then((response) => dispatch(startSurveySaved(response.data)))
+        .catch(() => dispatch(requestErrored(true)));
     };
 };
 
@@ -77,9 +113,23 @@ export const onRatePicture = ({ desirability, recognizability, pictureId }) => {
             recognizability
         };
 
-        return axios.post('/api/Survey/Rate', ratePictureBody)
-            .then(() => dispatch(ratePictureSaved()))
-            .catch(() => dispatch(requestErrored(true)));
+        const client = axios.create();
+
+        axiosRetry(client);
+
+        return client.post('/api/Survey/Rate', ratePictureBody, {
+            'axios-retry': {
+                retries: 3,
+                retryDelay: (retryCount) => {
+                    return retryCount * 1000;
+                },
+                retryCondition: (err) => {
+                    return _get(err, 'response.data.shouldRetry', false);
+                }
+            }
+        })
+        .then(() => dispatch(ratePictureSaved()))
+        .catch(() => dispatch(requestErrored(true)));
     };
 };
 
@@ -99,8 +149,22 @@ export const onEndSurvey = () => {
 
         const endSurveyBody = { id };
 
-        return axios.post('/api/Survey/End', endSurveyBody)
-            .then((response) => dispatch(endSurveySaved(response.data)))
-            .catch(() => dispatch(requestErrored(true)));
+        const client = axios.create();
+
+        axiosRetry(client);
+
+        return client.post('/api/Survey/End', endSurveyBody, {
+            'axios-retry': {
+                retries: 3,
+                retryDelay: (retryCount) => {
+                    return retryCount * 1000;
+                },
+                retryCondition: (err) => {
+                    return _get(err, 'response.data.shouldRetry', false);
+                }
+            }
+        })
+        .then((response) => dispatch(endSurveySaved(response.data)))
+        .catch(() => dispatch(requestErrored(true)));
     };
 };

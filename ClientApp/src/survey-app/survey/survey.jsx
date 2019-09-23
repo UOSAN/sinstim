@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Img from 'react-graceful-image';
 
 import Rating from '../rating';
 import { attentionCheckTextOne, attentionCheckTextTwo } from './attention-check-text';
@@ -28,7 +29,9 @@ const Survey = (props) => {
     const [attentionCheckTwoIndex] = useState(() => {
         return parseInt((picturesToRate.length / 3) + (picturesToRate.length / 3));
     });
-    const [isLoadingImage, setIsLoadingImage] = useState(true);
+    // const [isLoadingImage, setIsLoadingImage] = useState(true);
+    const [isLoadingImage, setIsLoadingImage] = useState(false);
+
 
     function onRecognizabilityChange(value) {
         setState((previousState) => {
@@ -76,7 +79,7 @@ const Survey = (props) => {
                     recognizability: null
                 };
             });
-            setIsLoadingImage(true);
+            // setIsLoadingImage(true);
         }
     }
 
@@ -95,7 +98,13 @@ const Survey = (props) => {
 
         return (
             <div className="picture">
-                <img alt={getSubCategory()} onError={handleOnImgLoad} onLoad={handleOnImgLoad} src={src} />
+                <Img
+                    alt={getSubCategory()}
+                    onError={handleOnImgLoad}
+                    onLoad={handleOnImgLoad}
+                    retry={{ count: 3, delay: 3, accumulate: 'add' }}
+                    src={src}
+                    />
             </div>
         );
     }

@@ -16,6 +16,7 @@
     "react": "^16.9.0",
     "react-csv": "^1.1.1",
     "react-dom": "^16.9.0",
+    "react-graceful-image": "^1.2.11",
     "react-redux": "^7.1.1",
     "react-toastify": "^5.3.2",
     "redux": "^4.0.4",

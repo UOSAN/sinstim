@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { useUnload } from '../../components/unload-hook';
+
 import './consent.scss';
 
 const Consent = (props) => {
-    const { text, isConsented, onConsentAccept, onConsentDecline, onRejectUser } = props;
+    const { id, text, isConsented, onConsentAccept, onConsentDecline, onRejectUser } = props;
 
     const [hasSeenBottom, setHasSeenBottom] = useState(false);
     const preRef = useRef(null);
+
+    useUnload(id);
 
     useEffect(() => {
         if (preRef != null) {
@@ -58,7 +62,7 @@ const Consent = (props) => {
                             disabled={isAcceptDisabled}
                             onClick={onConsentAccept}
                             type="button"
-                            >
+                        >
                             Accept
                         </button>
                     </span>
@@ -75,6 +79,7 @@ const Consent = (props) => {
 };
 
 Consent.propTypes = {
+    id: PropTypes.string,
     isConsented: PropTypes.bool,
     onConsentAccept: PropTypes.func.isRequired,
     onConsentDecline: PropTypes.func.isRequired,

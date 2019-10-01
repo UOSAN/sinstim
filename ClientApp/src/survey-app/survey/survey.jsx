@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Img from 'react-graceful-image';
 
 import Rating from '../rating';
 import { attentionCheckTextOne, attentionCheckTextTwo } from './attention-check-text';
@@ -8,16 +7,21 @@ import { RECOGNIZABILITY, DESIRABILITY } from './question-category-map';
 import monkeyPleaseGifSrc from '../../images/monkey-please.gif';
 import lionKingPleaseGifSrc from '../../images/lion-king-please.gif';
 
+import { useUnload } from '../../components/unload-hook';
+
 import './survey.scss';
 
 const Survey = (props) => {
     const {
+        id,
         onEndSurvey,
         onRatePicture,
         pictureHost,
         picturesToRate,
         requestInProgress
     } = props;
+
+    useUnload(id);
     const [state, setState] = useState({
         currentPictureIndex: 0
     });
@@ -29,8 +33,8 @@ const Survey = (props) => {
     const [attentionCheckTwoIndex] = useState(() => {
         return parseInt((picturesToRate.length / 3) + (picturesToRate.length / 3));
     });
-    // const [isLoadingImage, setIsLoadingImage] = useState(true);
-    const [isLoadingImage, setIsLoadingImage] = useState(false);
+    const [isLoadingImage, setIsLoadingImage] = useState(true);
+    // const [isLoadingImage, setIsLoadingImage] = useState(false);
 
 
     function onRecognizabilityChange(value) {
@@ -79,7 +83,7 @@ const Survey = (props) => {
                     recognizability: null
                 };
             });
-            // setIsLoadingImage(true);
+            setIsLoadingImage(true);
         }
     }
 
@@ -98,13 +102,13 @@ const Survey = (props) => {
 
         return (
             <div className="picture">
-                <Img
+                <img
                     alt={getSubCategory()}
                     onError={handleOnImgLoad}
                     onLoad={handleOnImgLoad}
                     retry={{ count: 3, delay: 3, accumulate: 'add' }}
                     src={src}
-                    />
+                />
             </div>
         );
     }
@@ -138,7 +142,7 @@ const Survey = (props) => {
                                 onRatingChange={onRecognizabilityChange}
                                 ratingName="recognizability"
                                 requestInProgress={requestInProgress || isLoadingImage}
-                                />
+                            />
                         </div>
                         <div className="desirability">
                             <span className="text">{getDesirabilityText()}</span>
@@ -147,7 +151,7 @@ const Survey = (props) => {
                                 onRatingChange={onDesirabilityChange}
                                 ratingName="desirability"
                                 requestInProgress={requestInProgress || isLoadingImage}
-                                />
+                            />
                         </div>
                     </div>
                 </div>
@@ -158,7 +162,7 @@ const Survey = (props) => {
                             disabled={!state.desirability || !state.recognizability || requestInProgress || isLoadingImage}
                             onClick={handleOnNextClick}
                             type="button"
-                            >
+                        >
                             Next
                         </button>
                     </span>
@@ -189,7 +193,7 @@ const Survey = (props) => {
                             className="button is-primary is-outlined"
                             onClick={handleOnAttentionCheckNextClick}
                             type="button"
-                            >
+                        >
                             Next
                         </button>
                     </span>
@@ -208,6 +212,7 @@ const Survey = (props) => {
 };
 
 Survey.propTypes = {
+    id: PropTypes.string,
     onEndSurvey: PropTypes.func.isRequired,
     onRatePicture: PropTypes.func.isRequired,
     pictureHost: PropTypes.string.isRequired,

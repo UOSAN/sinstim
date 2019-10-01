@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './consent.scss';
 
 const Consent = (props) => {
-    const { text, isConsented, onConsentAccept, onConsentDecline } = props;
+    const { text, isConsented, onConsentAccept, onConsentDecline, onRejectUser } = props;
 
     const [hasSeenBottom, setHasSeenBottom] = useState(false);
     const preRef = useRef(null);
@@ -36,6 +36,11 @@ const Consent = (props) => {
         );
     }
 
+    function handleOnDeclineClicked() {
+        onConsentDecline();
+        onRejectUser();
+    }
+
     function renderConsent() {
         const isAcceptDisabled = !hasSeenBottom;
 
@@ -45,7 +50,7 @@ const Consent = (props) => {
                 <pre className="consent-text card-content" ref={preRef}>{text}</pre>
                 <div className="consent-buttons card-footer">
                     <span className="consent-decline">
-                        <button className="button is-dark is-outlined" onClick={onConsentDecline} type="button">Decline</button>
+                        <button className="button is-dark is-outlined" onClick={handleOnDeclineClicked} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
                         <button
@@ -73,6 +78,7 @@ Consent.propTypes = {
     isConsented: PropTypes.bool,
     onConsentAccept: PropTypes.func.isRequired,
     onConsentDecline: PropTypes.func.isRequired,
+    onRejectUser: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired
 };
 

@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useUnload } from '../../components/unload-hook';
+
 import instructionsText from './survey-instructions-text';
 import './survey-instructions.scss';
 
 const SurveyInstructions = (props) => {
+    useUnload(props.id);
+
     return (
         <div className="survey-instructions card">
             <div className="instructions-header card-header card-header-title is-centered">Instructions</div>
@@ -19,6 +23,7 @@ const SurveyInstructions = (props) => {
 };
 
 SurveyInstructions.propTypes = {
+    id: PropTypes.string,
     onStartSurvey: PropTypes.func.isRequired
 };
 

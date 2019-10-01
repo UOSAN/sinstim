@@ -83,6 +83,11 @@ function reducer(state = initialState, action) {
                 draft.surveyEndTime = new Date(action.surveyEndTime);
                 draft.surveyCompletionCode = action.surveyCompletionCode;
                 break;
+
+            case Actions.REJECT_USER:
+                setRequestComplete(draft);
+                draft.isUserRejected = true;
+                break;
             // admin panel reducers
             case Actions.FETCHING_ELIGIBILITY_COMPLETION_REPORT_DATA_COMPLETE:
                 setRequestComplete(draft);

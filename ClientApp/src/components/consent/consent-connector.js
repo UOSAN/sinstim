@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import {
     onConsentAccept,
-    onConsentDecline
+    onConsentDecline,
+    onRejectUser
 } from '../../state/actions/common-action-creators';
 
 const mapStateToProps = (state) => {
@@ -13,7 +14,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onConsentAccept: () => dispatch(onConsentAccept()),
-        onConsentDecline: () => dispatch(onConsentDecline())
+        onConsentDecline: () => dispatch(onConsentDecline()),
+        onRejectUser: () => dispatch(onRejectUser())
     };
 };
 

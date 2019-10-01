@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { Beforeunload } from 'react-beforeunload';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -74,17 +75,23 @@ export default class App extends React.Component {
         return this.props.isLoadingSurvey;
     }
 
+    handleBeforeUnload = () => {
+        return 'Are you sure?';
+    }
+
     render() {
         return (
             <>
                 {this.isValidUser() && (
-                    <div className="survey-app container is-fluid">
-                        {this.shouldSeeConsent() && <Consent text={consentText} />}
-                        {this.shouldSeeInstructions() && !this.isLoadingSurvey() && <Instructions />}
-                        {this.isLoadingSurvey() && <SurveyLoadingBar />}
-                        {this.shouldSeeSurvey() && <Survey />}
-                        {this.shouldSeeSurveyEnd() && <SurveyEnd completionCode={this.props.completionCode} />}
-                    </div>
+                    <Beforeunload onBeforeunload={this.handleBeforeUnload}>
+                        <div className="survey-app container is-fluid">
+                            {this.shouldSeeConsent() && <Consent text={consentText} />}
+                            {this.shouldSeeInstructions() && !this.isLoadingSurvey() && <Instructions />}
+                            {this.isLoadingSurvey() && <SurveyLoadingBar />}
+                            {this.shouldSeeSurvey() && <Survey />}
+                            {this.shouldSeeSurveyEnd() && <SurveyEnd completionCode={this.props.completionCode} />}
+                        </div>
+                    </Beforeunload>
                 )}
                 <ToastContainer />
             </>

@@ -37,14 +37,14 @@ export const onGetUser = (id) => {
                 }
             }
         })
-        .then((response) => {
-            dispatch(getUserComplete(response.data));
-            return true;
-        })
-        .catch(() => {
-            dispatch(requestErrored(true));
-            return false;
-        });
+            .then((response) => {
+                dispatch(getUserComplete(response.data));
+                return true;
+            })
+            .catch(() => {
+                dispatch(requestErrored(true));
+                return false;
+            });
     };
 };
 
@@ -89,8 +89,8 @@ export const onStartSurvey = () => {
                 }
             }
         })
-        .then((response) => dispatch(startSurveySaved(response.data)))
-        .catch(() => dispatch(requestErrored(true)));
+            .then((response) => dispatch(startSurveySaved(response.data)))
+            .catch(() => dispatch(requestErrored(true)));
     };
 };
 
@@ -128,8 +128,8 @@ export const onRatePicture = ({ desirability, recognizability, pictureId }) => {
                 }
             }
         })
-        .then(() => dispatch(ratePictureSaved()))
-        .catch(() => dispatch(requestErrored(true)));
+            .then(() => dispatch(ratePictureSaved()))
+            .catch(() => dispatch(requestErrored(true)));
     };
 };
 
@@ -164,7 +164,8 @@ export const onEndSurvey = () => {
                 }
             }
         })
-        .then((response) => dispatch(endSurveySaved(response.data)))
-        .catch(() => dispatch(requestErrored(true)));
+            .then((response) => dispatch(endSurveySaved(response.data)))
+            .catch(() => dispatch(requestErrored(true)));
     };
 };
+

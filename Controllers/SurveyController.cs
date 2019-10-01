@@ -42,7 +42,7 @@ namespace SinStim.Controllers {
                 response.Add(CONSTANTS.REQUEST.ID, user.Id);
                 response.Add(CONSTANTS.REQUEST.ELIGIBILITY_END_TIME, user.EligibilityEndTime);
                 response.Add(CONSTANTS.REQUEST.ELIGIBILITY_START_TIME, user.EligibilityStartTime);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Logger.LogError(e, "{0} GetUser call: {1} {2}", Environment.NewLine, id, Environment.NewLine);
                 return StatusCode(500, "Failed to find the user.");
             }
@@ -56,7 +56,7 @@ namespace SinStim.Controllers {
             try {
                 var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
                 var userToUpdate = await UserService.GetWithNoDemographicsAsync(userId);
-                if(!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
+                if (!IsAllowedToStartPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
                 userToUpdate.SurveyCompletionCode = Guid.NewGuid().ToString();
                 userToUpdate.SurveyStartTime = new DateTimeOffset(DateTime.Now);
@@ -82,7 +82,7 @@ namespace SinStim.Controllers {
                 response.Add(CONSTANTS.REQUEST.ASSIGNED_CATEGORY, userToUpdate.AssignedCategory);
                 response.Add(CONSTANTS.REQUEST.SURVEY_PICTURES_TO_RATE, JArray.FromObject(picturesToRate));
                 response.Add(CONSTANTS.REQUEST.PICTURE_HOST, ConfigService.GetPictureHost());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Logger.LogError(e, "{0} StartPictureSurvey call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
                 return StatusCode(500, "Failed to start picture survey.");
             }
@@ -98,7 +98,7 @@ namespace SinStim.Controllers {
                 Logger.LogDebug("{0} Attempting To Rate a Picture", userId);
 
                 var userNotTracked = await UserService.GetWithNoDemographicsAsync(userId);
-                if(!IsAllowedToRatePicture(userNotTracked)) { return StatusCode(401); }
+                if (!IsAllowedToRatePicture(userNotTracked)) { return StatusCode(401); }
 
                 var desirability = requestBody.GetValue(CONSTANTS.REQUEST.DESIRABILITY).Value<int>();
                 var pictureId = requestBody.GetValue(CONSTANTS.REQUEST.PICTURE_ID).Value<string>();
@@ -111,7 +111,7 @@ namespace SinStim.Controllers {
                     retryResponse.Add("message", "Failed to save picture rating.");
                     return StatusCode(500, retryResponse);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Logger.LogError(e, "{0} RatePicture call: {1} {2}", Environment.NewLine, requestBody.ToString(), Environment.NewLine);
                 return StatusCode(500, "Failed to rate picture.");
             }
@@ -125,7 +125,7 @@ namespace SinStim.Controllers {
             try {
                 var userId = userJson.GetValue(CONSTANTS.REQUEST.ID).Value<string>();
                 var userToUpdate = await UserService.GetWithNoDemographicsAsync(userId);
-                if(!IsAllowedToEndPictureSurvey(userToUpdate)) { return StatusCode(401); }
+                if (!IsAllowedToEndPictureSurvey(userToUpdate)) { return StatusCode(401); }
 
                 userToUpdate.SurveyEndTime = new DateTimeOffset(DateTime.Now);
 
@@ -139,31 +139,58 @@ namespace SinStim.Controllers {
 
                 response.Add(CONSTANTS.REQUEST.SURVEY_END_TIME, userToUpdate.SurveyEndTime);
                 response.Add(CONSTANTS.REQUEST.SURVEY_COMPLETION_CODE, userToUpdate.SurveyCompletionCode);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Logger.LogError(e, "{0} EndPictureSurvey call: {1} {2}", Environment.NewLine, userJson.ToString(), Environment.NewLine);
                 return StatusCode(500, "Failed to end the picture survey.");
             }
             return Ok(response);
         }
 
-        private bool IsAllowedToStartPictureSurvey(User user)  {
+        [HttpPost("Reject")]
+        [ProducesResponseType(200, Type = typeof(JObject))]
+        public async Task<IActionResult> RejectUser([FromQuery] string id) {
+            var response = new JObject();
+            Logger.LogDebug("Rejecting {0}", id);
+            try {
+                var user = await UserService.GetAsync(id);
+                if (!IsAllowedToBeRejected(user)) { return StatusCode(401); }
+
+                user.IsRejected = true;
+                var successful = await UserService.UpdateAsync(user);
+                if (!successful) {
+                    var retryResponse = new JObject();
+                    retryResponse.Add("shouldRetry", true);
+                    return StatusCode(500, retryResponse);
+                }
+            } catch (Exception e) {
+                Logger.LogError(e, "{0} Failed to reject User: {1} {2}", Environment.NewLine, id, Environment.NewLine);
+                return StatusCode(500, "Failed to reject user.");
+            }
+            return Ok();
+        }
+
+        private bool IsAllowedToStartPictureSurvey(User user) {
             return user != null
                 && IsCompletedEligibilitySurvey(user)
                 && user.SurveyStartTime == null;
         }
 
-        private bool IsAllowedToRatePicture(User user)  {
+        private bool IsAllowedToRatePicture(User user) {
             return user != null
                 && IsCompletedEligibilitySurvey(user)
                 && user.SurveyStartTime != null;
         }
 
-        private bool IsAllowedToEndPictureSurvey(User user)  {
+        private bool IsAllowedToEndPictureSurvey(User user) {
             return user != null
                 && IsCompletedEligibilitySurvey(user)
                 && user.SurveyStartTime != null
                 && user.SurveyCompletionCode != null
                 && user.SurveyEndTime == null;
+        }
+
+        private bool IsAllowedToBeRejected(User user) {
+            return user != null && IsCompletedEligibilitySurvey(user);
         }
 
         private bool IsCompletedEligibilitySurvey(User user) {

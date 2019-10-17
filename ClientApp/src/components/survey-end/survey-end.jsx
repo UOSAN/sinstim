@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import './survey-end.scss';
 
 const SurveyEnd = (props) => {
-    const { completionCode } = props;
+    const { completionCode, title } = props;
 
     const [toastId, setToastId] = useState(null);
 
@@ -48,7 +48,7 @@ const SurveyEnd = (props) => {
         <div className="survey-end card">
             <div className="card-header">
                 <div className="card-header-title is-centered">
-                    Thanks for your participation! Paste this code in the mTurk window.
+                    {title || 'Thanks for your participation! Paste this code in the mTurk window.'}
                 </div>
             </div>
             <div className="card-content" id="survey-code">
@@ -62,7 +62,8 @@ const SurveyEnd = (props) => {
 };
 
 SurveyEnd.propTypes = {
-    completionCode: PropTypes.string.isRequired
+    completionCode: PropTypes.string.isRequired,
+    title: PropTypes.string
 };
 
 export default SurveyEnd;

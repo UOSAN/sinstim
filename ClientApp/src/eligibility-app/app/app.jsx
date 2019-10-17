@@ -84,6 +84,8 @@ export default class App extends React.Component {
     }
 
     render() {
+        const surveyEndText = 'Paste this code in the mTurk window. Watch for another HIT from us in the next day or so. $1.00 bonus for completing both.';
+
         return (
             <>
                 {this.isValidUser() && (
@@ -92,7 +94,7 @@ export default class App extends React.Component {
                         {this.shouldSeeInstructions() && <Instructions />}
                         {this.shouldSeeDemographics() && <Demographics />}
                         {this.shouldSeeEligibilitySurvey() && <EligibilitySurvey />}
-                        {this.shouldSeeEligibilitySurveyEnd() && <SurveyEnd completionCode={this.props.eligibilityCompletionCode} />}
+                        {this.shouldSeeEligibilitySurveyEnd() && <SurveyEnd completionCode={this.props.eligibilityCompletionCode} title={surveyEndText} />}
                     </div>
                 )}
                 <ToastContainer />

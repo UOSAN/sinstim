@@ -240,3 +240,6 @@ wwwroot/pictures
 sample-pictures-prod
 
 *.css
+
+# macOS resource files
+.DS_Store

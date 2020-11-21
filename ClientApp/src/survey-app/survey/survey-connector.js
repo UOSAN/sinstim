@@ -4,6 +4,7 @@ import { onEndSurvey, onRatePicture } from '../../state/actions/survey-action-cr
 const mapStateToProps = (state) => {
     return {
         assignedCategory: state.assignedCategory,
+        id: state.id,
         picturesToRate: state.picturesToRate,
         pictureHost: state.pictureHost,
         requestInProgress: state.requestInProgress

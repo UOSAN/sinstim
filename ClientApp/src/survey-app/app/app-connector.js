@@ -6,7 +6,6 @@ const mapStateToProps = (state) => {
         completionCode: state.surveyCompletionCode,
         eligibilityEndTime: state.eligibilityEndTime,
         eligibilityStartTime: state.eligibilityStartTime,
-        errorStartingSurvey: state.errorStartingSurvey,
         id: state.id,
         isConsented: state.isConsented,
         isLoadingSurvey: state.isLoadingSurvey,

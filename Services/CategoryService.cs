@@ -42,7 +42,7 @@ namespace SinStim.Services {
                         WHERE Pictures.Category != {0}
                         GROUP BY Pictures.Id
                         HAVING NumberOfRatings < {1}
-                    )
+                    ) AS T1
                     GROUP BY(Category)", CONSTANTS.CATEGORY.NEUTRAL, ConfigService.GetNumberOfRatingsToFinishPicture()
                 )
                 .ToListAsync();
@@ -62,7 +62,7 @@ namespace SinStim.Services {
                         WHERE Pictures.Category = {0}
                         GROUP BY Pictures.Id
                         HAVING NumberOfRatings < {1}
-                    )
+                    ) AS T1
                     GROUP BY(Category)", CONSTANTS.CATEGORY.NEUTRAL, ConfigService.GetNumberOfRatingsToFinishNeutralPicture()
                 )
                 .ToListAsync();

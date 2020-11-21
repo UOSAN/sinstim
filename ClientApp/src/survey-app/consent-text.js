@@ -2,7 +2,7 @@
 export default
 `You are invited to participate in a research study conducted by Dr. Elliot Berkman’s Social and Affective Neuroscience Laboratory in the Department of Psychology at the University of Oregon. The goal of this study is to investigate the way people perceive the recognizability and desirability of a set of photos. This survey is formatted to work best on a laptop or desktop computer. Please do not attempt to complete the survey on a mobile device.
 
-If you decide to participate, you will be asked to complete a computerized survey, and the time and content of your responses will be recorded. The experiment will last approximately 15 - 20 minutes.
+If you decide to participate, you will be asked to complete a computerized survey, and the time and content of your responses will be recorded. We estimate that the experiment will take you approximately 10 - 40 minutes.
 
 If you are unable to complete the experiment, you are free to exit at any time. If you exit the survey, you will not be able to return and you will not be compensated for the survey. Your participation will aid us in understanding of the way people respond to a set of photos so that these photos can be used in future research studies. We cannot guarantee that you personally will receive any benefits from this research.
 

@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { useUnload } from '../../components/unload-hook';
+
 import './consent.scss';
 
 const Consent = (props) => {
-    const { text, isConsented, onConsentAccept, onConsentDecline } = props;
+    const { id, text, isConsented, onConsentAccept, onConsentDecline, onRejectUser } = props;
 
     const [hasSeenBottom, setHasSeenBottom] = useState(false);
     const preRef = useRef(null);
+
+    useUnload(id);
 
     useEffect(() => {
         if (preRef != null) {
@@ -36,6 +40,11 @@ const Consent = (props) => {
         );
     }
 
+    function handleOnDeclineClicked() {
+        onConsentDecline();
+        onRejectUser();
+    }
+
     function renderConsent() {
         const isAcceptDisabled = !hasSeenBottom;
 
@@ -45,7 +54,7 @@ const Consent = (props) => {
                 <pre className="consent-text card-content" ref={preRef}>{text}</pre>
                 <div className="consent-buttons card-footer">
                     <span className="consent-decline">
-                        <button className="button is-dark is-outlined" onClick={onConsentDecline} type="button">Decline</button>
+                        <button className="button is-dark is-outlined" onClick={handleOnDeclineClicked} type="button">Decline</button>
                     </span>
                     <span className="consent-accept">
                         <button
@@ -53,7 +62,7 @@ const Consent = (props) => {
                             disabled={isAcceptDisabled}
                             onClick={onConsentAccept}
                             type="button"
-                            >
+                        >
                             Accept
                         </button>
                     </span>
@@ -70,9 +79,11 @@ const Consent = (props) => {
 };
 
 Consent.propTypes = {
+    id: PropTypes.string,
     isConsented: PropTypes.bool,
     onConsentAccept: PropTypes.func.isRequired,
     onConsentDecline: PropTypes.func.isRequired,
+    onRejectUser: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired
 };
 

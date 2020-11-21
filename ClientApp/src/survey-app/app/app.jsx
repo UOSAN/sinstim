@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { Beforeunload } from 'react-beforeunload';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -19,7 +20,6 @@ export default class App extends React.Component {
         completionCode: PropTypes.string,
         eligibilityEndTime: PropTypes.instanceOf(Date),
         eligibilityStartTime: PropTypes.instanceOf(Date),
-        errorStartingSurvey: PropTypes.bool,
         id: PropTypes.string,
         isConsented: PropTypes.bool,
         isLoadingSurvey: PropTypes.bool,
@@ -31,8 +31,8 @@ export default class App extends React.Component {
     componentDidMount() {
         const { mTurkId } = queryString.parse(location.search);
 
-        this.props.onGetUser(mTurkId).then(() => {
-            if (this.props.errorStartingSurvey) {
+        this.props.onGetUser(mTurkId).then((success) => {
+            if (!success) {
                 toast.error('Error starting survey', {
                     position: toast.POSITION.BOTTOM_LEFT
                 });
@@ -75,17 +75,23 @@ export default class App extends React.Component {
         return this.props.isLoadingSurvey;
     }
 
+    handleBeforeUnload = () => {
+        return 'Are you sure?';
+    }
+
     render() {
         return (
             <>
                 {this.isValidUser() && (
-                    <div className="survey-app container is-fluid">
-                        {this.shouldSeeConsent() && <Consent text={consentText} />}
-                        {this.shouldSeeInstructions() && !this.isLoadingSurvey() && <Instructions />}
-                        {this.isLoadingSurvey() && <SurveyLoadingBar />}
-                        {this.shouldSeeSurvey() && <Survey />}
-                        {this.shouldSeeSurveyEnd() && <SurveyEnd completionCode={this.props.completionCode} />}
-                    </div>
+                    <Beforeunload onBeforeunload={this.handleBeforeUnload}>
+                        <div className="survey-app container is-fluid">
+                            {this.shouldSeeConsent() && <Consent text={consentText} />}
+                            {this.shouldSeeInstructions() && !this.isLoadingSurvey() && <Instructions />}
+                            {this.isLoadingSurvey() && <SurveyLoadingBar />}
+                            {this.shouldSeeSurvey() && <Survey />}
+                            {this.shouldSeeSurveyEnd() && <SurveyEnd completionCode={this.props.completionCode} />}
+                        </div>
+                    </Beforeunload>
                 )}
                 <ToastContainer />
             </>

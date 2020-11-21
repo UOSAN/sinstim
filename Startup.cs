@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using SinStim.Services.Entity;
 using SinStim.Services.Interfaces;
 using SinStim.Constants;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System;
 
 namespace SinStim {
     public class Startup {
@@ -37,9 +39,11 @@ namespace SinStim {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<SinStimContext>(options => {
+            services.AddDbContextPool<SinStimContext>(options => {
                 var defaultConnectionString = Configuration.GetConnectionString(CONSTANTS.CONFIG.DEFAULT_CONNECTION);
-                options.UseSqlite(defaultConnectionString);
+                options.UseMySql(defaultConnectionString, mySqlOptions => {
+                    mySqlOptions.ServerVersion(new Version(5, 7, 24), ServerType.MySql);
+                });
             });
 
             services.AddScoped<IUserService, UserService>();
@@ -48,7 +52,6 @@ namespace SinStim {
             services.AddScoped<IConfigService, ConfigService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IRatingService, RatingService>();
-            services.AddScoped<IPragmaService, PragmaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

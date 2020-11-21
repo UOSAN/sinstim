@@ -9,14 +9,58 @@ using SinStim.Models;
 namespace SinStim.Migrations
 {
     [DbContext(typeof(SinStimContext))]
-    [Migration("20190311163022_InitialCreate")]
+    [Migration("20190912034631_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("SinStim.Models.Demographics", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Age");
+
+                    b.Property<string>("Education");
+
+                    b.Property<DateTimeOffset?>("EndTime");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<string>("MartialStatus");
+
+                    b.Property<string>("Race_Arab");
+
+                    b.Property<string>("Race_Asian_PacificIslander");
+
+                    b.Property<string>("Race_Black_AfricanAmerican");
+
+                    b.Property<string>("Race_Hispanic_Latino");
+
+                    b.Property<string>("Race_Indigenous_Aboriginal");
+
+                    b.Property<string>("Race_NoReponse");
+
+                    b.Property<string>("Race_Other");
+
+                    b.Property<string>("Race_White_Caucasian");
+
+                    b.Property<DateTimeOffset?>("StartTime");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Demographics");
+                });
 
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>
                 {
@@ -123,6 +167,13 @@ namespace SinStim.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SinStim.Models.Demographics", b =>
+                {
+                    b.HasOne("SinStim.Models.User", "User")
+                        .WithOne("Demographics")
+                        .HasForeignKey("SinStim.Models.Demographics", "UserId");
                 });
 
             modelBuilder.Entity("SinStim.Models.Eligibility", b =>

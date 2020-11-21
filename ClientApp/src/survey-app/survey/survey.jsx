@@ -7,16 +7,21 @@ import { RECOGNIZABILITY, DESIRABILITY } from './question-category-map';
 import monkeyPleaseGifSrc from '../../images/monkey-please.gif';
 import lionKingPleaseGifSrc from '../../images/lion-king-please.gif';
 
+import { useUnload } from '../../components/unload-hook';
+
 import './survey.scss';
 
 const Survey = (props) => {
     const {
+        id,
         onEndSurvey,
         onRatePicture,
         pictureHost,
         picturesToRate,
         requestInProgress
     } = props;
+
+    useUnload(id);
     const [state, setState] = useState({
         currentPictureIndex: 0
     });
@@ -28,6 +33,9 @@ const Survey = (props) => {
     const [attentionCheckTwoIndex] = useState(() => {
         return parseInt((picturesToRate.length / 3) + (picturesToRate.length / 3));
     });
+    const [isLoadingImage, setIsLoadingImage] = useState(true);
+    // const [isLoadingImage, setIsLoadingImage] = useState(false);
+
 
     function onRecognizabilityChange(value) {
         setState((previousState) => {
@@ -75,6 +83,7 @@ const Survey = (props) => {
                     recognizability: null
                 };
             });
+            setIsLoadingImage(true);
         }
     }
 
@@ -84,12 +93,22 @@ const Survey = (props) => {
         return `${pictureToRate.Path}/${pictureToRate.FileName}`;
     }
 
+    function handleOnImgLoad() {
+        setIsLoadingImage(false);
+    }
+
     function renderPicture(currentPictureFileName) {
         const src = `${pictureHost}/pictures/${currentPictureFileName}`;
 
         return (
             <div className="picture">
-                <img alt={getSubCategory()} src={src} />
+                <img
+                    alt={getSubCategory()}
+                    onError={handleOnImgLoad}
+                    onLoad={handleOnImgLoad}
+                    retry={{ count: 3, delay: 3, accumulate: 'add' }}
+                    src={src}
+                />
             </div>
         );
     }
@@ -122,8 +141,8 @@ const Survey = (props) => {
                                 currentPictureFileName={currentPictureFileName}
                                 onRatingChange={onRecognizabilityChange}
                                 ratingName="recognizability"
-                                requestInProgress={requestInProgress}
-                                />
+                                requestInProgress={requestInProgress || isLoadingImage}
+                            />
                         </div>
                         <div className="desirability">
                             <span className="text">{getDesirabilityText()}</span>
@@ -131,8 +150,8 @@ const Survey = (props) => {
                                 currentPictureFileName={currentPictureFileName}
                                 onRatingChange={onDesirabilityChange}
                                 ratingName="desirability"
-                                requestInProgress={requestInProgress}
-                                />
+                                requestInProgress={requestInProgress || isLoadingImage}
+                            />
                         </div>
                     </div>
                 </div>
@@ -140,10 +159,10 @@ const Survey = (props) => {
                     <span className="question-next">
                         <button
                             className="button is-primary is-outlined"
-                            disabled={!state.desirability || !state.recognizability || requestInProgress}
+                            disabled={!state.desirability || !state.recognizability || requestInProgress || isLoadingImage}
                             onClick={handleOnNextClick}
                             type="button"
-                            >
+                        >
                             Next
                         </button>
                     </span>
@@ -174,7 +193,7 @@ const Survey = (props) => {
                             className="button is-primary is-outlined"
                             onClick={handleOnAttentionCheckNextClick}
                             type="button"
-                            >
+                        >
                             Next
                         </button>
                     </span>
@@ -193,6 +212,7 @@ const Survey = (props) => {
 };
 
 Survey.propTypes = {
+    id: PropTypes.string,
     onEndSurvey: PropTypes.func.isRequired,
     onRatePicture: PropTypes.func.isRequired,
     pictureHost: PropTypes.string.isRequired,

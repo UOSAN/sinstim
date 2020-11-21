@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import Demographics from '../src/eligibility-app/demographics/demographics';
 import Survey from '../src/survey-app/survey/survey';
 import SurveyLoadingBar from '../src/survey-app/survey-loading-bar/survey-loading-bar';
+import SurveyEnd from '../src/components/survey-end';
 
 import 'bulma/css/bulma.min.css/';
 
@@ -210,4 +211,14 @@ storiesOf('Picture Survey', module)
 storiesOf('Picture Survey Loading Bar', module)
     .add('example', () => {
         return (<SurveyLoadingBar />);
+    });
+
+storiesOf('Survey End', module)
+    .add('passed in text', () => {
+        const surveyEndText = 'Paste this code in the mTurk window. Watch for another HIT from us in the next day or so. $1.00 bonus for completing both.';
+
+        return (<SurveyEnd completionCode={'story code'} title={surveyEndText} />);
+    })
+    .add('no additional text', () => {
+        return (<SurveyEnd completionCode={'story code'} />);
     });

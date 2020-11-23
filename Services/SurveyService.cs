@@ -30,7 +30,7 @@ namespace SinStim.Services {
             }
             var numberOfPicturesToRate = ConfigService.GetNumberOfPicturesToRate();
 
-            var picturesToRate = await Context.PictureToRateQuery.FromSql(@"
+            var picturesToRate = await Context.PictureToRateQuery.FromSqlRaw(@"
                 SELECT * FROM PICTURES
                 WHERE (PICTURES.Category = {0}) AND ((
                     SELECT COUNT(*)
@@ -43,7 +43,7 @@ namespace SinStim.Services {
                 return picturesToRate;
             }
             // Unlucky timing we don't need any more ratings so here are 250 random ones anyway
-            return await Context.PictureToRateQuery.FromSql(@"
+            return await Context.PictureToRateQuery.FromSqlRaw(@"
                 SELECT * FROM PICTURES
                 WHERE PICTURES.Category = {0}
                 ORDER BY RAND() LIMIT {1}", category, numberOfPicturesToRate

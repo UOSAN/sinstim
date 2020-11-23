@@ -10,7 +10,12 @@ namespace SinStim.Models {
         public DbSet<User> Users { get; set; }
         public DbSet<Demographics> Demographics { get; set; }
 
-        public DbQuery<IncompleteCategory> IncompleteCategoryQuery { get; set;}
-        public DbQuery<PictureToRate> PictureToRateQuery { get; set;}
+        public DbSet<IncompleteCategory> IncompleteCategoryQuery { get; set;}
+        public DbSet<PictureToRate> PictureToRateQuery { get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<IncompleteCategory>(ic => ic.HasNoKey());
+            modelBuilder.Entity<PictureToRate>(ptr => ptr.HasNoKey());
+        }
     }
 }

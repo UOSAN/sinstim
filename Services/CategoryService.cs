@@ -33,7 +33,7 @@ namespace SinStim.Services {
         private async Task<List<IncompleteCategory>> GetIncompleteNonNeutralCategories() {
             var incompleteCategories = await Context
                 .IncompleteCategoryQuery
-                .FromSql(@"
+                .FromSqlRaw(@"
                     SELECT Category
                     FROM (
                         SELECT Pictures.Id, Pictures.Category, Pictures.FileName, Pictures.Path, COUNT(Ratings.Id) AS NumberOfRatings
@@ -53,7 +53,7 @@ namespace SinStim.Services {
         private async Task<List<IncompleteCategory>> GetIncompleteNeutralCategories() {
             var incompleteCategories = await Context
                 .IncompleteCategoryQuery
-                .FromSql(@"
+                .FromSqlRaw(@"
                     SELECT Category
                     FROM (
                         SELECT Pictures.Id, Pictures.Category, Pictures.FileName, Pictures.Path, COUNT(Ratings.Id) AS NumberOfRatings

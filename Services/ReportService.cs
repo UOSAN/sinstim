@@ -35,7 +35,7 @@ namespace SinStim.Services {
 
         public async Task<List<JObject>> GetInvitationData() {
             var finishedCategories = await GetDictionaryOfFinishedCategories();
-            var completionData = await Context.Users.Where(u =>
+            var completionData = await Context.Users.AsQueryable().Where(u =>
                     u.EligibilityCompletionCode != null
                     && u.EligibilityStartTime != null
                     && u.EligibilityEndTime != null
@@ -127,7 +127,7 @@ namespace SinStim.Services {
         }
 
         public async Task<List<JObject>> GetDesirabilityData() {
-            var desirabilityData = await Context.Pictures
+            var desirabilityData = await Context.Pictures.AsQueryable()
                 .Join(Context.Ratings,
                     p => p.Id,
                     r => r.PictureId,
@@ -144,7 +144,7 @@ namespace SinStim.Services {
         }
 
         public async Task<List<JObject>> GetRecognizabilityData() {
-            var recognizabilityData = await Context.Pictures
+            var recognizabilityData = await Context.Pictures.AsQueryable()
                 .Join(Context.Ratings,
                     p => p.Id,
                     r => r.PictureId,
@@ -161,13 +161,13 @@ namespace SinStim.Services {
         }
 
         private IQueryable<User> GetEligibilitySurveyCompleteUsers() {
-            return Context.Users.Where(u =>
+            return Context.Users.AsQueryable().Where(u =>
                 u.EligibilityCompletionCode != null
                 && u.EligibilityStartTime != null
                 && u.EligibilityEndTime != null);
         }
         private IQueryable<User> GetSurveyCompleteUsers() {
-            return Context.Users.Where(u =>
+            return Context.Users.AsQueryable().Where(u =>
                 u.EligibilityCompletionCode != null
                 && u.EligibilityStartTime != null
                 && u.EligibilityEndTime != null

@@ -16,8 +16,8 @@ namespace SinStim.Services {
             this.ConfigService = configService;
         }
         public async Task<List<CategoryInfo>> GetCategoryInfoAsync() {
-            var nonNeutralCategoryInfo = await GetNonNeutralCategoryInfoQuery().ToListAsync();
-            var neutralCategoryInfo = await GetNeutralCategoryInfoQuery().ToListAsync();
+            var nonNeutralCategoryInfo = await GetNonNeutralCategoryInfoQuery().ToAsyncEnumerable().ToListAsync();
+            var neutralCategoryInfo = await GetNeutralCategoryInfoQuery().ToAsyncEnumerable().ToListAsync();
 
             return nonNeutralCategoryInfo.Concat(neutralCategoryInfo).ToList();
         }
@@ -91,7 +91,8 @@ namespace SinStim.Services {
         }
 
         private IQueryable<PictureInfo> GetPictureInfo() {
-            return Context.Pictures.GroupJoin(
+            return Context.Pictures.AsQueryable()
+            .GroupJoin(
                   Context.Ratings,
                   picture => picture.Id,
                   rating => rating.PictureId,
@@ -102,12 +103,14 @@ namespace SinStim.Services {
                     Picture = pictureAndRatings.Picture,
                     Rating = rating
                 })
+            .AsEnumerable()
             .GroupBy(
                 par => par.Picture.FileName,
                 (fileName, pictureAndRating) => new PictureInfo(
                     pictureAndRating.FirstOrDefault(par => par.Picture.FileName == fileName).Picture.Category,
                     pictureAndRating.Count(par => par.Rating != null)
-                ));
+                ))
+            .AsQueryable();
         }
 
         private class PictureInfo {

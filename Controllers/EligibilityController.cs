@@ -167,11 +167,11 @@ namespace SinStim.Controllers {
             demographics.Race_Black_AfricanAmerican = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_BLACK_AFRICAN_AMERICAN).Value<string>();
             demographics.Race_Hispanic_Latino = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_HISPANIC_LATINO).Value<string>();
             demographics.Race_Indigenous_Aboriginal = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_INDIGENOUS_ABORIGINAL).Value<string>();
-            demographics.Race_White_Caucasian = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_WHITE_CAUCASION).Value<string>();
+            demographics.Race_White_Caucasian = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_WHITE_CAUCASIAN).Value<string>();
             demographics.Race_Other = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_OTHER).Value<string>();
             demographics.Race_NoReponse = answers.GetValue(CONSTANTS.DEMOGRAPHICS.RACE_NO_RESPONSE).Value<string>();
             demographics.Education = answers.GetValue(CONSTANTS.DEMOGRAPHICS.EDUCATION).Value<string>();
-            demographics.MartialStatus = answers.GetValue(CONSTANTS.DEMOGRAPHICS.MARTIAL_STATUS).Value<string>();
+            demographics.MartialStatus = answers.GetValue(CONSTANTS.DEMOGRAPHICS.MARITAL_STATUS).Value<string>();
         }
 
         private Eligibility getEligibility(JObject requestBody) {

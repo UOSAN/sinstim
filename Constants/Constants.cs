@@ -36,11 +36,11 @@ namespace SinStim.Constants {
             public const string RACE_BLACK_AFRICAN_AMERICAN = "d_race_black_or_african_american";
             public const string RACE_HISPANIC_LATINO = "d_race_hispanic_or_latino";
             public const string RACE_INDIGENOUS_ABORIGINAL = "d_race_indigenous_or_aboriginal";
-            public const string RACE_WHITE_CAUCASION = "d_race_white_caucasian";
+            public const string RACE_WHITE_CAUCASIAN = "d_race_white_caucasian";
             public const string RACE_OTHER = "d_race_other";
             public const string RACE_NO_RESPONSE = "d_race_no_response";
             public const string EDUCATION = "d_education";
-            public const string MARTIAL_STATUS = "d_marital_status";
+            public const string MARITAL_STATUS = "d_marital_status";
         }
 
         public static class ELIGIBILITY {

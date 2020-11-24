@@ -42,9 +42,7 @@ namespace SinStim {
 
             services.AddDbContextPool<SinStimContext>(options => {
                 var defaultConnectionString = Configuration.GetConnectionString(CONSTANTS.CONFIG.DEFAULT_CONNECTION);
-                options.UseMySql(defaultConnectionString, mySqlOptions => {
-                    mySqlOptions.ServerVersion(new Version(5, 7, 24), ServerType.MySql);
-                });
+                options.UseMySql(defaultConnectionString, new MySqlServerVersion(new Version(5, 7, 24)));
             });
 
             services.AddScoped<IUserService, UserService>();

@@ -54,3 +54,10 @@ or by using `az webapp up` as follows:
 az webapp up --sku F1 --location "West US 2" --name sinstims
 ```
 which will zip up the entire directory, transfer to Azure, unzip, build and run.
+
+## Deploy the configuration
+The `sinstim` application requires an appsettings.json file.
+Modify the sample appsettings.json with the correct database connection string,
+and the correct `pictureHost` configuration for the CDN that hosts the images.
+Then [use FTP to transfer this file](https://github.com/projectkudu/kudu/wiki/Accessing-files-via-ftp)
+to the deployed webapp.

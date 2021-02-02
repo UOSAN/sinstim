@@ -73,7 +73,6 @@ namespace SinStim.Services {
             var potentialCategories = new List<string>();
             // Only add Tobacco as a potential category, so we get ratings for smoking / tobacco images only.
             if (eligibility.Tobacco == true) potentialCategories.Add(CONSTANTS.CATEGORY.TOBACCO);
-            potentialCategories.Add(CONSTANTS.CATEGORY.NEUTRAL);
             return potentialCategories;
         }
 

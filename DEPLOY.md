@@ -51,7 +51,7 @@ following [these instructions](https://devblogs.microsoft.com/aspnet/announcing-
 Deploy either by pushing to the git repository at [`https://sinstims.scm.azurewebsites.net/sinstims.git`](https://sinstims.scm.azurewebsites.net/sinstims.git) (preferred method)
 or by using `az webapp up` as follows:
 ```
-az webapp up --sku F1 --location "West US 2" --name sinstims
+az webapp up --sku F1 --location "West US 2" --name sinstims --os-type linux
 ```
 which will zip up the entire directory, transfer to Azure, unzip, build and run.
 
@@ -61,3 +61,6 @@ Modify the sample appsettings.json with the correct database connection string,
 and the correct `pictureHost` configuration for the CDN that hosts the images.
 Then [use FTP to transfer this file](https://github.com/projectkudu/kudu/wiki/Accessing-files-via-ftp)
 to the deployed webapp.
+
+## Use application
+Once deployed, follow the [usage](./USAGE.MD) guide to use `sinstim`.
